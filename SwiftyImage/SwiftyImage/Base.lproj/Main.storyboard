@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SwiftyImage" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qsU-uO-zJL">
+                                <rect key="frame" x="0.0" y="333.5" width="375" height="333.5"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DdR-f5-Ocw">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="333.5"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="qsU-uO-zJL" secondAttribute="bottom" id="1tB-ls-kRu"/>
+                            <constraint firstItem="DdR-f5-Ocw" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="Mzn-aT-QnF"/>
+                            <constraint firstItem="DdR-f5-Ocw" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="NFk-fE-I8a"/>
+                            <constraint firstItem="qsU-uO-zJL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="WmR-VW-jlP"/>
+                            <constraint firstItem="DdR-f5-Ocw" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.5" id="cOL-iJ-gRT"/>
+                            <constraint firstItem="DdR-f5-Ocw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gQ7-26-7ds"/>
+                            <constraint firstItem="qsU-uO-zJL" firstAttribute="top" secondItem="DdR-f5-Ocw" secondAttribute="bottom" id="wiw-eQ-nLr"/>
+                            <constraint firstItem="qsU-uO-zJL" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="xuF-V1-Uh4"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="originImageView" destination="DdR-f5-Ocw" id="JGb-uq-2O2"/>
+                        <outlet property="processedImageView" destination="qsU-uO-zJL" id="VJl-oz-c8r"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>
