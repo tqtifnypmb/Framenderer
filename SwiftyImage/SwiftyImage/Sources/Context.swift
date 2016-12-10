@@ -15,7 +15,7 @@ import Foundation
 class Context {
     private let _context: EAGLContext
     private static let _shareGroup: EAGLSharegroup = EAGLSharegroup()
-    private var _currentProgram: Program!
+    private weak var _currentProgram: Program!
     private var _input: FrameBuffer?
     private var _output: FrameBuffer?
     
@@ -50,7 +50,14 @@ class Context {
     }
     
     func processedImage() -> CGImage? {
-        return _output?.outputImage(bitmapInfo: _input!.bitmapInfoForInput)
+        return _output?.convertToImage()
+    }
+    
+    func toggleInputOutputIfNeeded() {
+        if _output != nil && _input != nil {
+            _output?.convertToInput(bitmapInfo: _input!.bitmapInfoForInput)
+            _input = _output
+        }
     }
     
     var inputWidth: GLsizei {
@@ -59,6 +66,10 @@ class Context {
     
     var inputHeight: GLsizei {
         return _input!.height
+    }
+    
+    var inputBitmapInfo: CGBitmapInfo {
+        return _input!.bitmapInfoForInput
     }
     
     var textCoor: [GLfloat] {

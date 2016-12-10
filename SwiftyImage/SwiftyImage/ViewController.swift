@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         
         do {
             let canva = ImageCanvas(image: origin!)
-            canva.filters = [BaseFilter()]
+            canva.filters = [BaseFilter(), BaseFilter()]
             try canva.process()
             
             let result = canva.processedImage()

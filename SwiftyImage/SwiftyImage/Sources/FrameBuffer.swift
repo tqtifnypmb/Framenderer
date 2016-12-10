@@ -18,6 +18,7 @@ class FrameBuffer {
     
     private var _inputTexture: GLKTextureInfo!
     private var _rotation: Rotation = .none
+    private var _convertedFromOutput: Bool = false
     
     // output buffer properties
     
@@ -25,6 +26,7 @@ class FrameBuffer {
     private var _outputTexture: GLuint = 0
     private var _outputWidth: GLsizei = 0
     private var _outputHeight: GLsizei = 0
+    private var _bitmapInfo: CGBitmapInfo!
     
     enum Rotation {
         case none
@@ -62,9 +64,10 @@ class FrameBuffer {
         }
     }
     
-    init(width: GLsizei, height: GLsizei) {
+    init(width: GLsizei, height: GLsizei, bitmapInfo: CGBitmapInfo) {
         _outputWidth = width
         _outputHeight = height
+        _bitmapInfo = bitmapInfo
         
         glGenTextures(1, &_outputTexture)
         glBindTexture(GLenum(GL_TEXTURE_2D), _outputTexture)
@@ -79,21 +82,28 @@ class FrameBuffer {
     }
     
     deinit {
-        if _frameBuffer != 0 {
-            glDeleteFramebuffers(1, &_frameBuffer)
-        }
-        
         if isInput {
-            var name = _inputTexture.name
-            glDeleteTextures(1, &name)
+            var toDelete = _convertedFromOutput ? _outputTexture : _inputTexture.name
+            glDeleteTextures(1, &toDelete)
+        } else if _frameBuffer != 0 {
+            glDeleteFramebuffers(1, &_frameBuffer)
+            _frameBuffer = 0
         }
     }
     
     func useAsInput() {
-        glBindTexture(_inputTexture.target, _inputTexture.name)
+        precondition(isInput)
+        
+        if _convertedFromOutput {
+            glBindTexture(GLenum(GL_TEXTURE_2D), _outputTexture)
+        } else {
+            glBindTexture(_inputTexture.target, _inputTexture.name)
+        }
     }
     
     func useAsOutput() {
+        precondition(!isInput)
+        
         if _frameBuffer != 0 {
             fatalError()
         }
@@ -128,7 +138,20 @@ class FrameBuffer {
         }
     }
     
-    func outputImage(bitmapInfo: CGBitmapInfo) -> CGImage? {
+    func convertToInput(bitmapInfo: CGBitmapInfo) {
+        precondition(!isInput)
+        precondition(!_convertedFromOutput)
+        
+        if _frameBuffer != 0 {
+            glDeleteFramebuffers(1, &_frameBuffer)
+            _frameBuffer = 0
+        }
+        
+        _bitmapInfo = bitmapInfo
+        _convertedFromOutput = true
+    }
+    
+    func convertToImage() -> CGImage? {
         if isInput {
             fatalError()
         }
@@ -153,20 +176,20 @@ class FrameBuffer {
             })
         }
         
-        let cgImage = CGImage(width: Int(_outputWidth), height: Int(_outputHeight), bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: Int(_outputWidth) * 4, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: bitmapInfo, provider: imageDataProvider, decode: nil, shouldInterpolate: false, intent: CGColorRenderingIntent.defaultIntent)
+        let cgImage = CGImage(width: Int(_outputWidth), height: Int(_outputHeight), bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: Int(_outputWidth) * 4, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: _bitmapInfo, provider: imageDataProvider, decode: nil, shouldInterpolate: false, intent: CGColorRenderingIntent.defaultIntent)
         return cgImage
     }
     
     private var isInput: Bool {
-        return _inputTexture != nil
+        return _inputTexture != nil || _convertedFromOutput
     }
     
     var width: GLsizei {
-        return isInput ? GLsizei(_inputTexture.width) : _outputWidth
+        return isInput ? _convertedFromOutput ? _outputWidth : GLsizei(_inputTexture.width) : _outputWidth
     }
     
     var height: GLsizei {
-        return isInput ? GLsizei(_inputTexture.height) : _outputHeight
+        return isInput ? _convertedFromOutput ? _outputHeight : GLsizei(_inputTexture.height) : _outputHeight
     }
     
     /// Why ??
@@ -207,8 +230,10 @@ class FrameBuffer {
     }
     
     var bitmapInfoForInput: CGBitmapInfo {
-        if !isInput {
-            fatalError()
+        precondition(isInput)
+        
+        if _convertedFromOutput {
+            return _bitmapInfo
         }
         
         switch _inputTexture.alphaState {

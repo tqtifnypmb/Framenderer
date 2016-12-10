@@ -26,12 +26,12 @@ public class ImageCanvas: NSObject, Canvas {
         let inputFrameBuffer = try FrameBuffer(texture: _origin.cgImage!, rotation: .none)
         ctx.setInput(input: inputFrameBuffer)
         
-        ctx.setAsCurrent()
         for filter in filters {
             try filter.apply(context: ctx)
         }
         
         _result = ctx.processedImage()
+        filters.removeAll()
     }
     
     func processAsync(_ onCompletion: (Bool) -> Void) {

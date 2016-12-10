@@ -43,20 +43,22 @@ class BaseFilter: Filter {
     }
     
     func apply(context ctx: Context) throws {
+        ctx.toggleInputOutputIfNeeded()
+        
         _program = try Program.create(vertexSource: kVertexShader, fragmentSource: kFragmentShader)
         bindAttributes()
         try _program.link()
         ctx.setCurrent(program: _program)
         
-        let outputFrameBuffer = FrameBuffer(width: ctx.inputWidth, height: ctx.inputHeight)
+        let outputFrameBuffer = FrameBuffer(width: ctx.inputWidth, height: ctx.inputHeight, bitmapInfo: ctx.inputBitmapInfo)
         ctx.setOutput(output: outputFrameBuffer)
-        
-        var attributes = kVertices
-        attributes.append(contentsOf: ctx.textCoor)
         
         var vbo: GLuint = 0
         glGenBuffers(1, &vbo)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), vbo)
+        
+        var attributes = kVertices
+        attributes.append(contentsOf: ctx.textCoor)
         attributes.withUnsafeBytes { bytes in
             glBufferData(GLenum(GL_ARRAY_BUFFER), bytes.count, bytes.baseAddress, GLenum(GL_STATIC_DRAW))
         }

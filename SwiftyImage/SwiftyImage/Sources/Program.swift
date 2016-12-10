@@ -46,14 +46,6 @@ class Program {
         _attributesMap.append(contentsOf: attributes)
     }
     
-    func setAttribute(name: String, value: GLuint) {
-        guard let idx = _attributesMap.index(of: name) else {
-            fatalError()
-        }
-        
-        
-    }
-    
     func location(ofAttribute name: String) -> GLuint {
         if let idx = _attributesMap.index(of: name) {
             return GLuint(_attributesMap.startIndex.distance(to: idx))
@@ -66,9 +58,8 @@ class Program {
         name.withGLcharString { name in
             let loc = glGetUniformLocation(_program, name)
             assert(loc != -1)
-            //glUniform1f(<#T##location: GLint##GLint#>, <#T##x: GLfloat##GLfloat#>)
+            glUniform1ui(loc, value)
         }
-        
     }
     
     var program: GLuint {
@@ -114,9 +105,5 @@ class Program {
         
         //glDeleteShader(vShader)
         //glDeleteShader(fShader)
-    }
-    
-    private func validate() {
-        
     }
 }
