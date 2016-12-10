@@ -13,15 +13,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var originImageView: UIImageView!
     @IBOutlet weak var processedImageView: UIImageView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let origin = UIImage(named: "fruits")
+        let origin = UIImage(named: "zc")
         originImageView.image = origin
         
         do {
@@ -32,17 +27,9 @@ class ViewController: UIViewController {
             let result = canva.processedImage()
             let processed = UIImage(cgImage: result)
             processedImageView.image = processed
-            print(processed.size)
         } catch {
             print(error.localizedDescription)
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
 

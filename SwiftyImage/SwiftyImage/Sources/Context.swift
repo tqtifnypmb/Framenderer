@@ -8,6 +8,7 @@
 
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
+import GLKit
 import CoreGraphics
 import Foundation
 
@@ -49,7 +50,7 @@ class Context {
     }
     
     func processedImage() -> CGImage? {
-        return _output?.outputImage()
+        return _output?.outputImage(bitmapInfo: _input!.bitmapInfoForInput)
     }
     
     var inputWidth: GLsizei {

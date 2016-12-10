@@ -28,16 +28,38 @@ class FrameBuffer {
     
     enum Rotation {
         case none
-        case cw90
-        case cw180
-        case cw270
+        case ccw90
+        case ccw180
+        case ccw270
     }
     
     init(texture: CGImage, rotation: Rotation = .none) throws {
+        
         _rotation = rotation
         _inputTexture = try GLKTextureLoader.texture(with: texture, options: [GLKTextureLoaderOriginBottomLeft : false])
         assert(_inputTexture.target == GLenum(GL_TEXTURE_2D))
-        configTexture()
+        
+        switch _inputTexture.alphaState {
+        case .premultiplied:
+            print("Prem")
+            
+        case .nonPremultiplied:
+            print("non Prem")
+            
+        default:
+            print("None")
+        }
+        
+        switch texture.alphaInfo {
+        case .premultipliedLast:
+            print("Prem")
+            
+        case .premultipliedFirst:
+            print("non Prem")
+            
+        default:
+            print("None")
+        }
     }
     
     init(width: GLsizei, height: GLsizei) {
@@ -46,10 +68,10 @@ class FrameBuffer {
         
         glGenTextures(1, &_outputTexture)
         glBindTexture(GLenum(GL_TEXTURE_2D), _outputTexture)
-        configTexture()
+        configureTexture()
     }
     
-    private func configTexture() {
+    private func configureTexture() {
         glTexParameteri(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_MAG_FILTER), GL_LINEAR)
         glTexParameteri(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_MIN_FILTER), GL_LINEAR)
         glTexParameteri(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_WRAP_S), GL_CLAMP_TO_EDGE)
@@ -59,6 +81,11 @@ class FrameBuffer {
     deinit {
         if _frameBuffer != 0 {
             glDeleteFramebuffers(1, &_frameBuffer)
+        }
+        
+        if isInput {
+            var name = _inputTexture.name
+            glDeleteTextures(1, &name)
         }
     }
     
@@ -101,15 +128,15 @@ class FrameBuffer {
         }
     }
     
-    func outputImage() -> CGImage? {
+    func outputImage(bitmapInfo: CGBitmapInfo) -> CGImage? {
         if isInput {
             fatalError()
         }
         
-        glBindFramebuffer(GLenum(GL_FRAMEBUFFER), _frameBuffer)
-        var rawImageData = [GLubyte](repeating: 0, count: Int(_outputWidth * _outputHeight * 4))
-        var imageDataProvider: CGDataProvider!
+        //glBindFramebuffer(GLenum(GL_FRAMEBUFFER), _frameBuffer)
+        //glViewport(0, 0, _outputWidth, _outputHeight)
         
+        var rawImageData = [GLubyte](repeating: 0, count: Int(_outputWidth * _outputHeight * 4))
         rawImageData.withUnsafeMutableBytes { ptr in
             glReadPixels(0,
                          0,
@@ -118,14 +145,15 @@ class FrameBuffer {
                          GLenum(GL_RGBA),
                          GLenum(GL_UNSIGNED_BYTE),
                          ptr.baseAddress)
-            imageDataProvider = CGDataProvider(dataInfo: nil, data: ptr.baseAddress!, size: ptr.count, releaseData: { (_, _, _) in
+        }
+
+        var imageDataProvider: CGDataProvider!
+        rawImageData.withUnsafeBytes { bytes in
+            imageDataProvider = CGDataProvider(dataInfo: nil, data: bytes.baseAddress!, size: bytes.count, releaseData: { (_, _, _) in
             })
         }
         
-        
-        let bitmapInfo: CGBitmapInfo = [CGBitmapInfo(rawValue: CGImageAlphaInfo.last.rawValue)]
         let cgImage = CGImage(width: Int(_outputWidth), height: Int(_outputHeight), bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: Int(_outputWidth) * 4, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: bitmapInfo, provider: imageDataProvider, decode: nil, shouldInterpolate: false, intent: CGColorRenderingIntent.defaultIntent)
-        
         return cgImage
     }
     
@@ -141,17 +169,18 @@ class FrameBuffer {
         return isInput ? GLsizei(_inputTexture.height) : _outputHeight
     }
     
+    /// Why ??
     var textCoor: [GLfloat] {
         switch _rotation {
         case .none:
             return [
                       0.0, 0.0,
-                      0.0, 0.1,
+                      0.0, 1.0,
                       1.0, 0.0,
                       1.0, 1.0
                    ]
             
-        case .cw90:
+        case .ccw90:
             return [
                       1.0, 0.0,
                       0.0, 0.0,
@@ -159,7 +188,7 @@ class FrameBuffer {
                       0.0, 1.0
                    ]
             
-        case .cw180:
+        case .ccw180:
             return [
                       1.0, 1.0,
                       1.0, 0.0,
@@ -167,7 +196,7 @@ class FrameBuffer {
                       0.0, 0.0
                    ]
             
-        case .cw270:
+        case .ccw270:
             return [
                       0.0, 1.0,
                       1.0, 1.0,
@@ -175,6 +204,22 @@ class FrameBuffer {
                       1.0, 0.0
                    ]
         }
+    }
+    
+    var bitmapInfoForInput: CGBitmapInfo {
+        if !isInput {
+            fatalError()
+        }
         
+        switch _inputTexture.alphaState {
+        case .none:
+            return CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue)
+            
+        case .premultiplied:
+            return CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+            
+        case .nonPremultiplied:
+            return CGBitmapInfo(rawValue: CGImageAlphaInfo.last.rawValue)
+        }
     }
 }

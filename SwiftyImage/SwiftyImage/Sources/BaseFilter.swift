@@ -75,5 +75,8 @@ class BaseFilter: Filter {
         glClearColor(0.0, 0.0, 0.0, 1.0);
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT));
         glDrawArrays(GLenum(GL_TRIANGLE_STRIP), 0, 4)
+        
+        glDeleteBuffers(1, &vbo)
+        _program = nil
     }
 }
