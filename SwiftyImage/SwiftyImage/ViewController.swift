@@ -16,15 +16,15 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let origin = UIImage(named: "zc")
-        let blend = UIImage(named: "fruits")
+        let origin = UIImage(named: "fruits")
+        //let blend = UIImage(named: "zc")
         originImageView.image = origin
         
         do {
             let canva = ImageCanvas(image: origin!)
             
-            let blendingFilter = LinearBlendingFilter(source: blend!.cgImage!, a: 0.5)
-            canva.filters = [blendingFilter]
+            //let blendingFilter = LinearBlendFilter(source: blend!.cgImage!, a: 0.5)
+            canva.filters = [BoxBlurFilter()]
             try canva.process()
             
             let result = canva.processedImage()

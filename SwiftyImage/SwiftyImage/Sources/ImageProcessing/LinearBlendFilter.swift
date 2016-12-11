@@ -11,7 +11,7 @@ import CoreGraphics
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-class LinearBlendingFilter: BaseFilter {
+class LinearBlendFilter: BaseFilter {
     
     let _source: CGImage
     let _a: CGFloat
@@ -29,7 +29,7 @@ class LinearBlendingFilter: BaseFilter {
     }
     
     override func buildProgram() throws {
-        _program = try Program.create(vertexSourcePath: "PassthroughVertexShader", fragmentSourcePath: "LinearBlendingFragmentShader")
+        _program = try Program.create(vertexSourcePath: "PassthroughVertexShader", fragmentSourcePath: "LinearBlendFragmentShader")
     }
     
     override func apply(context ctx: Context) throws {

@@ -19,7 +19,7 @@ public class ImageCanvas: NSObject, Canvas {
     }
     
     func process() throws {
-        guard !filters.isEmpty else { return }
+        precondition(!filters.isEmpty)
         
         let ctx = Context()
         ctx.setAsCurrent()
@@ -35,7 +35,7 @@ public class ImageCanvas: NSObject, Canvas {
     }
     
     func processAsync(_ onCompletion: (Bool) -> Void) {
-        
+        precondition(!filters.isEmpty)
     }
     
     func processedImage() -> CGImage {
