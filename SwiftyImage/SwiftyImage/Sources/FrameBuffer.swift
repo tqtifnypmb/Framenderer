@@ -152,9 +152,7 @@ class FrameBuffer {
     }
     
     func convertToImage() -> CGImage? {
-        if isInput {
-            fatalError()
-        }
+        precondition(!isInput)
         
         //glBindFramebuffer(GLenum(GL_FRAMEBUFFER), _frameBuffer)
         //glViewport(0, 0, _outputWidth, _outputHeight)

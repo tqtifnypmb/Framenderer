@@ -25,10 +25,14 @@ class Program {
         glAttachShader(_program, fShader)
     }
     
+    class func create(vertexSource vSrc: String, fragmentSource fSrc: String) throws -> Program {
+        return try Program(vertexSource: vSrc, fragmentSource: fSrc)
+    }
+    
     class func create(vertexSourcePath vPath: String, fragmentSourcePath fPath: String) throws -> Program {
         let vSrc = try! String(contentsOfFile: Bundle.main.path(forResource: vPath, ofType: "vsh")!)
         let fSrc = try! String(contentsOfFile: Bundle.main.path(forResource: fPath, ofType: "fsh")!)
-        return try Program(vertexSource: vSrc, fragmentSource: fSrc)
+        return try Program.create(vertexSource: vSrc, fragmentSource: fSrc)
     }
     
     func use() {
