@@ -25,7 +25,9 @@ class Program {
         glAttachShader(_program, fShader)
     }
     
-    class func create(vertexSource vSrc: String, fragmentSource fSrc: String) throws -> Program {
+    class func create(vertexSourcePath vPath: String, fragmentSourcePath fPath: String) throws -> Program {
+        let vSrc = try! String(contentsOfFile: Bundle.main.path(forResource: vPath, ofType: "vsh")!)
+        let fSrc = try! String(contentsOfFile: Bundle.main.path(forResource: fPath, ofType: "fsh")!)
         return try Program(vertexSource: vSrc, fragmentSource: fSrc)
     }
     
@@ -54,11 +56,19 @@ class Program {
         }
     }
     
-    func setUniform(name: String, value: GLuint) {
+    func setUniform(name: String, value: GLint) {
         name.withGLcharString { name in
             let loc = glGetUniformLocation(_program, name)
             assert(loc != -1)
-            glUniform1ui(loc, value)
+            glUniform1i(loc, value)
+        }
+    }
+    
+    func setUniform(name: String, value: GLfloat) {
+        name.withGLcharString { name in
+            let loc = glGetUniformLocation(_program, name)
+            assert(loc != -1)
+            glUniform1f(loc, value)
         }
     }
     

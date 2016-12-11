@@ -17,17 +17,21 @@ class ViewController: UIViewController {
         super.viewDidAppear(animated)
         
         let origin = UIImage(named: "zc")
+        let blend = UIImage(named: "fruits")
         originImageView.image = origin
         
         do {
             let canva = ImageCanvas(image: origin!)
-            canva.filters = [BaseFilter(), BaseFilter()]
+            
+            let blendingFilter = LinearBlendingFilter(source: blend!.cgImage!, a: 0.5)
+            canva.filters = [blendingFilter]
             try canva.process()
             
             let result = canva.processedImage()
             let processed = UIImage(cgImage: result)
             processedImageView.image = processed
         } catch {
+            print(glGetError())
             print(error.localizedDescription)
         }
     }

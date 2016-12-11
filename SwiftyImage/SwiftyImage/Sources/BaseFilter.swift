@@ -10,23 +10,6 @@ import UIKit
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-let kVertexShader = "#version 300 es                 "
-                  + "in vec4 vPosition;              "
-                  + "in vec2 vTextCoor;              "
-                  + "out vec2 fTextCoor;             "
-                  + "void main() {                   "
-                  + "   gl_Position = vPosition;     "
-                  + "   fTextCoor = vTextCoor;       "
-                  + "}                               "
-
-let kFragmentShader = "#version 300 es               "
-                    + "precision mediump float;      "
-                    + "in vec2 fTextCoor;            "
-                    + "uniform sampler2D fSampler;   "
-                    + "out vec4 color;               "
-                    + "void main() {                 "
-                    + "   color = texture(fSampler, fTextCoor);"
-                    + "}                             "
 let kVertices: [GLfloat] = [
                             -1.0, -1.0,
                             -1.0,  1.0,
@@ -37,21 +20,27 @@ let kVertices: [GLfloat] = [
 class BaseFilter: Filter {
     var _program: Program!
     
-    func bindAttributes() {
+    func bindAttributes(context: Context) {
         let attr = ["vPosition", "vTextCoor"]
         _program.bind(attributes: attr)
+    }
+    
+    func setUniformAttributs(context: Context) {
+        _program.setUniform(name: "firstInput", value: GLint(0))
+    }
+    
+    func buildProgram() throws {
+        _program = try Program.create(vertexSourcePath: "PassthroughVertexShader", fragmentSourcePath: "SingleInputFragmentShader")
     }
     
     func apply(context ctx: Context) throws {
         ctx.toggleInputOutputIfNeeded()
         
-        _program = try Program.create(vertexSource: kVertexShader, fragmentSource: kFragmentShader)
-        bindAttributes()
+        try buildProgram()
+        bindAttributes(context: ctx)
         try _program.link()
         ctx.setCurrent(program: _program)
-        
-        let outputFrameBuffer = FrameBuffer(width: ctx.inputWidth, height: ctx.inputHeight, bitmapInfo: ctx.inputBitmapInfo)
-        ctx.setOutput(output: outputFrameBuffer)
+        setUniformAttributs(context: ctx)
         
         var vbo: GLuint = 0
         glGenBuffers(1, &vbo)
@@ -70,9 +59,9 @@ class BaseFilter: Filter {
             glVertexAttribPointer(_program.location(ofAttribute: "vTextCoor"), 2, GLenum(GL_FLOAT), GLboolean(GL_FALSE), 0, offset)
             glEnableVertexAttribArray(_program.location(ofAttribute: "vTextCoor"))
         }
-    
-        _program.setUniform(name: "fSampler", value: 0)
         
+        let outputFrameBuffer = FrameBuffer(width: ctx.inputWidth, height: ctx.inputHeight, bitmapInfo: ctx.inputBitmapInfo)
+        ctx.setOutput(output: outputFrameBuffer)
         ctx.activateInput()
         glClearColor(0.0, 0.0, 0.0, 1.0);
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT));

@@ -244,7 +244,7 @@ class FrameBuffer {
             return CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
             
         case .nonPremultiplied:
-            return CGBitmapInfo(rawValue: CGImageAlphaInfo.last.rawValue)
+            return CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue)
         }
     }
 }
