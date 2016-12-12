@@ -18,6 +18,7 @@ class BoxBlurFilter: TwoPassFilter {
     
     init(radius: Int = 4) {
         precondition(radius >= 1)
+        
         _radius = radius
         super.init()
         
@@ -28,26 +29,26 @@ class BoxBlurFilter: TwoPassFilter {
     private func buildVertexSource() -> String {
         let kernelSize = _radius * 2 + 1
         
-        var src = "#version 300 es                          "
-                + "in vec4 vPosition;                       "
-                + "in vec2 vTextCoor;                       "
-                + "uniform highp float xOffset;             "
-                + "uniform highp float yOffset;             "
-                + "out highp vec2 fTextCoor[\(kernelSize)]; "
+        var src = "#version 300 es                         \n"
+                + "in vec4 vPosition;                      \n"
+                + "in vec2 vTextCoor;                      \n"
+                + "uniform highp float texelWidth;         \n"
+                + "uniform highp float texelHeight;        \n"
+                + "out highp vec2 fTextCoor[\(kernelSize)];\n"
         
-                + "void main() {                            "
-                + "    gl_Position = vPosition;             "
-                + "    vec2 step = vec2(xOffset, yOffset);  "
-                + "    vec2 textCoor[\(kernelSize)];        "
+                + "void main() {                           \n"
+                + "    gl_Position = vPosition;            \n"
+                + "    vec2 step = vec2(texelWidth, texelHeight); \n"
+                + "    vec2 textCoor[\(kernelSize)];       \n"
+                + "    textCoor[0] = vTextCoor;            \n"
         
         for i in 0 ..< _radius {
-            src += "textCoor[\(i)] = vTextCoor - \(i + 1).0 * step; "
-            src += "textCoor[\(i * 2)] = vTextCoor + \(i + 1).0 * step; "
+            src += "textCoor[\(i * 2 + 1)] = vTextCoor - \(i + 1).0 * step;\n"
+            src += "textCoor[\(i * 2 + 2)] = vTextCoor + \(i + 1).0 * step;\n"
         }
-        src += "textCoor[\(kernelSize - 1)] = vTextCoor;    "
-        src += "fTextCoor = textCoor;                       "
-        src += "}"
-        
+        src += "fTextCoor = textCoor;                      \n"
+        src += "}                                          \n"
+        print(src)
         return src
     }
     
@@ -55,20 +56,22 @@ class BoxBlurFilter: TwoPassFilter {
         let kernelSize = _radius * 2 + 1
         let weight = 1.0 / GLfloat(kernelSize)
         
-        var src = "#version 300 es                          "
-                + "precision highp float;                   "
-                + "in highp vec2 fTextCoor[\(kernelSize)];  "
-                + "uniform sampler2D firstInput;            "
-                + "out vec4 color;                          "
-                + "void main() {                            "
-                + "    vec4 acc = vec4(0.0);                "
+        var src = "#version 300 es                         \n"
+                + "precision highp float;                  \n"
+                + "in highp vec2 fTextCoor[\(kernelSize)]; \n"
+                + "uniform sampler2D firstInput;           \n"
+                + "out vec4 color;                         \n"
+                + "void main() {                           \n"
+                + "    vec4 acc = vec4(0.0);               \n"
         
         for i in 0 ..< kernelSize {
-            src += "acc += texture(firstInput, fTextCoor[\(i)]) * \(weight);"
+            src += "acc += texture(firstInput, fTextCoor[\(i)]) * \(weight); \n"
         }
         
-        src += "color = acc;"
-        src += "}"
+        src += "color = acc;                               \n"
+        src += "}                                          \n"
+        
+        print(src)
         return src
     }
     
@@ -76,16 +79,16 @@ class BoxBlurFilter: TwoPassFilter {
         super.setUniformAttributs2(context: ctx)
         
         let texelHeight = 1 / GLfloat(ctx.inputHeight)
-        _program2.setUniform(name: "xOffset", value: GLfloat(0))
-        _program2.setUniform(name: "yOffset", value: texelHeight)
+        _program2.setUniform(name: "texelWidth", value: GLfloat(0))
+        _program2.setUniform(name: "texelHeight", value: texelHeight)
     }
     
     override func setUniformAttributs(context ctx: Context) {
         super.setUniformAttributs(context: ctx)
         
         let texelWidth = 1 / GLfloat(ctx.inputWidth)
-        _program.setUniform(name: "xOffset", value: texelWidth)
-        _program.setUniform(name: "yOffset", value: GLfloat(0))
+        _program.setUniform(name: "texelWidth", value: texelWidth)
+        _program.setUniform(name: "texelHeight", value: GLfloat(0))
     }
     
     override func buildProgram() throws {
