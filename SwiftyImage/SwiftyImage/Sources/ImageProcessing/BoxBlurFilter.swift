@@ -19,7 +19,7 @@ class BoxBlurFilter: TwoPassFilter {
     init(radius: Int = 4) {
         precondition(radius >= 1)
         
-        _radius = radius
+        _radius = radius//min(radius, 8)
         super.init()
         
         _vertexShaderSrc = buildVertexSource()
@@ -48,7 +48,6 @@ class BoxBlurFilter: TwoPassFilter {
         }
         src += "fTextCoor = textCoor;                      \n"
         src += "}                                          \n"
-        print(src)
         return src
     }
     
@@ -70,8 +69,6 @@ class BoxBlurFilter: TwoPassFilter {
         
         src += "color = acc;                               \n"
         src += "}                                          \n"
-        
-        print(src)
         return src
     }
     
