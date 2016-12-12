@@ -10,7 +10,7 @@ import Foundation
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-class TwoPassFilter: BaseFilter {
+public class TwoPassFilter: BaseFilter {
     var _program2: Program!
     
     func bindAttributes2(context: Context) {

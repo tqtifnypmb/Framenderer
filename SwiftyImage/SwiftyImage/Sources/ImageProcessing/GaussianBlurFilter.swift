@@ -10,15 +10,25 @@ import Foundation
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-class GaussianBlurFilter: Filter {
+public class GaussianBlurFilter: Filter {
+    enum Strategy {
+        case box
+    }
+    
     let _sigma: Int
-    init(radius sigma: Int) {
+    let _strategy: Strategy
+    var boxPass: Int = 3
+    init(radius sigma: Int, strategy: Strategy = .box) {
         _sigma = sigma
+        _strategy = strategy
     }
     
     func apply(context: Context) throws {
-        let b = BoxGaussianBlurFilter(sigma: _sigma)
-        try b.apply(context: context)
+        switch _strategy {
+        case .box:
+            let blur = BoxGaussianBlurFilter(sigma: _sigma, pass: max(boxPass, 3))
+            try blur.apply(context: context)
+        }
     }
 }
 
@@ -26,8 +36,8 @@ class GaussianBlurFilter: Filter {
 private class BoxGaussianBlurFilter: Filter {
     
     private var _boxBlurSize: [Int] = []
-    init(sigma: Int) {
-        _boxBlurSize = calculateBoxBlurSize(sigma: sigma, pass: 3)
+    init(sigma: Int, pass: Int) {
+        _boxBlurSize = calculateBoxBlurSize(sigma: sigma, pass: pass)
     }
     
     private func calculateBoxBlurSize(sigma: Int, pass: Int) -> [Int] {

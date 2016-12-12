@@ -17,7 +17,7 @@ let kVertices: [GLfloat] = [
                              1.0,  1.0,
                            ]
 
-class BaseFilter: Filter {
+public class BaseFilter: Filter {
     var _program: Program!
     
     func bindAttributes(context: Context) {

@@ -10,7 +10,7 @@ import Foundation
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-class MedianFilter: BaseFilter {
+public class MedianFilter: BaseFilter {
     
     override func setUniformAttributs(context ctx: Context) {
         super.setUniformAttributs(context: ctx)

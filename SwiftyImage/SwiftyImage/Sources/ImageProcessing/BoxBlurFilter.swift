@@ -10,7 +10,7 @@ import Foundation
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-class BoxBlurFilter: TwoPassFilter {
+public class BoxBlurFilter: TwoPassFilter {
     
     private let _radius: Int
     private var _vertexShaderSrc: String!

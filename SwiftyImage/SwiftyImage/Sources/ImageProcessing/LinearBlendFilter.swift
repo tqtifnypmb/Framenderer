@@ -11,7 +11,7 @@ import CoreGraphics
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-class LinearBlendFilter: BaseFilter {
+public class LinearBlendFilter: BaseFilter {
     
     let _source: CGImage
     let _a: CGFloat
