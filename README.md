@@ -6,3 +6,4 @@ OpenGL Rocks!
 
 - Cache shader objects
 - More Filters
+- Filters testing
