@@ -24,7 +24,7 @@ public class GaussianBlurFilter: Filter {
     var boxPass: Int = 3
     
     /// sigma value used by Gaussian algorithm
-    var gaussianSigma: Double = 2.0
+    var gaussianSigma: Double = 3.0
     
     /**
         init a [Gaussian blur](https://en.wikipedia.org/wiki/Gaussian_blur) filter
@@ -34,7 +34,7 @@ public class GaussianBlurFilter: Filter {
             - box: mimic Gaussian blur by applying box blur mutiple times
             - normal: use Gaussian algorithm
     */
-    init(radius: Int = 4, implement: Implement = .box) {
+    init(radius: Int = 4, implement: Implement = .normal) {
         _radius = radius
         _impl = implement
     }
@@ -84,8 +84,14 @@ private class BoxGaussianBlurFilter: Filter {
     }
     
     func apply(context: Context) throws {
+        var boxFilters: [BoxBlurFilter] = []
+        
+        // take advanges of program objects caching
         for size in _boxBlurSize {
-            let box = BoxBlurFilter(radius: size)
+            boxFilters.append(BoxBlurFilter(radius: size))
+        }
+        
+        for box in boxFilters {
             try box.apply(context: context)
         }
     }

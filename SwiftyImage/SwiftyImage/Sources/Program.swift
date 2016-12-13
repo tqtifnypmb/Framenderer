@@ -16,17 +16,17 @@ class Program {
     private var _attributesMap: [String] = []
     private var _isLinked: Bool = false
     
-    var vertexShader: GLuint = 0
-    var fragmentShader: GLuint = 0
+    private var _vertexShader: GLuint = 0
+    private var _fragmentShader: GLuint = 0
     
     init(vertexSource vSrc: String, fragmentSource fSrc: String) throws {
         _program = glCreateProgram()
         
-        vertexShader = try ProgramObjectsCacher.shared.shader(type: GLenum(GL_VERTEX_SHADER), src: vSrc)
-        fragmentShader = try ProgramObjectsCacher.shared.shader(type: GLenum(GL_FRAGMENT_SHADER), src: fSrc)
+        _vertexShader = try ProgramObjectsCacher.shared.shader(type: GLenum(GL_VERTEX_SHADER), src: vSrc)
+        _fragmentShader = try ProgramObjectsCacher.shared.shader(type: GLenum(GL_FRAGMENT_SHADER), src: fSrc)
         
-        glAttachShader(_program, vertexShader)
-        glAttachShader(_program, fragmentShader)
+        glAttachShader(_program, _vertexShader)
+        glAttachShader(_program, _fragmentShader)
     }
     
     class func create(vertexSource vSrc: String, fragmentSource fSrc: String) throws -> Program {
@@ -85,26 +85,26 @@ class Program {
     }
     
     deinit {
+        ProgramObjectsCacher.shared.release(shader: _vertexShader)
+        ProgramObjectsCacher.shared.release(shader: _fragmentShader)
         glDeleteProgram(_program)
     }
     
     func link() throws {
         // Since program objects are cached, It's possible for a program
         // to be linked more than once
-        if _isLinked {
-            return
-        }
-        _isLinked = true
+        guard !_isLinked else { return }
         
         glLinkProgram(_program)
         
         var linkStatus: GLint = 0
         glGetProgramiv(_program, GLenum(GL_LINK_STATUS), &linkStatus)
-        
+    
         if linkStatus != GL_TRUE {
             var logs = [GLchar](repeating: 0, count: 512)
             glGetProgramInfoLog(_program, 512, nil, &logs)
             throw GLError.link(infoLog: String.from(GLcharArray: logs))
         }
+        _isLinked = true
     }
 }

@@ -41,7 +41,7 @@ class ProgramObjectsCacher {
         if type == GLenum(GL_VERTEX_SHADER) {
             return "Vertex:\(src)"
         } else {
-            return "Fragment: \(src)"
+            return "Fragment:\(src)"
         }
     }
     
@@ -79,9 +79,6 @@ class ProgramObjectsCacher {
     }
     
     func release(program toRelease: Program) {
-        release(shader: toRelease.vertexShader)
-        release(shader: toRelease.fragmentShader)
-        
         for entry in _cachedProgram {
             if entry.value.0.program == toRelease.program {
                 let useCount = entry.value.1 - 1
