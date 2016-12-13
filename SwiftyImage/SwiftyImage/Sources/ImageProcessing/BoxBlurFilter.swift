@@ -16,13 +16,18 @@ public class BoxBlurFilter: TwoPassFilter {
     private var _vertexShaderSrc: String!
     private var _fragmentShaderSrc: String!
     
+    /**
+     init a [Box blur](https://en.wikipedia.org/wiki/Box_blur) filter
+     
+     - parameter radius: specifies the distance from the center of the blur effect.
+     */
     init(radius: Int = 4) {
         precondition(radius >= 1)
         
         _radius = radius//min(radius, 8)
         super.init()
         
-        _vertexShaderSrc = buildTwoPassVertexSource(radius: _radius)
+        _vertexShaderSrc = buildSeparableKernelVertexSource(radius: _radius)
         _fragmentShaderSrc = buildFragmentSource()
     }
     

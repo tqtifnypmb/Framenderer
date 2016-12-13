@@ -15,6 +15,13 @@ public class LinearBlendFilter: BaseFilter {
     
     let _source: CGImage
     let _a: CGFloat
+    
+    /**
+        init a Linear Blending filter
+     
+        - parameter source: A image used to blending with content of a canva
+        - parameter a: result = source * a + canva * (1 - a)
+    */
     init(source: CGImage, a: CGFloat) {
         precondition(a >= 0 && a <= 1)
         

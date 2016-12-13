@@ -56,7 +56,7 @@ public class TwoPassFilter: BaseFilter {
     }
 }
 
-func buildTwoPassVertexSource(radius: Int) -> String {
+func buildSeparableKernelVertexSource(radius: Int) -> String {
     let kernelSize = radius * 2 + 1
     
     var src = "#version 300 es                         \n"

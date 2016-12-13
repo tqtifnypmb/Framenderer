@@ -16,13 +16,25 @@ public class GaussianBlurFilter: Filter {
         case normal
     }
     
-    let _radius: Int
-    let _impl: Implement
+    private let _radius: Int
+    private let _impl: Implement
     
+    /// specifies the maximum number of times 
+    /// Box blur to mimic Gaussian blur
     var boxPass: Int = 3
+    
+    /// sigma value used by Gaussian algorithm
     var gaussianSigma: Double = 2.0
     
-    init(radius: Int, implement: Implement = .box) {
+    /**
+        init a [Gaussian blur](https://en.wikipedia.org/wiki/Gaussian_blur) filter
+        
+        - parameter radius: specifies the distance from the center of the blur effect.
+        - parameter implement: specifies which implement to use.
+            - box: mimic Gaussian blur by applying box blur mutiple times
+            - normal: use Gaussian algorithm
+    */
+    init(radius: Int = 4, implement: Implement = .box) {
         _radius = radius
         _impl = implement
     }
@@ -40,7 +52,8 @@ public class GaussianBlurFilter: Filter {
     }
 }
 
-/// based on: http://blog.ivank.net/fastest-gaussian-blur.html
+// achieve gaussian blur by applying box blur multiply times
+// based on: http://blog.ivank.net/fastest-gaussian-blur.html
 private class BoxGaussianBlurFilter: Filter {
     
     private var _boxBlurSize: [Int] = []
@@ -86,14 +99,14 @@ private class NormalGaussianBlurFilter: TwoPassFilter {
     private var _fragmentShaderSrc: String!
     
     init(radius: Int, sigma: Double) {
-        // kernel size < 6sigma is good enough
+        // kernel size <= 6sigma is good enough
         // reference: https://en.wikipedia.org/wiki/Gaussian_blur
         let goodEnoughSize = min(radius * 2 + 1, 6 * Int(floor(sigma)))
         _radius = max((goodEnoughSize - 1) / 2, 1)
         super.init()
         
         _kernel = buildKernel(sigma: sigma)
-        _vertexShaderSrc = buildTwoPassVertexSource(radius: _radius)
+        _vertexShaderSrc = buildSeparableKernelVertexSource(radius: _radius)
         _fragmentShaderSrc = buildFragmentShaderSource()
     }
     
@@ -125,11 +138,11 @@ private class NormalGaussianBlurFilter: TwoPassFilter {
                 + "void main() {                           \n"
                 + "    vec4 acc = vec4(0.0);               \n"
         
-        // Note: We already know that the pass in fTextCoor is
+        // Note: We already know that the passed in fTextCoor is
         //       in order : [center, center - 1, center + 1, center - 2, center + 2, ...]
         for i in 0 ..< kernelSize {
-            let offset = i - _radius
-            let weight = _kernel[abs(offset)]
+            let distance = i % 2 == 0 ? (i / 2) : (i / 2 + 1)
+            let weight = _kernel[distance]
             src += "acc += texture(firstInput, fTextCoor[\(i)]) * \(weight); \n"
         }
         
