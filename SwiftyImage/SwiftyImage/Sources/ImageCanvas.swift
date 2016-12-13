@@ -30,6 +30,10 @@ public class ImageCanvas: NSObject, Canvas {
             try filter.apply(context: ctx)
         }
         
+        #if DEBUG
+            ProgramObjectsCacher.shared.finish()
+        #endif
+        
         _result = ctx.processedImage()
         filters.removeAll()
     }

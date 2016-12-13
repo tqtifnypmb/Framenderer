@@ -14,19 +14,23 @@ class Program {
     
     private let _program: GLuint
     private var _attributesMap: [String] = []
+    private var _isLinked: Bool = false
     
-    private init(vertexSource vSrc: String, fragmentSource fSrc: String) throws {
+    var vertexShader: GLuint = 0
+    var fragmentShader: GLuint = 0
+    
+    init(vertexSource vSrc: String, fragmentSource fSrc: String) throws {
         _program = glCreateProgram()
         
-        let vShader = try compileShader(type: GLenum(GL_VERTEX_SHADER), source: vSrc)
-        let fShader = try compileShader(type: GLenum(GL_FRAGMENT_SHADER), source: fSrc)
+        vertexShader = try ProgramObjectsCacher.shared.shader(type: GLenum(GL_VERTEX_SHADER), src: vSrc)
+        fragmentShader = try ProgramObjectsCacher.shared.shader(type: GLenum(GL_FRAGMENT_SHADER), src: fSrc)
         
-        glAttachShader(_program, vShader)
-        glAttachShader(_program, fShader)
+        glAttachShader(_program, vertexShader)
+        glAttachShader(_program, fragmentShader)
     }
     
     class func create(vertexSource vSrc: String, fragmentSource fSrc: String) throws -> Program {
-        return try Program(vertexSource: vSrc, fragmentSource: fSrc)
+        return try ProgramObjectsCacher.shared.program(vertexShaderSrc: vSrc, fragmentShaderSrc: fSrc)
     }
     
     class func create(vertexSourcePath vPath: String, fragmentSourcePath fPath: String) throws -> Program {
@@ -84,28 +88,14 @@ class Program {
         glDeleteProgram(_program)
     }
     
-    private func compileShader(type: GLenum, source: String) throws -> GLuint {
-        let shader = glCreateShader(type)
-        
-        var cStr = UnsafePointer<GLchar>(source.cString(using: .utf8))
-        glShaderSource(shader, 1, &cStr, nil)
-        
-        glCompileShader(shader)
-        
-        var compileStatus: GLint = 0
-        glGetShaderiv(shader, GLenum(GL_COMPILE_STATUS), &compileStatus)
-        if compileStatus != GL_TRUE {
-            var logs = [GLchar](repeating: 0, count: 512)
-            glGetShaderInfoLog(shader, 512, nil, &logs)
-            
-            let typeStr = type == GLenum(GL_VERTEX_SHADER) ? "Vertex" : "Fragment"
-            throw GLError.compile(type: typeStr, infoLog: String.from(GLcharArray: logs))
-        }
-        
-        return shader
-    }
-    
     func link() throws {
+        // Since program objects are cached, It's possible for a program
+        // to be linked more than once
+        if _isLinked {
+            return
+        }
+        _isLinked = true
+        
         glLinkProgram(_program)
         
         var linkStatus: GLint = 0
@@ -116,8 +106,5 @@ class Program {
             glGetProgramInfoLog(_program, 512, nil, &logs)
             throw GLError.link(infoLog: String.from(GLcharArray: logs))
         }
-        
-        //glDeleteShader(vShader)
-        //glDeleteShader(fShader)
     }
 }

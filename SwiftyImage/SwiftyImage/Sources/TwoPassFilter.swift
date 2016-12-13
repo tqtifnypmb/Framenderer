@@ -11,7 +11,7 @@ import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
 public class TwoPassFilter: BaseFilter {
-    var _program2: Program!
+    weak var _program2: Program!
     
     func bindAttributes2(context: Context) {
         let attr = [kVertexPositionAttribute, kTextureCoorAttribute]
@@ -33,18 +33,13 @@ public class TwoPassFilter: BaseFilter {
         _program.setUniform(name: kTexelWidth, value: texelWidth)
         _program.setUniform(name: kTexelHeight, value: GLfloat(0))
     }
-    
-    func buildProgram2() throws {
-        fatalError("Called Virtual Function")
-    }
-    
+
     override func apply(context ctx: Context) throws {
         try super.apply(context: ctx)
 
         glActiveTexture(GLenum(GL_TEXTURE1))
         ctx.toggleInputOutputIfNeeded()
         
-        try buildProgram2()
         bindAttributes2(context: ctx)
         try _program2.link()
         ctx.setCurrent(program: _program2)
@@ -52,6 +47,7 @@ public class TwoPassFilter: BaseFilter {
         
         feedDataAndDraw(context: ctx, program: _program2)
         
+        ProgramObjectsCacher.shared.release(program: _program2)
         _program2 = nil
     }
 }

@@ -54,9 +54,6 @@ public class BoxBlurFilter: TwoPassFilter {
     
     override func buildProgram() throws {
         _program = try Program.create(vertexSource: _vertexShaderSrc, fragmentSource: _fragmentShaderSrc)
-    }
-    
-    override func buildProgram2() throws {
         _program2 = try Program.create(vertexSource: _vertexShaderSrc, fragmentSource: _fragmentShaderSrc)
     }
 }

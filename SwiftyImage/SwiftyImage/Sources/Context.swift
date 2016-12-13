@@ -15,7 +15,6 @@ import Foundation
 class Context {
     private let _context: EAGLContext
     private static let _shareGroup: EAGLSharegroup = EAGLSharegroup()
-    private weak var _currentProgram: Program!
     private var _input: FrameBuffer?
     private var _output: FrameBuffer?
     
@@ -30,10 +29,7 @@ class Context {
     }
     
     func setCurrent(program: Program) {
-        if _currentProgram == nil || _currentProgram.program != program.program {
-            _currentProgram = program
-            program.use()
-        }
+        program.use()
     }
     
     func setInput(input: FrameBuffer) {

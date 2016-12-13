@@ -11,7 +11,7 @@ import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
 public class BaseFilter: Filter {
-    var _program: Program!
+    weak var _program: Program!
     
     func bindAttributes(context: Context) {
         let attr = [kVertexPositionAttribute, kTextureCoorAttribute]
@@ -66,6 +66,7 @@ public class BaseFilter: Filter {
         
         feedDataAndDraw(context: ctx, program: _program)
         
+        ProgramObjectsCacher.shared.release(program: _program)
         _program = nil
     }
 }
