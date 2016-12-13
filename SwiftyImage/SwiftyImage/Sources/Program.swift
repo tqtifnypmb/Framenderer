@@ -15,7 +15,6 @@ class Program {
     private let _program: GLuint
     private var _attributesMap: [String] = []
     private var _isLinked: Bool = false
-    
     private var _vertexShader: GLuint = 0
     private var _fragmentShader: GLuint = 0
     
@@ -91,7 +90,7 @@ class Program {
     }
     
     func link() throws {
-        // Since program objects are cached, It's possible for a program
+        // since program objects are cached, It's possible for a program
         // to be linked more than once
         guard !_isLinked else { return }
         

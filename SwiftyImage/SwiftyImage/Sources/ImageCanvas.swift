@@ -31,7 +31,7 @@ public class ImageCanvas: NSObject, Canvas {
         }
         
         #if DEBUG
-            ProgramObjectsCacher.shared.finish()
+            ProgramObjectsCacher.shared.check_finish()
         #endif
         
         _result = ctx.processedImage()

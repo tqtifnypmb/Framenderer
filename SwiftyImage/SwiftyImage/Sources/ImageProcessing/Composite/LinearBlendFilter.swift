@@ -21,7 +21,7 @@ public class LinearBlendFilter: BaseFilter {
      
         - parameter source: A image used to blending with content of a canva
         - parameter a: result = source * a + canva * (1 - a)
-    */
+     */
     init(source: CGImage, a: CGFloat) {
         precondition(a >= 0 && a <= 1)
         

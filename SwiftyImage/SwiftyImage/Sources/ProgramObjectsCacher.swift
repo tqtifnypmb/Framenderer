@@ -114,7 +114,7 @@ class ProgramObjectsCacher {
     }
     
     #if DEBUG
-    func finish() {
+    func check_finish() {
         assert(_cachedShader.isEmpty)
         assert(_cachedProgram.isEmpty)
     }

@@ -33,7 +33,7 @@ public class GaussianBlurFilter: Filter {
         - parameter implement: specifies which implement to use.
             - box: mimic Gaussian blur by applying box blur mutiple times
             - normal: use Gaussian algorithm
-    */
+     */
     init(radius: Int = 4, implement: Implement = .normal) {
         _radius = radius
         _impl = implement
