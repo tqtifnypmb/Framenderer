@@ -10,7 +10,7 @@ import Foundation
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-public class MedianFilter: BaseFilter {
+public class MedianBlurFilter: BaseFilter {
     
     override func setUniformAttributs(context ctx: Context) {
         super.setUniformAttributs(context: ctx)
@@ -22,6 +22,6 @@ public class MedianFilter: BaseFilter {
     }
     
     override func buildProgram() throws {
-        _program = try Program.create(vertexSourcePath: "3x3KernelVertexShader", fragmentSourcePath: "MedianFragmentShader")
+        _program = try Program.create(vertexSourcePath: "3x3KernelVertexShader", fragmentSourcePath: "MedianBlurFragmentShader")
     }
 }

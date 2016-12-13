@@ -21,6 +21,7 @@ in vec2 sevenStepBackwardTextCoor;
 uniform sampler2D firstInput;
 out vec4 color;
 
+// Just apply a one-pass gaussian blur (sigma == 2.0) in the specified direction
 void main() {
     vec4 acc = vec4(0);
     
