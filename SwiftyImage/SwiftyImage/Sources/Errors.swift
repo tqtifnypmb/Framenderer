@@ -8,13 +8,13 @@
 
 import Foundation
 
-enum GLError: Error {
+public enum GLError: Error {
     case compile(type: String, infoLog: String)
     case link(infoLog: String)
 }
 
 extension GLError: LocalizedError {
-    var errorDescription: String? {
+    public var errorDescription: String? {
         switch self {
         case let .compile(type, infoLog):
             return "[Compile Error] in: \(type) shader \n infoLog: \(infoLog)"

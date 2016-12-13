@@ -154,9 +154,6 @@ class FrameBuffer {
     func convertToImage() -> CGImage? {
         precondition(!isInput)
         
-        //glBindFramebuffer(GLenum(GL_FRAMEBUFFER), _frameBuffer)
-        //glViewport(0, 0, _outputWidth, _outputHeight)
-        
         var rawImageData = [GLubyte](repeating: 0, count: Int(_outputWidth * _outputHeight * 4))
         rawImageData.withUnsafeMutableBytes { ptr in
             glReadPixels(0,

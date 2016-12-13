@@ -10,23 +10,16 @@ import Foundation
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-let kVertices: [GLfloat] = [
-                            -1.0, -1.0,
-                            -1.0,  1.0,
-                             1.0, -1.0,
-                             1.0,  1.0,
-                           ]
-
 public class BaseFilter: Filter {
     var _program: Program!
     
     func bindAttributes(context: Context) {
-        let attr = ["vPosition", "vTextCoor"]
+        let attr = [kVertexPositionAttribute, kTextureCoorAttribute]
         _program.bind(attributes: attr)
     }
     
     func setUniformAttributs(context: Context) {
-        _program.setUniform(name: "firstInput", value: GLint(0))
+        _program.setUniform(name: kFirstInputSampler, value: GLint(0))
     }
     
     func buildProgram() throws {
@@ -43,13 +36,13 @@ public class BaseFilter: Filter {
         attributes.withUnsafeBytes { bytes in
             glBufferData(GLenum(GL_ARRAY_BUFFER), bytes.count, bytes.baseAddress, GLenum(GL_STATIC_DRAW))
         }
-        glVertexAttribPointer(program.location(ofAttribute: "vPosition"), 2, GLenum(GL_FLOAT), GLboolean(GL_FALSE), 0, nil)
-        glEnableVertexAttribArray(program.location(ofAttribute: "vPosition"))
+        glVertexAttribPointer(program.location(ofAttribute: kVertexPositionAttribute), 2, GLenum(GL_FLOAT), GLboolean(GL_FALSE), 0, nil)
+        glEnableVertexAttribArray(program.location(ofAttribute: kVertexPositionAttribute))
         
         kVertices.withUnsafeBytes { bytes in
             let offset = UnsafeRawPointer(bitPattern: bytes.count)
-            glVertexAttribPointer(program.location(ofAttribute: "vTextCoor"), 2, GLenum(GL_FLOAT), GLboolean(GL_FALSE), 0, offset)
-            glEnableVertexAttribArray(program.location(ofAttribute: "vTextCoor"))
+            glVertexAttribPointer(program.location(ofAttribute: kTextureCoorAttribute), 2, GLenum(GL_FLOAT), GLboolean(GL_FALSE), 0, offset)
+            glEnableVertexAttribArray(program.location(ofAttribute: kTextureCoorAttribute))
         }
         
         let outputFrameBuffer = FrameBuffer(width: ctx.inputWidth, height: ctx.inputHeight, bitmapInfo: ctx.inputBitmapInfo)

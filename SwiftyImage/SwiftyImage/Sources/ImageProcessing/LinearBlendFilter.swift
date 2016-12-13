@@ -25,7 +25,7 @@ public class LinearBlendFilter: BaseFilter {
     override func setUniformAttributs(context: Context) {
         super.setUniformAttributs(context: context)
         _program.setUniform(name: "a", value: GLfloat(_a))
-        _program.setUniform(name: "secondInput", value: GLint(1))
+        _program.setUniform(name: kSecondInputSampler, value: GLint(1))
     }
     
     override func buildProgram() throws {

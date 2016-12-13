@@ -17,8 +17,8 @@ public class MedianFilter: BaseFilter {
         
         let texelWidth = 1 / GLfloat(ctx.inputWidth)
         let texelHeight = 1 / GLfloat(ctx.inputHeight)
-        _program.setUniform(name: "texelWidth", value: texelWidth)
-        _program.setUniform(name: "texelHeight", value: texelHeight)
+        _program.setUniform(name: kTexelWidth, value: texelWidth)
+        _program.setUniform(name: kTexelHeight, value: texelHeight)
     }
     
     override func buildProgram() throws {
