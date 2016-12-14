@@ -21,6 +21,6 @@ class OverlayBlendFilter: DualInputFilter {
     }
     
     override func buildProgram() throws {
-        _program = try Program.create(vertexSourcePath: "PassthroughVertexShader", fragmentSourcePath: "OverlayBlendFragmentShader")
+        _program = try Program.create(fragmentSourcePath: "OverlayBlendFragmentShader")
     }
 }

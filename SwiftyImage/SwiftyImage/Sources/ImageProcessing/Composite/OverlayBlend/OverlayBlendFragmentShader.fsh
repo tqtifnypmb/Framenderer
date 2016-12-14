@@ -21,19 +21,19 @@ void main() {
     
     float alpha, m;
     
-    m = min(base.a, top.a);
-    alpha = base.a + (1.0 - base.a) * m;
+    m = min(top.a, base.a);
+    alpha = top.a + (1.0 - top.a) * base.a;
     
     if (m > 0.0 && alpha > 0.0) {
         float ratio = m / alpha;
-        
+
         float dr;
         if (base.r < 0.5) {
             dr = 2.0 * base.r * top.r;
         } else {
             dr = 1.0 - 2.0 * (1.0 - base.r) * (1.0 - top.r);
         }
-        dr = dr * ratio + base.r * (1.0 - ratio); // final color = color that can go through base pic + color that can't
+        dr = dr * ratio + base.r * (1.0 - ratio);
         
         float dg;
         if (base.g < 0.5) {
@@ -51,8 +51,8 @@ void main() {
         }
         db = db * ratio + base.b * (1.0 - ratio);
         
-        color = vec4(dr, dg, db, base.a);
+        color = vec4(dr, dg, db, top.a);
     } else {
-        color = base;
+        color = top;
     }
 }

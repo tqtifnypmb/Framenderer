@@ -39,6 +39,10 @@ class Program {
         return try Program.create(vertexSource: vSrc, fragmentSource: fSrc)
     }
     
+    class func create(fragmentSourcePath fPath: String) throws -> Program {
+        return try Program.create(vertexSourcePath: "PassthroughVertexShader", fragmentSourcePath: fPath)
+    }
+    
     func use() {
         glUseProgram(_program)
         glDisable(GLenum(GL_DEPTH_TEST))
@@ -85,6 +89,14 @@ class Program {
             let loc = glGetUniformLocation(_program, name)
             assert(loc != -1)
             glUniform2f(loc, GLfloat(value.x), GLfloat(value.y))
+        }
+    }
+    
+    func setUniform(name: String, value: Bool) {
+        name.withGLcharString { name in
+            let loc = glGetUniformLocation(_program, name)
+            assert(loc != -1)
+            glUniform1i(loc, value ? 1 : 0)
         }
     }
     

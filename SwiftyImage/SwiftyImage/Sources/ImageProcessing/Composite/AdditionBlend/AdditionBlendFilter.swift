@@ -1,5 +1,5 @@
 //
-//  MultiplyBlendFilter.swift
+//  AdditionBlendFilter.swift
 //  SwiftyImage
 //
 //  Created by tqtifnypmb on 14/12/2016.
@@ -9,12 +9,12 @@
 import Foundation
 import CoreGraphics
 
-class MultiplyBlendFilter: DualInputFilter {
+class AdditionBlendFilter: DualInputFilter {
     
     /**
-     init a [Multiply blend](https://en.wikipedia.org/wiki/Blend_modes) filter
+     init a [Overlay blend](https://en.wikipedia.org/wiki/Blend_modes) filter
      
-     result = canvas * _otherImage_
+     result = canvas + _otherImage_
      
      - parameter otherImage: specifies a image to multiply with content of the applied convas.
      */
@@ -23,6 +23,6 @@ class MultiplyBlendFilter: DualInputFilter {
     }
     
     override func buildProgram() throws {
-        _program = try Program.create(fragmentSourcePath: "MultiplyBlendFragmentShader")
+        _program = try Program.create(fragmentSourcePath: "AdditionBlendFragmentShader")
     }
 }

@@ -33,6 +33,6 @@ public class LinearBlendFilter: DualInputFilter {
     }
     
     override func buildProgram() throws {
-        _program = try Program.create(vertexSourcePath: "PassthroughVertexShader", fragmentSourcePath: "LinearBlendFragmentShader")
+        _program = try Program.create(fragmentSourcePath: "LinearBlendFragmentShader")
     }
 }
