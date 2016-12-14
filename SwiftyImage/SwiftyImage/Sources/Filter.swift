@@ -16,6 +16,8 @@ let kFirstInputSampler = "firstInput"           // texture sampler name for sing
 let kSecondInputSampler = "secondInput"         // texture sampler name for second input of dual input program
 let kTexelWidth = "texelWidth"                  // texture element width uniform name
 let kTexelHeight = "texelHeight"                // texture element height uniform name
+let kXOffset = "xOffset"
+let kYOffset = "yOffset"
 
 // vertex data
 let kVertices: [GLfloat] = [

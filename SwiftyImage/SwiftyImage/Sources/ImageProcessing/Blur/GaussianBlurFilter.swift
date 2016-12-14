@@ -107,8 +107,8 @@ private class NormalGaussianBlurFilter: TwoPassFilter {
     init(radius: Int, sigma: Double) {
         // kernel size <= 6sigma is good enough
         // reference: https://en.wikipedia.org/wiki/Gaussian_blur
-        let goodEnoughSize = min(radius * 2 + 1, 6 * Int(floor(sigma)))
-        _radius = max((goodEnoughSize - 1) / 2, 1)
+        _radius = min(radius, Int(floor(6 * sigma)))
+
         super.init()
         
         _kernel = buildKernel(sigma: sigma)
@@ -150,6 +150,7 @@ private class NormalGaussianBlurFilter: TwoPassFilter {
             let distance = i % 2 == 0 ? (i / 2) : (i / 2 + 1)
             let weight = _kernel[distance]
             src += "acc += texture(firstInput, fTextCoor[\(i)]) * \(weight); \n"
+            print("\(i)  \(weight)")
         }
         
         src += "color = acc;                               \n"

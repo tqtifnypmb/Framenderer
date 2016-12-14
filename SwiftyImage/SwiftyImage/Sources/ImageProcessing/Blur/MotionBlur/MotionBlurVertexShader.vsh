@@ -3,8 +3,8 @@
 in vec4 vPosition;
 in vec2 vTextCoor;
 
-uniform float texelWidth;
-uniform float texelHeight;
+uniform float xOffset;
+uniform float yOffset;
 
 out vec2 textCoor;
 out vec2 oneStepForwardTextCoor;
@@ -25,7 +25,7 @@ out vec2 sevenStepBackwardTextCoor;
 void main() {
     gl_Position = vPosition;
     
-    vec2 step = vec2(texelWidth, texelHeight);
+    vec2 step = vec2(xOffset, yOffset);
     
     textCoor = vTextCoor;
     oneStepForwardTextCoor = textCoor + step;

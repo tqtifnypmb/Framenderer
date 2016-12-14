@@ -35,8 +35,8 @@ class MotionBlurFilter: BaseFilter {
         let aspectRatio = width / height
         let dx = _velocity * cos(_angle * M_PI / 180) / (aspectRatio * height)
         let dy = _velocity * sin(_angle * M_PI / 180) / height
-        _program.setUniform(name: kTexelWidth, value: GLfloat(dx))
-        _program.setUniform(name: kTexelHeight, value: GLfloat(dy))
+        _program.setUniform(name: kXOffset, value: GLfloat(dx))
+        _program.setUniform(name: kYOffset, value: GLfloat(dy))
     }
     
     override func buildProgram() throws {

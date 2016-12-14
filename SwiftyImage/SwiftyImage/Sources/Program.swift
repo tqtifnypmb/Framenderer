@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreGraphics
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
@@ -76,6 +77,14 @@ class Program {
             let loc = glGetUniformLocation(_program, name)
             assert(loc != -1)
             glUniform1f(loc, value)
+        }
+    }
+    
+    func setUniform(name: String, value: CGPoint) {
+        name.withGLcharString { name in
+            let loc = glGetUniformLocation(_program, name)
+            assert(loc != -1)
+            glUniform2f(loc, GLfloat(value.x), GLfloat(value.y))
         }
     }
     
