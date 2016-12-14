@@ -11,10 +11,7 @@ import CoreGraphics
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-public class LinearBlendFilter: BaseFilter {
-    
-    let _source: CGImage
-    let _a: CGFloat
+public class LinearBlendFilter: DualInputFilter {
     
     /**
         init a Linear Blending filter
@@ -25,26 +22,17 @@ public class LinearBlendFilter: BaseFilter {
     init(source: CGImage, a: CGFloat) {
         precondition(a >= 0 && a <= 1)
         
-        _source = source
         _a = a
+        super.init(secondInput: source)
     }
+    private let _a: CGFloat
     
     override func setUniformAttributs(context: Context) {
         super.setUniformAttributs(context: context)
         _program.setUniform(name: "a", value: GLfloat(_a))
-        _program.setUniform(name: kSecondInputSampler, value: GLint(1))
     }
     
     override func buildProgram() throws {
         _program = try Program.create(vertexSourcePath: "PassthroughVertexShader", fragmentSourcePath: "LinearBlendFragmentShader")
-    }
-    
-    override func apply(context ctx: Context) throws {
-        glActiveTexture(GLenum(GL_TEXTURE1))
-        let blendingInput = try FrameBuffer(texture: _source)
-        blendingInput.useAsInput()
-        
-        glActiveTexture(GLenum(GL_TEXTURE0))
-        try super.apply(context: ctx)
     }
 }

@@ -37,6 +37,8 @@ class MotionBlurFilter: BaseFilter {
         let dy = _velocity * sin(_angle * M_PI / 180) / height
         _program.setUniform(name: kXOffset, value: GLfloat(dx))
         _program.setUniform(name: kYOffset, value: GLfloat(dy))
+        
+        print(dx * height * width / 100.0)
     }
     
     override func buildProgram() throws {
