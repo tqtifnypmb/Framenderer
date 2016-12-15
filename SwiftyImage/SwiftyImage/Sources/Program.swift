@@ -100,6 +100,16 @@ class Program {
         }
     }
     
+    func setUniform(name: String, value: [GLfloat]) {
+        precondition(value.count == 4)
+        
+        name.withGLcharString { name in
+            let loc = glGetUniformLocation(_program, name)
+            assert(loc != -1)
+            glUniform4f(loc, value[0], value[1], value[2], value[3])
+        }
+    }
+    
     var program: GLuint {
         return _program
     }
