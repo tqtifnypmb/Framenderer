@@ -12,7 +12,7 @@ import OpenGLES.ES3.glext
 
 class ExplosureAdjustFilter: BaseFilter {
     
-    init(value: Float) {
+    init(value: Float = 0.25) {
         _ev = GLfloat(value)
     }
     private let _ev: GLfloat
