@@ -13,6 +13,6 @@ void main() {
     vec4 base = texture(secondInput, fTextCoor);
     vec4 top = texture(firstInput, fTextCoor);
     
-    color = vec4(max(top.rgb * base.a, base.rgb * top.a) + top.rgb * (1.0 - base.a) + base.rgb * (1.0 - top.a), 1.0);
+    color = vec4(1.0) - (vec4(1.0) - base) * (vec4(1.0) - top);
 }
 

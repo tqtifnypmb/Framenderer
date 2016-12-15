@@ -6,7 +6,6 @@ in vec2 fTextCoor;
 
 uniform sampler2D firstInput;
 uniform sampler2D secondInput;
-uniform bool isSubtractor;
 
 out vec4 color;
 

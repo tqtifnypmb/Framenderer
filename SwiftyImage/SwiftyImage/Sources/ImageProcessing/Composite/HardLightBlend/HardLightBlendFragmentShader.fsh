@@ -5,19 +5,12 @@ precision mediump float;
 in vec2 fTextCoor;
 uniform sampler2D firstInput;
 uniform sampler2D secondInput;
-
 out vec4 color;
 
-// If you wanna know how to composite two pic into one, the following links
-// may be helpful:
-//
-// https://keithp.com/~keithp/porterduff/p253-porter.pdf
-// http://www.cs.princeton.edu/courses/archive/fall00/cs426/papers/smith95a.pdf
 
 void main() {
-    
-    vec4 base = texture(secondInput, fTextCoor);
-    vec4 top = texture(firstInput, fTextCoor);
+    vec4 top = texture(secondInput, fTextCoor);
+    vec4 base = texture(firstInput, fTextCoor);
     
     float alpha;
     alpha = top.a + (1.0 - top.a) * base.a;
