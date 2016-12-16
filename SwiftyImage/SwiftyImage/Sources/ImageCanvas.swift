@@ -21,6 +21,7 @@ public class ImageCanvas: NSObject, Canvas {
     func process() throws {
         precondition(!filters.isEmpty)
         
+        
         let ctx = Context()
         ctx.setAsCurrent()
         let inputFrameBuffer = try FrameBuffer(texture: _origin.cgImage!, rotation: .none)

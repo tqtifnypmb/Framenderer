@@ -24,15 +24,13 @@ public class BoxBlurFilter: TwoPassFilter {
     init(radius: Int = 4) {
         precondition(radius >= 1)
         
-        _radius = radius//min(radius, 8)
+        _radius = radius
         super.init()
-        
-        _vertexShaderSrc = buildSeparableKernelVertexSource(radius: _radius)
-        _fragmentShaderSrc = buildFragmentSource()
     }
     
     private func buildFragmentSource() -> String {
-        let kernelSize = _radius * 2 + 1
+        let validRadius = min(_radius, (Limits.max_varying_components - 1) / 2)
+        let kernelSize = validRadius * 2 + 1
         let weight = 1.0 / GLfloat(kernelSize)
         
         var src = "#version 300 es                         \n"
@@ -53,6 +51,12 @@ public class BoxBlurFilter: TwoPassFilter {
     }
     
     override func buildProgram() throws {
+        if _vertexShaderSrc == nil {
+            let validRadius = min(_radius, (Limits.max_varying_components - 1) / 2)
+            _vertexShaderSrc = buildSeparableKernelVertexSource(radius: validRadius)
+            _fragmentShaderSrc = buildFragmentSource()
+        }
+        
         _program = try Program.create(vertexSource: _vertexShaderSrc, fragmentSource: _fragmentShaderSrc)
         _program2 = try Program.create(vertexSource: _vertexShaderSrc, fragmentSource: _fragmentShaderSrc)
     }
