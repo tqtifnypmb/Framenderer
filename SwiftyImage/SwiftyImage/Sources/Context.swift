@@ -6,11 +6,10 @@
 //  Copyright © 2016 tqitfnypmb. All rights reserved.
 //
 
-import OpenGLES.ES3.gl
-import OpenGLES.ES3.glext
-import GLKit
 import CoreGraphics
 import Foundation
+import OpenGLES.ES3.gl
+import OpenGLES.ES3.glext
 
 class Context {
     private let _context: EAGLContext
