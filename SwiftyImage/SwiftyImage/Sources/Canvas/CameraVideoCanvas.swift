@@ -9,14 +9,14 @@
 import Foundation
 import AVFoundation
 
-class CameraCanvas: Canvas {
+class CameraVideoCanvas: Canvas {
     var filters: [Filter] = []
     
     func process() throws {
         
     }
     
-    func processAsync(onCompletion: (Bool) -> Void) {
+    func processAsync(onCompletion: @escaping (_ isFinished: Bool, _ error: Error?) -> Void) {
         
     }
 }

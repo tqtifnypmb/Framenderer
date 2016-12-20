@@ -16,7 +16,7 @@ class CameraStillImageCanvas: Canvas {
         
     }
     
-    func processAsync(onCompletion: (Bool) -> Void) {
+    func processAsync(onCompletion: @escaping (_ isFinished: Bool, _ error: Error?) -> Void) {
         
     }
 }

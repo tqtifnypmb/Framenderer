@@ -21,7 +21,6 @@ public class ImageCanvas: NSObject, Canvas {
     func process() throws {
         precondition(!filters.isEmpty)
         
-        
         let ctx = Context()
         ctx.setAsCurrent()
         let inputFrameBuffer = try FrameBuffer(texture: _origin.cgImage!, rotation: .none)
@@ -39,8 +38,19 @@ public class ImageCanvas: NSObject, Canvas {
         filters.removeAll()
     }
     
-    func processAsync(onCompletion: (Bool) -> Void) {
+    func processAsync(onCompletion: @escaping (_ isFinished: Bool, _ error: Error?) -> Void) {
         precondition(!filters.isEmpty)
+        
+        DispatchQueue.global(qos: .background).async {
+            do {
+                try self.process()
+                onCompletion(true, nil)
+            } catch {
+                self._result = nil
+                self.filters.removeAll()
+                onCompletion(false, error)
+            }
+        }
     }
     
     func processedImage() -> CGImage {
