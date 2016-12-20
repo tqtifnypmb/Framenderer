@@ -19,4 +19,12 @@ struct Limits {
         glGetIntegerv(GLenum(GL_MAX_VARYING_COMPONENTS), &count)
         return Int(count)
     }()
+    
+    static var max_texture_size: Int = {
+        precondition(EAGLContext.current() != nil)
+        
+        var max: GLint = 0
+        glGetIntegerv(GLenum(GL_MAX_TEXTURE_SIZE), &max)
+        return Int(max)
+    }()
 }

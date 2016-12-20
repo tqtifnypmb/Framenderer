@@ -36,7 +36,6 @@ class FrameBuffer {
     }
     
     init(texture: CGImage, rotation: Rotation = .none) throws {
-        
         _rotation = rotation
         _inputTexture = try GLKTextureLoader.texture(with: texture, options: [GLKTextureLoaderOriginBottomLeft : false])
         assert(_inputTexture.target == GLenum(GL_TEXTURE_2D))
@@ -65,8 +64,19 @@ class FrameBuffer {
     }
     
     init(width: GLsizei, height: GLsizei, bitmapInfo: CGBitmapInfo) {
-        _outputWidth = width
-        _outputHeight = height
+        let maxTextureSize = GLsizei(Limits.max_texture_size)
+        if width < maxTextureSize && height < maxTextureSize {
+            _outputWidth = width
+            _outputHeight = height
+        } else {
+            if width < height {
+                _outputHeight = maxTextureSize
+                _outputWidth = GLsizei(Double(maxTextureSize) * (Double(width) / Double(height)))
+            } else {
+                _outputWidth = maxTextureSize
+                _outputHeight = GLsizei(Double(maxTextureSize) * (Double(height) / Double(width)))
+            }
+        }
         _bitmapInfo = bitmapInfo
         
         glGenTextures(1, &_outputTexture)
