@@ -1,5 +1,5 @@
 //
-//  CameraCanvas.swift
+//  CameraStillImageCanvas.swift
 //  SwiftyImage
 //
 //  Created by tqtifnypmb on 20/12/2016.
@@ -9,14 +9,14 @@
 import Foundation
 import AVFoundation
 
-class CameraCanvas: Canvas {
+class CameraStillImageCanvas: Canvas {
     var filters: [Filter] = []
     
     func process() throws {
         
     }
     
-    func processAsync(_ onCompletion: (Bool) -> Void) {
+    func processAsync(onCompletion: (Bool) -> Void) {
         
     }
 }

@@ -17,7 +17,7 @@ protocol Canvas {
      
         - parameter onCompletion: Callback whick will be called when process finish
     */
-    func processAsync(_ onCompletion: (_ isFinished: Bool) -> Void)
+    func processAsync(onCompletion: (_ isFinished: Bool) -> Void)
     
     /// Process synchrounously. Block the calling thread while processing
     func process() throws

@@ -39,7 +39,7 @@ public class ImageCanvas: NSObject, Canvas {
         filters.removeAll()
     }
     
-    func processAsync(_ onCompletion: (Bool) -> Void) {
+    func processAsync(onCompletion: (Bool) -> Void) {
         precondition(!filters.isEmpty)
     }
     
