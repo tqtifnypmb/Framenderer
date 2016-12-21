@@ -6,3 +6,5 @@ OpenGL Rocks!
 
 - More Filters
 - Filters testing
+- Live video
+- Still image
