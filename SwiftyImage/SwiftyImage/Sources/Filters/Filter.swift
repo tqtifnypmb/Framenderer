@@ -8,6 +8,7 @@
 
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
+import CoreMedia
 
 // common shader attribute/uniform/sampler name
 let kVertexPositionAttribute = "vPosition"      // vertex position attribute name
@@ -29,4 +30,6 @@ let kVertices: [GLfloat] = [
 
 protocol Filter {
     func apply(context: Context) throws
+    
+    func nextFrame(texture: GLuint, time: CMTime)
 }
