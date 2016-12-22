@@ -10,6 +10,7 @@ import Foundation
 
 class StillImageCamera: Camera {
     var filters: [Filter] = []
+    var output: CameraOutput!
     
     func startRunning() {
         

@@ -7,9 +7,13 @@
 //
 
 import Foundation
+import AVFoundation
 
-class BaseCamera: Camera {
+class BaseCamera: NSObject, Camera {
     var filters: [Filter] = []
+    var output: CameraOutput!
+    
+    private var _captureSession: AVCaptureSession!
     
     func startRunning() {
         
@@ -20,6 +24,16 @@ class BaseCamera: Camera {
     }
     
     func takePhoto() {
+        
+    }
+}
+
+extension BaseCamera: AVCaptureVideoDataOutputSampleBufferDelegate {
+    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+        
+    }
+    
+    func captureOutput(_ captureOutput: AVCaptureOutput!, didDrop sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
         
     }
 }
