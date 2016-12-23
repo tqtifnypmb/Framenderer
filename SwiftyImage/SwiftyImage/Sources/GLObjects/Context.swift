@@ -17,6 +17,10 @@ class Context {
     private var _input: FrameBuffer?
     private var _output: FrameBuffer?
     
+    var frameSerialQueue: DispatchQueue = {
+        return DispatchQueue(label: "com.github.SwiftyImage.ContextSerial")
+    }()
+    
     init() {
         _context = EAGLContext(api: .openGLES3, sharegroup: Context._shareGroup)
     }
