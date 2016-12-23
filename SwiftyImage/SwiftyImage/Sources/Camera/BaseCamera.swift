@@ -9,12 +9,13 @@
 import Foundation
 import AVFoundation
 
-class BaseCamera: NSObject, Camera {
+class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDelegate {
     var filters: [Filter] = []
-    var output: CameraOutput!
+    var cameraOutputView: CameraOutputView!
     
     private let _captureSession: AVCaptureSession
     private let _cameraFrameSerialQueue: DispatchQueue
+    private var _ctx: Context!
     
     init(captureSession: AVCaptureSession) {
         _captureSession = captureSession
@@ -28,14 +29,12 @@ class BaseCamera: NSObject, Camera {
     func startRunning() {
         guard !_captureSession.isRunning else { return }
         
-        let ctx = Context()
-        ctx.setAsCurrent()
-        //let inputFrameBuffer = try FrameBuffer(texture: _origin.cgImage!, rotation: .none)
-        //ctx.setInput(input: inputFrameBuffer)
+        precondition(cameraOutputView != nil)
         
-        #if DEBUG
-            ProgramObjectsCacher.shared.check_finish()
-        #endif
+        // output view is just a pass-through filter
+        filters.append(cameraOutputView)
+        
+        _ctx = Context()
         
         let output = AVCaptureVideoDataOutput()
         output.setSampleBufferDelegate(self, queue: _cameraFrameSerialQueue)
@@ -51,16 +50,47 @@ class BaseCamera: NSObject, Camera {
     
     func stopRunning() {
         guard _captureSession.isRunning else { return }
+        
+        _captureSession.stopRunning()
     }
     
     func takePhoto() {
         guard _captureSession.isRunning else { return }
     }
-}
-
-extension BaseCamera: AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
+    
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
-        
+        _ctx.frameSerialQueue.async {
+            do {
+                self._ctx.setAsCurrent()
+                
+                let inputFrameBuffer = try FrameBuffer(sampleBuffer: sampleBuffer)
+                self._ctx.setInput(input: inputFrameBuffer)
+                
+                let time: CMTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+                
+                var currentFilters = self.filters
+                let starter = currentFilters.removeFirst()
+                
+                // ref: http://wiki.haskell.org/Continuation
+                var continuation: ((Context) throws -> Void)!
+                continuation = { ctx in
+                    if !currentFilters.isEmpty {
+                        let filter = currentFilters.removeFirst()
+                        try filter.applyToFrame(context: ctx, time: time, finishBlock: continuation)
+                    } else {
+                        #if DEBUG
+                            ProgramObjectsCacher.shared.check_finish()
+                        #endif
+                    }
+                }
+                
+                try starter.applyToFrame(context: self._ctx, time: time, finishBlock: continuation)
+            } catch {
+                fatalError(error.localizedDescription)
+            }
+        }
     }
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didDrop sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {

@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreGraphics
+import AVFoundation
 import GLKit
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
@@ -82,6 +83,10 @@ class FrameBuffer {
         glGenTextures(1, &_outputTexture)
         glBindTexture(GLenum(GL_TEXTURE_2D), _outputTexture)
         configureTexture()
+    }
+    
+    init(sampleBuffer: CMSampleBuffer) throws {
+        
     }
     
     private func configureTexture() {

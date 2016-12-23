@@ -17,7 +17,7 @@ protocol Camera {
     var filters: [Filter] {get set}
     
     /// Sepcifies a view to carry the final result
-    var output: CameraOutput! {get set}
+    var cameraOutputView: CameraOutputView! {get set}
     
     /// Start running the camera
     func startRunning()
@@ -29,4 +29,4 @@ protocol Camera {
     func takePhoto()
 }
 
-typealias CameraOutput = Filter
+typealias CameraOutputView = Filter

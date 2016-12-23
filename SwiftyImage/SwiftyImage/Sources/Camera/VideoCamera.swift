@@ -10,7 +10,7 @@ import Foundation
 
 class VideoCamera: Camera {
     var filters: [Filter] = []
-    var output: CameraOutput!
+    var cameraOutputView: CameraOutputView!
     
     func startRunning() {
         
