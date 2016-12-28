@@ -87,6 +87,7 @@ class FrameBuffer {
     
     init(sampleBuffer: CMSampleBuffer) throws {
         // ref: http://allmybrain.com/2011/12/08/rendering-to-a-texture-with-ios-5-texture-cache-api/
+        
     }
     
     private func configureTexture() {
