@@ -8,3 +8,4 @@ OpenGL Rocks!
 - Filters testing
 - Live video
 - Still image
+- Fast Image <--> OpenGL Texture exchange
