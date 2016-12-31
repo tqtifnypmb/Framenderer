@@ -24,3 +24,16 @@ extension GLError: LocalizedError {
         }
     }
 }
+
+public enum DataError: Error {
+    case sample(errorDesc: String)
+}
+
+extension DataError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case let .sample(errorDesc):
+            return "[Sample Error] description: \(errorDesc)"
+        }
+    }
+}
