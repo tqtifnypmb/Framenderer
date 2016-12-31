@@ -74,4 +74,8 @@ class Context {
     var textCoor: [GLfloat] {
         return _input!.textCoor
     }
+    
+    var eaglContext: EAGLContext {
+        return _context
+    }
 }

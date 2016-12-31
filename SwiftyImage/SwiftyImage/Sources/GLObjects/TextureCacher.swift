@@ -21,6 +21,8 @@ class TextureCacher {
     var cacher: CVOpenGLESTextureCache! = nil
     
     func setup(context: EAGLContext) {
+        guard _cacher == nil else { return }
+        
         var cacher: CVOpenGLESTextureCache?
         assert(CVOpenGLESTextureCacheCreate(CFAllocatorGetDefault()!.takeRetainedValue(), nil, context, nil, &cacher) == kCVReturnSuccess)
         
@@ -33,8 +35,23 @@ class TextureCacher {
             
             let width = CVPixelBufferGetWidth(cv)
             let height = CVPixelBufferGetHeight(cv)
-            assert(CVOpenGLESTextureCacheCreateTextureFromImage(CFAllocatorGetDefault()!.takeRetainedValue(), _cacher, cv, nil, target, GL_RGBA, GLsizei(width), GLsizei(height), format, GLenum(GL_UNSIGNED_BYTE), 0, &texture) == kCVReturnSuccess)
-            return texture!
+            
+            if CVOpenGLESTextureCacheCreateTextureFromImage(CFAllocatorGetDefault()!.takeRetainedValue(),
+                                                            _cacher,
+                                                            cv,
+                                                            nil,
+                                                            target,
+                                                            GL_RGBA,
+                                                            GLsizei(width),
+                                                            GLsizei(height),
+                                                            format,
+                                                            GLenum(GL_UNSIGNED_BYTE),
+                                                            0,
+                                                            &texture) == kCVReturnSuccess {
+                return texture!
+            } else {
+                throw DataError.sample(errorDesc: "Can't create texture from CVImageBuffer")
+            }
         } else {
             throw DataError.sample(errorDesc: "CMSampleBuffer doesn't contain image data")
         }

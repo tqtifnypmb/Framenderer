@@ -86,7 +86,9 @@ class FrameBuffer {
         configureTexture()
     }
     
-    init(sampleBuffer: CMSampleBuffer) throws {
+    init(context: Context, sampleBuffer: CMSampleBuffer) throws {
+        TextureCacher.shared.setup(context: context.eaglContext)
+        
         _inputCVTexture = try TextureCacher.shared.createTexture(fromSampleBuffer: sampleBuffer, target: GLenum(GL_TEXTURE_2D), format: GLenum(GL_RGBA))
         configureTexture()
     }
