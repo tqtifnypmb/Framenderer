@@ -13,7 +13,7 @@ import OpenGLES.ES3.glext
 
 class Context {
     private let _context: EAGLContext
-    private static let _shareGroup: EAGLSharegroup = EAGLSharegroup()
+    static let _shareGroup: EAGLSharegroup = EAGLSharegroup()
     private var _input: FrameBuffer?
     private var _output: FrameBuffer?
     

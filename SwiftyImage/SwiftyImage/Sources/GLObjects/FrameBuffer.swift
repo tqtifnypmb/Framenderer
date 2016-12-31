@@ -20,6 +20,7 @@ class FrameBuffer {
     private var _inputTexture: GLKTextureInfo!
     private var _rotation: Rotation = .none
     private var _convertedFromOutput: Bool = false
+    private var _inputCVTexture: CVOpenGLESTexture!
     
     // output buffer properties
     
@@ -86,8 +87,8 @@ class FrameBuffer {
     }
     
     init(sampleBuffer: CMSampleBuffer) throws {
-        // ref: http://allmybrain.com/2011/12/08/rendering-to-a-texture-with-ios-5-texture-cache-api/
-        
+        _inputCVTexture = try TextureCacher.shared.createTexture(fromSampleBuffer: sampleBuffer, target: GLenum(GL_TEXTURE_2D), format: GLenum(GL_RGBA))
+        configureTexture()
     }
     
     private func configureTexture() {
