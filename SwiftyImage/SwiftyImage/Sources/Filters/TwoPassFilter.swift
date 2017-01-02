@@ -45,7 +45,7 @@ public class TwoPassFilter: BaseFilter {
         ctx.setCurrent(program: _program2)
         setUniformAttributs2(context: ctx)
         
-        feedDataAndDraw(context: ctx, program: _program2)
+        try feedDataAndDraw(context: ctx, program: _program2)
         
         ProgramObjectsCacher.shared.release(program: _program2)
         _program2 = nil

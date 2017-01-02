@@ -27,7 +27,7 @@ public class BaseFilter: Filter {
         fatalError("Called Virtual Function")
     }
     
-    func feedDataAndDraw(context ctx: Context, program: Program) {
+    func feedDataAndDraw(context ctx: Context, program: Program) throws {
         var vbo: GLuint = 0
         glGenBuffers(1, &vbo)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), vbo)
@@ -46,7 +46,7 @@ public class BaseFilter: Filter {
             glEnableVertexAttribArray(program.location(ofAttribute: kTextureCoorAttribute))
         }
         
-        let outputFrameBuffer = FrameBuffer(width: ctx.inputWidth, height: ctx.inputHeight, bitmapInfo: ctx.inputBitmapInfo)
+        let outputFrameBuffer = try FrameBuffer(width: ctx.inputWidth, height: ctx.inputHeight, bitmapInfo: ctx.inputBitmapInfo)
         ctx.setOutput(output: outputFrameBuffer)
         ctx.activateInput()
         glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -65,7 +65,7 @@ public class BaseFilter: Filter {
         ctx.setCurrent(program: _program)
         setUniformAttributs(context: ctx)
         
-        feedDataAndDraw(context: ctx, program: _program)
+        try feedDataAndDraw(context: ctx, program: _program)
         
         ProgramObjectsCacher.shared.release(program: _program)
         _program = nil
