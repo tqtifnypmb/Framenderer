@@ -29,31 +29,27 @@ class TextureCacher {
         _cacher = cacher
     }
     
-    func createTexture(fromSampleBuffer smb: CMSampleBuffer, target: GLenum, format: GLenum) throws -> CVOpenGLESTexture {
-        if let cv = CMSampleBufferGetImageBuffer(smb) {
-            var texture: CVOpenGLESTexture?
-            
-            let width = CVPixelBufferGetWidth(cv)
-            let height = CVPixelBufferGetHeight(cv)
-            
-            if CVOpenGLESTextureCacheCreateTextureFromImage(CFAllocatorGetDefault()!.takeRetainedValue(),
-                                                            _cacher,
-                                                            cv,
-                                                            nil,
-                                                            target,
-                                                            GL_RGBA,
-                                                            GLsizei(width),
-                                                            GLsizei(height),
-                                                            format,
-                                                            GLenum(GL_UNSIGNED_BYTE),
-                                                            0,
-                                                            &texture) == kCVReturnSuccess {
-                return texture!
-            } else {
-                throw DataError.sample(errorDesc: "Can't create texture from CVImageBuffer")
-            }
+    func createTexture(fromPixelBufer pb: CVPixelBuffer, target: GLenum, format: GLenum) throws -> CVOpenGLESTexture {
+        var texture: CVOpenGLESTexture?
+        
+        let width = CVPixelBufferGetWidth(pb)
+        let height = CVPixelBufferGetHeight(pb)
+        
+        if CVOpenGLESTextureCacheCreateTextureFromImage(CFAllocatorGetDefault()!.takeRetainedValue(),
+                                                        _cacher,
+                                                        pb,
+                                                        nil,
+                                                        target,
+                                                        GL_RGBA,
+                                                        GLsizei(width),
+                                                        GLsizei(height),
+                                                        format,
+                                                        GLenum(GL_UNSIGNED_BYTE),
+                                                        0,
+                                                        &texture) == kCVReturnSuccess {
+            return texture!
         } else {
-            throw DataError.sample(errorDesc: "CMSampleBuffer doesn't contain image data")
+            throw DataError.sample(errorDesc: "Can't create texture from CVImageBuffer")
         }
     }
 }

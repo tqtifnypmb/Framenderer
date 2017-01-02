@@ -9,6 +9,7 @@
 import Foundation
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
+import CoreMedia
 
 public class GaussianBlurFilter: Filter {
     enum Implement {
@@ -49,6 +50,10 @@ public class GaussianBlurFilter: Filter {
             let blur = NormalGaussianBlurFilter(radius: _radius, sigma: gaussianSigma)
             try blur.apply(context: context)
         }
+    }
+    
+    func applyToFrame(context: Context, time: CMTime, finishBlock: (Context) throws -> Void) throws {
+        
     }
 }
 
@@ -94,6 +99,10 @@ private class BoxGaussianBlurFilter: Filter {
         for box in boxFilters {
             try box.apply(context: context)
         }
+    }
+    
+    func applyToFrame(context: Context, time: CMTime, finishBlock: (Context) throws -> Void) throws {
+        
     }
 }
 

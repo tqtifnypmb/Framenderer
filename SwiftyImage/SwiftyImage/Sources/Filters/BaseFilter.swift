@@ -9,6 +9,7 @@
 import Foundation
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
+import CoreMedia
 
 public class BaseFilter: Filter {
     weak var _program: Program!
@@ -68,5 +69,9 @@ public class BaseFilter: Filter {
         
         ProgramObjectsCacher.shared.release(program: _program)
         _program = nil
+    }
+    
+    func applyToFrame(context: Context, time: CMTime, finishBlock: (Context) throws -> Void) throws {
+        
     }
 }

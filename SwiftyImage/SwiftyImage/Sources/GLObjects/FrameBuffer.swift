@@ -15,12 +15,16 @@ import OpenGLES.ES3.glext
 
 class FrameBuffer {
     
+    private var _pixelBuffer: CVPixelBuffer!
+    
     // input buffer properties
     
-    private var _inputTexture: GLKTextureInfo!
+    //private var _inputTexture: GLKTextureInfo!
     private var _rotation: Rotation = .none
     private var _convertedFromOutput: Bool = false
-    private var _inputCVTexture: CVOpenGLESTexture!
+    private var _inputTexture: GLuint = 0
+    private var _inputWidth: GLsizei = 0
+    private var _inputHeight: GLsizei = 0
     
     // output buffer properties
     
@@ -37,12 +41,13 @@ class FrameBuffer {
         case ccw270
     }
     
+    /// Create a input framebuffer object using `texture` as content
     init(texture: CGImage, rotation: Rotation = .none) throws {
-        _rotation = rotation
-        _inputTexture = try GLKTextureLoader.texture(with: texture, options: [GLKTextureLoaderOriginBottomLeft : false])
-        assert(_inputTexture.target == GLenum(GL_TEXTURE_2D))
         
-        switch _inputTexture.alphaState {
+        let textureInfo = try GLKTextureLoader.texture(with: texture, options: [GLKTextureLoaderOriginBottomLeft : false])
+        assert(textureInfo.target == GLenum(GL_TEXTURE_2D))
+        
+        switch textureInfo.alphaState {
         case .premultiplied:
             print("Prem")
             
@@ -63,8 +68,14 @@ class FrameBuffer {
         default:
             print("None")
         }
+        
+        _inputWidth = GLsizei(textureInfo.width)
+        _inputHeight = GLsizei(textureInfo.height)
+        _rotation = rotation
+        _inputTexture = textureInfo.name
     }
     
+    /// Create a output framebuffer object
     init(width: GLsizei, height: GLsizei, bitmapInfo: CGBitmapInfo) {
         let maxTextureSize = GLsizei(Limits.max_texture_size)
         if width < maxTextureSize && height < maxTextureSize {
@@ -86,11 +97,74 @@ class FrameBuffer {
         configureTexture()
     }
     
-    init(context: Context, sampleBuffer: CMSampleBuffer) throws {
-        TextureCacher.shared.setup(context: context.eaglContext)
-        
-        _inputCVTexture = try TextureCacher.shared.createTexture(fromSampleBuffer: sampleBuffer, target: GLenum(GL_TEXTURE_2D), format: GLenum(GL_RGBA))
-        configureTexture()
+    /// Create a input framebuffer object using samplebuffer as content
+    init(sampleBuffer: CMSampleBuffer) throws {
+        if let cv = CMSampleBufferGetImageBuffer(sampleBuffer) {
+            let width = CVPixelBufferGetWidth(cv)
+            let height = CVPixelBufferGetHeight(cv)
+            
+            CVPixelBufferLockBaseAddress(cv, .readOnly)
+            
+            glGenTextures(1, &_inputTexture)
+            glBindTexture(GLenum(GL_TEXTURE_2D), _inputTexture)
+            glTexImage2D(GLenum(GL_TEXTURE_2D),
+                         0,
+                         GL_RGBA, GLsizei(width),
+                         GLsizei(height),
+                         0,
+                         GLenum(GL_BGRA),
+                         GLenum(GL_UNSIGNED_BYTE),
+                         CVPixelBufferGetBaseAddress(cv)!)
+            
+            CVPixelBufferUnlockBaseAddress(cv, .readOnly)
+            
+            _inputWidth = GLsizei(width)
+            _inputHeight = GLsizei(height)
+            configureTexture()
+            
+//            let width = CVPixelBufferGetWidth(cv)
+//            let height = CVPixelBufferGetHeight(cv)
+//            
+//            // Code originally sourced from http://allmybrain.com/2011/12/08/rendering-to-a-texture-with-ios-5-texture-cache-api/
+//            
+//            var keyCallback = kCFTypeDictionaryKeyCallBacks
+//            var valueCallback = kCFTypeDictionaryValueCallBacks
+//            var empty = CFDictionaryCreate(CFAllocatorGetDefault()!.takeRetainedValue(),
+//                                           nil,
+//                                           nil,
+//                                           0,
+//                                           &keyCallback,
+//                                           &valueCallback)
+//            let attrs = CFDictionaryCreateMutable(CFAllocatorGetDefault()!.takeRetainedValue(),
+//                                                  1,
+//                                                  &keyCallback,
+//                                                  &valueCallback)
+//            
+//            var pixelBuffer: CVPixelBuffer?
+//            var ioSurfaceKey = kCVPixelBufferIOSurfacePropertiesKey
+//            CFDictionarySetValue(attrs, &ioSurfaceKey, &empty)
+//            CVPixelBufferCreate(CFAllocatorGetDefault()!.takeRetainedValue(),
+//                                width,
+//                                height,
+//                                kCVPixelFormatType_32BGRA,
+//                                attrs,
+//                                &pixelBuffer)
+//            _pixelBuffer = pixelBuffer
+//            
+//            TextureCacher.shared.setup(context: context.eaglContext)
+//            
+//            let cvTexture = try TextureCacher.shared.createTexture(fromPixelBufer: _pixelBuffer, target: GLenum(GL_TEXTURE_2D), format: GLenum(GL_RGBA))
+//            assert(CVOpenGLESTextureGetTarget(cvTexture) == GLenum(GL_TEXTURE_2D))
+//            
+//            _inputWidth = GLsizei(width)
+//            _inputHeight = GLsizei(height)
+//            _inputTexture = CVOpenGLESTextureGetName(cvTexture)
+//            glBindTexture(GLenum(GL_TEXTURE_2D), _inputTexture)
+//            
+//            configureTexture()
+        } else {
+            throw DataError.sample(errorDesc: "CMSampleBuffer doesn't contain image data")
+        }
     }
     
     private func configureTexture() {
@@ -102,7 +176,7 @@ class FrameBuffer {
     
     deinit {
         if isInput {
-            var toDelete = _convertedFromOutput ? _outputTexture : _inputTexture.name
+            var toDelete = _convertedFromOutput ? _outputTexture : _inputTexture
             glDeleteTextures(1, &toDelete)
         } else if _frameBuffer != 0 {
             glDeleteFramebuffers(1, &_frameBuffer)
@@ -116,7 +190,7 @@ class FrameBuffer {
         if _convertedFromOutput {
             glBindTexture(GLenum(GL_TEXTURE_2D), _outputTexture)
         } else {
-            glBindTexture(_inputTexture.target, _inputTexture.name)
+            glBindTexture(GLenum(GL_TEXTURE_2D), _inputTexture)
         }
     }
     
@@ -195,15 +269,15 @@ class FrameBuffer {
     }
     
     private var isInput: Bool {
-        return _inputTexture != nil || _convertedFromOutput
+        return _inputTexture != 0 || _convertedFromOutput
     }
     
     var width: GLsizei {
-        return isInput ? _convertedFromOutput ? _outputWidth : GLsizei(_inputTexture.width) : _outputWidth
+        return isInput ? _convertedFromOutput ? _outputWidth : _inputWidth : _outputWidth
     }
     
     var height: GLsizei {
-        return isInput ? _convertedFromOutput ? _outputHeight : GLsizei(_inputTexture.height) : _outputHeight
+        return isInput ? _convertedFromOutput ? _outputHeight : _inputHeight : _outputHeight
     }
     
     /// Why ??
@@ -250,15 +324,16 @@ class FrameBuffer {
             return _bitmapInfo
         }
         
-        switch _inputTexture.alphaState {
-        case .none:
-            return CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue)
-            
-        case .premultiplied:
-            return CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
-            
-        case .nonPremultiplied:
-            return CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue)
-        }
+        return CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue)
+//        switch _inputTexture.alphaState {
+//        case .none:
+//            return CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue)
+//            
+//        case .premultiplied:
+//            return CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+//            
+//        case .nonPremultiplied:
+//            return CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue)
+//        }
     }
 }
