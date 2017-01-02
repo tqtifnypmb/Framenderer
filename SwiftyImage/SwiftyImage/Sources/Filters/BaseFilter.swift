@@ -71,7 +71,17 @@ public class BaseFilter: Filter {
         _program = nil
     }
     
-    func applyToFrame(context: Context, time: CMTime, finishBlock: (Context) throws -> Void) throws {
-        
+    func applyToFrame(context ctx: Context, sampleBuffer: CMSampleBuffer, time: CMTime, next: @escaping (Context) throws -> Void) throws {
+        ctx.frameSerialQueue.async {[weak self] in
+            guard let strong_self = self else { return }
+            do {
+                let inputFrameBuffer = try FrameBuffer(sampleBuffer: sampleBuffer)
+                ctx.setInput(input: inputFrameBuffer)
+                try strong_self.apply(context: ctx)
+                try next(ctx)
+            } catch {
+                fatalError(error.localizedDescription)
+            }
+        }
     }
 }

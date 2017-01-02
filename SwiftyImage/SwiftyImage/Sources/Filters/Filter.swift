@@ -31,5 +31,5 @@ let kVertices: [GLfloat] = [
 protocol Filter {
     func apply(context: Context) throws
     
-    func applyToFrame(context: Context, time: CMTime, finishBlock: (_ context: Context) throws -> Void) throws
+    func applyToFrame(context: Context, sampleBuffer: CMSampleBuffer, time: CMTime, next: @escaping (_ context: Context) throws -> Void) throws
 }

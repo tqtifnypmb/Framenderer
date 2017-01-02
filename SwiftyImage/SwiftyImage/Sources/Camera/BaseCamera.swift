@@ -61,16 +61,14 @@ class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDelegate
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
-        _ctx.frameSerialQueue.async {
+        _ctx.frameSerialQueue.async {[weak self] in
+            guard let strong_self = self else { return }
+            
             do {
-                self._ctx.setAsCurrent()
-                
-                let inputFrameBuffer = try FrameBuffer(sampleBuffer: sampleBuffer)
-                self._ctx.setInput(input: inputFrameBuffer)
-                
+                strong_self._ctx.setAsCurrent()
                 let time: CMTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
                 
-                var currentFilters = self.filters
+                var currentFilters = strong_self.filters
                 let starter = currentFilters.removeFirst()
                 
                 // ref: http://wiki.haskell.org/Continuation
@@ -78,7 +76,7 @@ class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDelegate
                 continuation = { ctx in
                     if !currentFilters.isEmpty {
                         let filter = currentFilters.removeFirst()
-                        try filter.applyToFrame(context: ctx, time: time, finishBlock: continuation)
+                        try filter.applyToFrame(context: ctx, sampleBuffer: sampleBuffer, time: time, next: continuation)
                     } else {
                         #if DEBUG
                             ProgramObjectsCacher.shared.check_finish()
@@ -86,7 +84,7 @@ class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDelegate
                     }
                 }
                 
-                try starter.applyToFrame(context: self._ctx, time: time, finishBlock: continuation)
+                try starter.applyToFrame(context: strong_self._ctx, sampleBuffer: sampleBuffer, time: time, next: continuation)
             } catch {
                 fatalError(error.localizedDescription)
             }
