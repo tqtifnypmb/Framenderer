@@ -13,25 +13,37 @@ import GLKit
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
+fileprivate func isSupportFastTexture() -> Bool {
+    if TARGET_IPHONE_SIMULATOR != 0 {
+        return false
+    } else if TARGET_OS_IPHONE != 0 {
+        return true
+    } else {
+        return false
+    }
+}
+
 class FrameBuffer {
     
-    private var _pixelBuffer: CVPixelBuffer!
+    // fast texture 
+    
+    private var _renderTarget: CVPixelBuffer!
+    
+    // input/output buffer properties
+    
+    private var _texture: GLuint = 0
+    private var _textureWidth: GLsizei = 0
+    private var _textureHeight: GLsizei = 0
+    
+    private var _isInputFrameBuffer = false
     
     // input buffer properties
     
-    //private var _inputTexture: GLKTextureInfo!
     private var _rotation: Rotation = .none
-    private var _convertedFromOutput: Bool = false
-    private var _inputTexture: GLuint = 0
-    private var _inputWidth: GLsizei = 0
-    private var _inputHeight: GLsizei = 0
     
     // output buffer properties
     
     private var _frameBuffer: GLuint = 0
-    private var _outputTexture: GLuint = 0
-    private var _outputWidth: GLsizei = 0
-    private var _outputHeight: GLsizei = 0
     private var _bitmapInfo: CGBitmapInfo!
     
     enum Rotation {
@@ -69,32 +81,60 @@ class FrameBuffer {
             print("None")
         }
         
-        _inputWidth = GLsizei(textureInfo.width)
-        _inputHeight = GLsizei(textureInfo.height)
+        _textureWidth = GLsizei(textureInfo.width)
+        _textureHeight = GLsizei(textureInfo.height)
         _rotation = rotation
-        _inputTexture = textureInfo.name
+        _texture = textureInfo.name
+        _isInputFrameBuffer = true
     }
     
     /// Create a output framebuffer object
-    init(width: GLsizei, height: GLsizei, bitmapInfo: CGBitmapInfo) {
+    init(width: GLsizei, height: GLsizei, bitmapInfo: CGBitmapInfo) throws {
         let maxTextureSize = GLsizei(Limits.max_texture_size)
         if width < maxTextureSize && height < maxTextureSize {
-            _outputWidth = width
-            _outputHeight = height
+            _textureWidth = width
+            _textureHeight = height
         } else {
             if width < height {
-                _outputHeight = maxTextureSize
-                _outputWidth = GLsizei(Double(maxTextureSize) * (Double(width) / Double(height)))
+                _textureHeight = maxTextureSize
+                _textureWidth = GLsizei(Double(maxTextureSize) * (Double(width) / Double(height)))
             } else {
-                _outputWidth = maxTextureSize
-                _outputHeight = GLsizei(Double(maxTextureSize) * (Double(height) / Double(width)))
+                _textureWidth = maxTextureSize
+                _textureHeight = GLsizei(Double(maxTextureSize) * (Double(height) / Double(width)))
             }
         }
         _bitmapInfo = bitmapInfo
+        _isInputFrameBuffer = false
         
-        glGenTextures(1, &_outputTexture)
-        glBindTexture(GLenum(GL_TEXTURE_2D), _outputTexture)
-        configureTexture()
+        if isSupportFastTexture() {
+            // Code originally sourced from http://allmybrain.com/2011/12/08/rendering-to-a-texture-with-ios-5-texture-cache-api/
+            
+            let attrs: [String: [Int: Int]] = [kCVPixelBufferIOSurfacePropertiesKey as String: [:]]
+            
+            var pixelBuffer: CVPixelBuffer?
+            if CVPixelBufferCreate(CFAllocatorGetDefault()!.takeRetainedValue(),
+                                Int(_textureWidth),
+                                Int(_textureHeight),
+                                kCVPixelFormatType_32BGRA,
+                                attrs as CFDictionary,
+                                &pixelBuffer) != kCVReturnSuccess {
+                throw DataError.pixelBuffer(errorDesc: "Can't create a pixel buffer")
+            }
+            _renderTarget = pixelBuffer
+            
+            TextureCacher.shared.setup(context: EAGLContext.current())
+            
+            let cvTexture = try TextureCacher.shared.createTexture(fromPixelBufer: _renderTarget, target: GLenum(GL_TEXTURE_2D), format: GLenum(GL_BGRA))
+            assert(CVOpenGLESTextureGetTarget(cvTexture) == GLenum(GL_TEXTURE_2D))
+            
+            _texture = CVOpenGLESTextureGetName(cvTexture)
+            glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
+            configureTexture()
+        } else {
+            glGenTextures(1, &_texture)
+            glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
+            configureTexture()
+        }
     }
     
     /// Create a input framebuffer object using samplebuffer as content
@@ -105,8 +145,8 @@ class FrameBuffer {
             
             CVPixelBufferLockBaseAddress(cv, .readOnly)
             
-            glGenTextures(1, &_inputTexture)
-            glBindTexture(GLenum(GL_TEXTURE_2D), _inputTexture)
+            glGenTextures(1, &_texture)
+            glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
             glTexImage2D(GLenum(GL_TEXTURE_2D),
                          0,
                          GL_RGBA, GLsizei(width),
@@ -118,50 +158,9 @@ class FrameBuffer {
             
             CVPixelBufferUnlockBaseAddress(cv, .readOnly)
             
-            _inputWidth = GLsizei(width)
-            _inputHeight = GLsizei(height)
+            _textureWidth = GLsizei(width)
+            _textureHeight = GLsizei(height)
             configureTexture()
-            
-//            let width = CVPixelBufferGetWidth(cv)
-//            let height = CVPixelBufferGetHeight(cv)
-//            
-//            // Code originally sourced from http://allmybrain.com/2011/12/08/rendering-to-a-texture-with-ios-5-texture-cache-api/
-//            
-//            var keyCallback = kCFTypeDictionaryKeyCallBacks
-//            var valueCallback = kCFTypeDictionaryValueCallBacks
-//            var empty = CFDictionaryCreate(CFAllocatorGetDefault()!.takeRetainedValue(),
-//                                           nil,
-//                                           nil,
-//                                           0,
-//                                           &keyCallback,
-//                                           &valueCallback)
-//            let attrs = CFDictionaryCreateMutable(CFAllocatorGetDefault()!.takeRetainedValue(),
-//                                                  1,
-//                                                  &keyCallback,
-//                                                  &valueCallback)
-//            
-//            var pixelBuffer: CVPixelBuffer?
-//            var ioSurfaceKey = kCVPixelBufferIOSurfacePropertiesKey
-//            CFDictionarySetValue(attrs, &ioSurfaceKey, &empty)
-//            CVPixelBufferCreate(CFAllocatorGetDefault()!.takeRetainedValue(),
-//                                width,
-//                                height,
-//                                kCVPixelFormatType_32BGRA,
-//                                attrs,
-//                                &pixelBuffer)
-//            _pixelBuffer = pixelBuffer
-//            
-//            TextureCacher.shared.setup(context: context.eaglContext)
-//            
-//            let cvTexture = try TextureCacher.shared.createTexture(fromPixelBufer: _pixelBuffer, target: GLenum(GL_TEXTURE_2D), format: GLenum(GL_RGBA))
-//            assert(CVOpenGLESTextureGetTarget(cvTexture) == GLenum(GL_TEXTURE_2D))
-//            
-//            _inputWidth = GLsizei(width)
-//            _inputHeight = GLsizei(height)
-//            _inputTexture = CVOpenGLESTextureGetName(cvTexture)
-//            glBindTexture(GLenum(GL_TEXTURE_2D), _inputTexture)
-//            
-//            configureTexture()
         } else {
             throw DataError.sample(errorDesc: "CMSampleBuffer doesn't contain image data")
         }
@@ -175,10 +174,12 @@ class FrameBuffer {
     }
     
     deinit {
-        if isInput {
-            var toDelete = _convertedFromOutput ? _outputTexture : _inputTexture
-            glDeleteTextures(1, &toDelete)
-        } else if _frameBuffer != 0 {
+        if _texture != 0 {
+            glDeleteTextures(1, &_texture)
+            _texture = 0
+        }
+        
+        if _frameBuffer != 0 {
             glDeleteFramebuffers(1, &_frameBuffer)
             _frameBuffer = 0
         }
@@ -187,11 +188,7 @@ class FrameBuffer {
     func useAsInput() {
         precondition(isInput)
         
-        if _convertedFromOutput {
-            glBindTexture(GLenum(GL_TEXTURE_2D), _outputTexture)
-        } else {
-            glBindTexture(GLenum(GL_TEXTURE_2D), _inputTexture)
-        }
+        glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
     }
     
     func useAsOutput() {
@@ -203,22 +200,26 @@ class FrameBuffer {
         
         glGenFramebuffers(1, &_frameBuffer)
         glBindFramebuffer(GLenum(GL_FRAMEBUFFER), _frameBuffer)
-        glViewport(0, 0, _outputWidth, _outputHeight)
+        glViewport(0, 0, _textureWidth, _textureHeight)
         
-        glBindTexture(GLenum(GL_TEXTURE_2D), _outputTexture)
-        glTexImage2D(GLenum(GL_TEXTURE_2D),
-                     0,
-                     GL_RGBA,
-                     _outputWidth,
-                     _outputHeight,
-                     0,
-                     GLenum(GL_RGBA),
-                     GLenum(GL_UNSIGNED_BYTE),
-                     nil)
+        glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
+        
+        if !isSupportFastTexture() {
+            glTexImage2D(GLenum(GL_TEXTURE_2D),
+                         0,
+                         GL_RGBA,
+                         _textureWidth,
+                         _textureHeight,
+                         0,
+                         GLenum(GL_RGBA),
+                         GLenum(GL_UNSIGNED_BYTE),
+                         nil)
+        }
+        
         glFramebufferTexture2D(GLenum(GL_FRAMEBUFFER),
                                GLenum(GL_COLOR_ATTACHMENT0),
                                GLenum(GL_TEXTURE_2D),
-                               _outputTexture,
+                               _texture,
                                0)
         glBindTexture(GLenum(GL_TEXTURE_2D), 0)
         validate()
@@ -233,7 +234,7 @@ class FrameBuffer {
     
     func convertToInput(bitmapInfo: CGBitmapInfo) {
         precondition(!isInput)
-        precondition(!_convertedFromOutput)
+        _isInputFrameBuffer = true
         
         if _frameBuffer != 0 {
             glDeleteFramebuffers(1, &_frameBuffer)
@@ -241,43 +242,65 @@ class FrameBuffer {
         }
         
         _bitmapInfo = bitmapInfo
-        _convertedFromOutput = true
     }
     
     func convertToImage() -> CGImage? {
         precondition(!isInput)
         
-        var rawImageData = [GLubyte](repeating: 0, count: Int(_outputWidth * _outputHeight * 4))
-        rawImageData.withUnsafeMutableBytes { ptr in
-            glReadPixels(0,
-                         0,
-                         _outputWidth,
-                         _outputHeight,
-                         GLenum(GL_RGBA),
-                         GLenum(GL_UNSIGNED_BYTE),
-                         ptr.baseAddress)
-        }
-
-        var imageDataProvider: CGDataProvider!
-        rawImageData.withUnsafeBytes { bytes in
-            imageDataProvider = CGDataProvider(dataInfo: nil, data: bytes.baseAddress!, size: bytes.count, releaseData: { (_, _, _) in
-            })
-        }
+        glFlush()
         
-        let cgImage = CGImage(width: Int(_outputWidth), height: Int(_outputHeight), bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: Int(_outputWidth) * 4, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: _bitmapInfo, provider: imageDataProvider, decode: nil, shouldInterpolate: false, intent: CGColorRenderingIntent.defaultIntent)
-        return cgImage
+        if isSupportFastTexture() {
+            let width = CVPixelBufferGetBytesPerRow(_renderTarget) / 4
+            let size = width * (Int)(_textureHeight) * 4
+            
+            if CVPixelBufferLockBaseAddress(_renderTarget,
+                                            .readOnly) != kCVReturnSuccess {
+                fatalError()
+            }
+            
+            let pixelDataPtr = CVPixelBufferGetBaseAddress(_renderTarget)!
+            let imageDataProvider = CGDataProvider(dataInfo: &_renderTarget, data: pixelDataPtr, size: size, releaseData: { (info, _, _) in
+                let renderTarget = info!.assumingMemoryBound(to: CVPixelBuffer.self)
+                CVPixelBufferUnlockBaseAddress(renderTarget.pointee, .readOnly)
+            })!
+         
+            let cgImage = CGImage(width: Int(_textureWidth), height: Int(_textureHeight), bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: CVPixelBufferGetBytesPerRow(_renderTarget), space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: _bitmapInfo, provider: imageDataProvider, decode: nil, shouldInterpolate: false, intent: CGColorRenderingIntent.defaultIntent)
+            
+            return cgImage
+        } else {
+            var rawImageData = [GLubyte](repeating: 0, count: Int(_textureWidth * _textureHeight * 4))
+            rawImageData.withUnsafeMutableBytes { ptr in
+                glReadPixels(0,
+                             0,
+                             _textureWidth,
+                             _textureHeight,
+                             GLenum(GL_RGBA),
+                             GLenum(GL_UNSIGNED_BYTE),
+                             ptr.baseAddress)
+            }
+            
+            var imageDataProvider: CGDataProvider!
+            rawImageData.withUnsafeBytes { bytes in
+                imageDataProvider = CGDataProvider(dataInfo: nil, data: bytes.baseAddress!, size: bytes.count, releaseData: { (_, _, _) in
+                })
+            }
+            
+            let cgImage = CGImage(width: Int(_textureWidth), height: Int(_textureHeight), bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: Int(_textureWidth) * 4, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: _bitmapInfo, provider: imageDataProvider, decode: nil, shouldInterpolate: false, intent: CGColorRenderingIntent.defaultIntent)
+            
+            return cgImage
+        }
     }
     
     private var isInput: Bool {
-        return _inputTexture != 0 || _convertedFromOutput
+        return _isInputFrameBuffer
     }
     
     var width: GLsizei {
-        return isInput ? _convertedFromOutput ? _outputWidth : _inputWidth : _outputWidth
+        return _textureWidth
     }
     
     var height: GLsizei {
-        return isInput ? _convertedFromOutput ? _outputHeight : _inputHeight : _outputHeight
+        return _textureHeight
     }
     
     /// Why ??
@@ -320,11 +343,16 @@ class FrameBuffer {
     var bitmapInfoForInput: CGBitmapInfo {
         precondition(isInput)
         
-        if _convertedFromOutput {
+        if _bitmapInfo != nil {
             return _bitmapInfo
         }
         
-        return CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue)
+        if isSupportFastTexture() {
+            return [CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue), .byteOrder32Little]
+        } else {
+            return CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue)
+        }
+        
 //        switch _inputTexture.alphaState {
 //        case .none:
 //            return CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue)
