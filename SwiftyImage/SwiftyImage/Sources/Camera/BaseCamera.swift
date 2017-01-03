@@ -9,21 +9,18 @@
 import Foundation
 import AVFoundation
 
-class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDelegate {
+public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDelegate {
     var filters: [Filter] = []
     var cameraOutputView: CameraOutputView!
     
+    var _ctx: Context!
+    
     private let _captureSession: AVCaptureSession
     private let _cameraFrameSerialQueue: DispatchQueue
-    private var _ctx: Context!
     
     init(captureSession: AVCaptureSession) {
         _captureSession = captureSession
         _cameraFrameSerialQueue = DispatchQueue(label: "com.github.SwityImage.CameraSerial")
-    }
-    
-    func captureInput() -> AVCaptureInput {
-        fatalError()
     }
     
     func startRunning() {
@@ -54,13 +51,17 @@ class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDelegate
         _captureSession.stopRunning()
     }
     
-    func takePhoto() {
-        guard _captureSession.isRunning else { return }
+    func takePhoto(onComplete:@escaping (_ error: Error?, _ image: CGImage?) -> Void) {
+        fatalError("Called virtual function")
+    }
+    
+    func captureInput() -> AVCaptureInput {
+        fatalError("Called virtual function")
     }
     
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+    public func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
         _ctx.frameSerialQueue.async {[weak self] in
             guard let strong_self = self else { return }
             
@@ -91,7 +92,10 @@ class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDelegate
         }
     }
     
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didDrop sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
-        
+    public func captureOutput(_ captureOutput: AVCaptureOutput!, didDrop sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+        #if DEBUG
+            let time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+            print("[Info] Frame drop [Timestamp: \(time)]")
+        #endif
     }
 }

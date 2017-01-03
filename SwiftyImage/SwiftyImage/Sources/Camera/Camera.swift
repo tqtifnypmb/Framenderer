@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreImage
 
 /**
     Data flow:
@@ -26,7 +27,7 @@ protocol Camera {
     func stopRunning()
     
     /// Take a photo
-    func takePhoto()
+    func takePhoto(onComplete:@escaping (_ error: Error?, _ image: CGImage?) -> Void)
 }
 
 typealias CameraOutputView = Filter
