@@ -56,21 +56,19 @@ public class StillImageCamera: BaseCamera {
             output.capturePhoto(with: settings, delegate: self)
         } else {
             let output = _photoOutput as! AVCaptureStillImageOutput
-            output.captureStillImageAsynchronously(from: _photoOutput.connections.first as? AVCaptureConnection, completionHandler: { sampleBufer, error in
+            output.captureStillImageAsynchronously(from: _photoOutput.connections.first as? AVCaptureConnection, completionHandler: {[weak self] sampleBufer, error in
                 if let error = error {
                     onComplete(error, nil)
                 } else {
-                    DispatchQueue.global(qos: .background).async {[weak self] in
-                        guard let strong_self = self else { return }
+                    guard let strong_self = self else { return }
+                    
+                    do {
+                        try strong_self.applyFilters(toSampleBuffer: sampleBufer!)
                         
-                        do {
-                            try strong_self.applyFilters(toSampleBuffer: sampleBufer!)
-                            
-                            let result = strong_self._ctx.processedImage()!
-                            onComplete(nil, result)
-                        } catch {
-                            fatalError(error.localizedDescription)
-                        }
+                        let result = strong_self._ctx.processedImage()!
+                        onComplete(nil, result)
+                    } catch {
+                        fatalError(error.localizedDescription)
                     }
                 }
             })

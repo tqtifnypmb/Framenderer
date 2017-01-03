@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreImage
 
 class VideoCamera: Camera {
     var filters: [Filter] = []
@@ -20,7 +21,7 @@ class VideoCamera: Camera {
         
     }
     
-    func takePhoto() {
+    func takePhoto(onComplete:@escaping (_ error: Error?, _ image: CGImage?) -> Void) {
         fatalError()
     }
 }
