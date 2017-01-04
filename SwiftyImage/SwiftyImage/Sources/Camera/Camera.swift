@@ -18,7 +18,7 @@ protocol Camera {
     var filters: [Filter] {get set}
     
     /// Sepcifies a view to carry the final result
-    var cameraOutputView: CameraOutputView! {get set}
+    var previewView: PreviewView! {get set}
     
     /// Start running the camera
     func startRunning()
@@ -30,4 +30,4 @@ protocol Camera {
     func takePhoto(onComplete:@escaping (_ error: Error?, _ image: CGImage?) -> Void)
 }
 
-typealias CameraOutputView = Filter
+typealias PreviewView = Filter

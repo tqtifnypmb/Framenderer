@@ -11,7 +11,7 @@ import CoreImage
 
 class VideoCamera: Camera {
     var filters: [Filter] = []
-    var cameraOutputView: CameraOutputView!
+    var previewView: PreviewView!
     
     func startRunning() {
         

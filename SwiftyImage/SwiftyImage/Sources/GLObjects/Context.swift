@@ -14,8 +14,8 @@ import OpenGLES.ES3.glext
 class Context {
     private let _context: EAGLContext
     static let _shareGroup: EAGLSharegroup = EAGLSharegroup()
-    private var _input: FrameBuffer?
-    private var _output: FrameBuffer?
+    private var _input: InputFrameBuffer?
+    private var _output: OutputFrameBuffer?
     
     var frameSerialQueue: DispatchQueue = {
         return DispatchQueue(label: "com.github.SwiftyImage.ContextSerial")
@@ -35,11 +35,11 @@ class Context {
         program.use()
     }
     
-    func setInput(input: FrameBuffer) {
+    func setInput(input: InputFrameBuffer) {
         _input = input
     }
     
-    func setOutput(output: FrameBuffer) {
+    func setOutput(output: OutputFrameBuffer) {
         _output = output
         output.useAsOutput()
     }
@@ -54,8 +54,8 @@ class Context {
     
     func toggleInputOutputIfNeeded() {
         if _output != nil && _input != nil {
-            _output?.convertToInput(bitmapInfo: _input!.bitmapInfoForInput)
-            _input = _output
+            let input = _output?.convertToInput(bitmapInfo: _input!.bitmapInfo)
+            _input = input
         }
     }
     
@@ -68,7 +68,7 @@ class Context {
     }
     
     var inputBitmapInfo: CGBitmapInfo {
-        return _input!.bitmapInfoForInput
+        return _input!.bitmapInfo
     }
     
     var textCoor: [GLfloat] {

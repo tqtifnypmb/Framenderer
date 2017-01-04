@@ -11,7 +11,7 @@ import AVFoundation
 
 public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDelegate {
     var filters: [Filter] = []
-    var cameraOutputView: CameraOutputView!
+    var previewView: PreviewView!
     
     var _ctx: Context!
     
@@ -26,10 +26,9 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
     func startRunning() {
         guard !_captureSession.isRunning else { return }
         
-        precondition(cameraOutputView != nil)
+        precondition(previewView != nil)
         
-        // output view is just a pass-through filter
-        filters.append(cameraOutputView)
+        filters.append(previewView)
         
         _ctx = Context()
         
@@ -82,6 +81,8 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
                         #if DEBUG
                             ProgramObjectsCacher.shared.check_finish()
                         #endif
+                        
+                        // render to outputview
                     }
                 }
                 

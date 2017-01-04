@@ -75,6 +75,7 @@ public class BaseFilter: Filter {
         ctx.frameSerialQueue.async {[weak self] in
             guard let strong_self = self else { return }
             do {
+                ctx.toggleInputOutputIfNeeded()
                 let inputFrameBuffer = try FrameBuffer(sampleBuffer: sampleBuffer)
                 ctx.setInput(input: inputFrameBuffer)
                 try strong_self.apply(context: ctx)

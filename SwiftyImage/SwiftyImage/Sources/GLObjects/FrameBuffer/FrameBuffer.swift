@@ -23,7 +23,7 @@ fileprivate func isSupportFastTexture() -> Bool {
     }
 }
 
-class FrameBuffer {
+class FrameBuffer: InputFrameBuffer, OutputFrameBuffer {
     
     // fast texture 
     
@@ -232,7 +232,7 @@ class FrameBuffer {
         }
     }
     
-    func convertToInput(bitmapInfo: CGBitmapInfo) {
+    func convertToInput(bitmapInfo: CGBitmapInfo) -> InputFrameBuffer {
         precondition(!isInput)
         _isInputFrameBuffer = true
         
@@ -242,6 +242,8 @@ class FrameBuffer {
         }
         
         _bitmapInfo = bitmapInfo
+        
+        return self
     }
     
     func convertToImage() -> CGImage? {
@@ -340,7 +342,7 @@ class FrameBuffer {
         }
     }
     
-    var bitmapInfoForInput: CGBitmapInfo {
+    var bitmapInfo: CGBitmapInfo {
         precondition(isInput)
         
         if _bitmapInfo != nil {
