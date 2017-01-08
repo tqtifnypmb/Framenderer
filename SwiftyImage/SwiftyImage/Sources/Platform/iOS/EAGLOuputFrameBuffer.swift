@@ -38,7 +38,7 @@ class EAGLOutputFrameBuffer: OutputFrameBuffer {
         
         glGenRenderbuffers(1, &_rbo)
         glBindRenderbuffer(GLenum(GL_RENDERBUFFER), _rbo)
-        EAGLContext.current() .renderbufferStorage(Int(GL_RENDERBUFFER), from: _layer)
+        EAGLContext.current().renderbufferStorage(Int(GL_RENDERBUFFER), from: _layer)
         
         glFramebufferRenderbuffer(GLenum(GL_FRAMEBUFFER),
                                   GLenum(GL_COLOR_ATTACHMENT0),

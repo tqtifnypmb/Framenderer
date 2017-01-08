@@ -16,8 +16,8 @@ public class DualInputFilter: BaseFilter {
     
     private let _secondSource: CGImage
     private var _firstFrameTimeStamp: CMTime?
-    private var _firstFrameBuffer: FrameBuffer?
-    private var _secondFramebuffer: FrameBuffer?
+    private var _firstFrameBuffer: InputFrameBuffer?
+    private var _secondFramebuffer: InputFrameBuffer?
     
     init(secondInput: CGImage) {
         _secondSource = secondInput
@@ -37,7 +37,7 @@ public class DualInputFilter: BaseFilter {
         try super.apply(context: ctx)
     }
     
-    override func applyToFrame(context ctx: Context, sampleBuffer: CMSampleBuffer, time: CMTime, next: @escaping (Context) throws -> Void) throws {
+    override func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         let superApply = super.apply
         ctx.frameSerialQueue.async {[weak self] in
             guard let strong_self = self else { return }
@@ -46,21 +46,23 @@ public class DualInputFilter: BaseFilter {
                 if strong_self._firstFrameTimeStamp == nil {
                     glActiveTexture(GLenum(GL_TEXTURE0))
                     strong_self._firstFrameTimeStamp = time
-                    strong_self._firstFrameBuffer = try FrameBuffer(sampleBuffer: sampleBuffer)
-                } else if CMTimeCompare(strong_self._firstFrameTimeStamp!, time) < 0 {
+                    strong_self._firstFrameBuffer = inputFrameBuffer
+                } else if strong_self._secondFramebuffer == nil && CMTimeCompare(strong_self._firstFrameTimeStamp!, time) < 0 {
                     glActiveTexture(GLenum(GL_TEXTURE1))
-                    strong_self._secondFramebuffer = try FrameBuffer(sampleBuffer: sampleBuffer)
+                    strong_self._secondFramebuffer = inputFrameBuffer
                     strong_self._secondFramebuffer?.useAsInput()
                     
                     glActiveTexture(GLenum(GL_TEXTURE0))
                     ctx.setInput(input: strong_self._firstFrameBuffer!)
                     try superApply(ctx)
                     
+                    let result = ctx.outputFrameBuffer!.convertToInput(bitmapInfo: strong_self._firstFrameBuffer!.bitmapInfo)
+                    
                     strong_self._firstFrameBuffer = nil
                     strong_self._secondFramebuffer = nil
                     strong_self._firstFrameTimeStamp = nil
                     
-                    try next(ctx)
+                    try next(ctx, result)
                 } else {
                     fatalError("Frame disorder")
                 }

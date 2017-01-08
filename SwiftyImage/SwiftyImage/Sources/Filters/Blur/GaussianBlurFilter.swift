@@ -52,15 +52,15 @@ public class GaussianBlurFilter: Filter {
         }
     }
     
-    func applyToFrame(context: Context, sampleBuffer:CMSampleBuffer, time: CMTime, next: @escaping (Context) throws -> Void) throws {
+    func applyToFrame(context: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         switch _impl {
         case .box:
             let blur = BoxGaussianBlurFilter(radius: _radius, pass: max(boxPass, 3))
-            try blur.applyToFrame(context: context, sampleBuffer: sampleBuffer, time: time, next: next)
+            try blur.applyToFrame(context: context, inputFrameBuffer: inputFrameBuffer, time: time, next: next)
             
         case .normal:
             let blur = NormalGaussianBlurFilter(radius: _radius, sigma: gaussianSigma)
-            try blur.applyToFrame(context: context, sampleBuffer: sampleBuffer, time: time, next: next)
+            try blur.applyToFrame(context: context, inputFrameBuffer: inputFrameBuffer, time: time, next: next)
         }
     }
 }
@@ -109,7 +109,7 @@ private class BoxGaussianBlurFilter: Filter {
         }
     }
     
-    func applyToFrame(context: Context, sampleBuffer:CMSampleBuffer, time: CMTime, next: @escaping (Context) throws -> Void) throws {
+    func applyToFrame(context: Context, inputFrameBuffer:InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         
     }
 }

@@ -71,6 +71,10 @@ class Context {
         return _input!.bitmapInfo
     }
     
+    var outputFrameBuffer: OutputFrameBuffer? {
+        return self._output
+    }
+    
     var textCoor: [GLfloat] {
         return _input!.textCoor
     }

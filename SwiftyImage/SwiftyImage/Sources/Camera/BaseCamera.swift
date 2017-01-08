@@ -69,24 +69,24 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
                 let time: CMTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
                 
                 var currentFilters = strong_self.filters
+                
                 let starter = currentFilters.removeFirst()
                 
                 // ref: http://wiki.haskell.org/Continuation
-                var continuation: ((Context) throws -> Void)!
-                continuation = { ctx in
+                var continuation: ((Context, InputFrameBuffer) throws -> Void)!
+                continuation = { ctx, input in
                     if !currentFilters.isEmpty {
                         let filter = currentFilters.removeFirst()
-                        try filter.applyToFrame(context: ctx, sampleBuffer: sampleBuffer, time: time, next: continuation)
+                        try filter.applyToFrame(context: ctx, inputFrameBuffer: input, time: time, next: continuation)
                     } else {
                         #if DEBUG
                             ProgramObjectsCacher.shared.check_finish()
                         #endif
-                        
-                        // render to outputview
                     }
                 }
                 
-                try starter.applyToFrame(context: strong_self._ctx, sampleBuffer: sampleBuffer, time: time, next: continuation)
+                let input = try FrameBuffer(sampleBuffer: sampleBuffer)
+                try starter.applyToFrame(context: strong_self._ctx, inputFrameBuffer:input, time: time, next: continuation)
             } catch {
                 fatalError(error.localizedDescription)
             }
