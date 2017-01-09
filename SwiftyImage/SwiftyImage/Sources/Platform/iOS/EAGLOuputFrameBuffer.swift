@@ -12,6 +12,7 @@ import QuartzCore
 class EAGLOutputFrameBuffer: OutputFrameBuffer {
     private var _fbo: GLuint = 0
     private var _rbo: GLuint = 0
+    private var _dbo: GLuint = 0
     private var _width: GLsizei = 0
     private var _height:GLsizei = 0
     private let _layer: CAEAGLLayer
@@ -44,6 +45,10 @@ class EAGLOutputFrameBuffer: OutputFrameBuffer {
                                   GLenum(GL_COLOR_ATTACHMENT0),
                                   GLenum(GL_RENDERBUFFER),
                                   _rbo)
+        
+        glGenRenderbuffers(1, &_dbo)
+        glBindRenderbuffer(GLenum(GL_RENDERBUFFER), _dbo)
+        glFramebufferRenderbuffer(GLenum(GL_FRAMEBUFFER), GLenum(GL_DEPTH_ATTACHMENT), GLenum(GL_RENDERBUFFER), _dbo)
         
         glGetRenderbufferParameteriv(GLenum(GL_RENDERBUFFER),
                                      GLenum(GL_RENDERBUFFER_WIDTH),

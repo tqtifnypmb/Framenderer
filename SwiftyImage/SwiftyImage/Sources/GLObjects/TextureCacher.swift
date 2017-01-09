@@ -39,6 +39,7 @@ class TextureCacher {
         let width = CVPixelBufferGetWidth(pb)
         let height = CVPixelBufferGetHeight(pb)
         
+        glFlush()
         if CVOpenGLESTextureCacheCreateTextureFromImage(CFAllocatorGetDefault()!.takeRetainedValue(),
                                                         _cacher,
                                                         pb,

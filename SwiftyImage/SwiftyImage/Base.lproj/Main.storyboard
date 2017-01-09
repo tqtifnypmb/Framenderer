@@ -1,15 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="3sL-cP-ID2">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Camera View Controller-->
+        <scene sceneID="ion-Z6-cnc">
+            <objects>
+                <viewController id="3sL-cP-ID2" customClass="CameraViewController" customModule="SwiftyImage" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="NOb-IE-9tT"/>
+                        <viewControllerLayoutGuide type="bottom" id="fPz-LZ-sbD"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xrd-q8-3Rj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bu1-eB-MlJ" customClass="CameraPreviewView" customModule="SwiftyImage" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcV-5g-Ihv">
+                                        <rect key="frame" x="203" y="291" width="46" height="30"/>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="f:" destination="3sL-cP-ID2" eventType="touchUpInside" id="Uyg-5a-xMd"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="hcV-5g-Ihv" firstAttribute="centerX" secondItem="Bu1-eB-MlJ" secondAttribute="centerX" id="PQS-E1-HTn"/>
+                                    <constraint firstItem="hcV-5g-Ihv" firstAttribute="centerY" secondItem="Bu1-eB-MlJ" secondAttribute="centerY" id="ynD-go-1hx"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Bu1-eB-MlJ" firstAttribute="centerX" secondItem="xrd-q8-3Rj" secondAttribute="centerX" id="1pc-6Y-YHT"/>
+                            <constraint firstItem="Bu1-eB-MlJ" firstAttribute="height" secondItem="xrd-q8-3Rj" secondAttribute="height" id="94h-zl-v88"/>
+                            <constraint firstItem="Bu1-eB-MlJ" firstAttribute="width" secondItem="xrd-q8-3Rj" secondAttribute="width" id="Mjy-4R-2KE"/>
+                            <constraint firstItem="Bu1-eB-MlJ" firstAttribute="centerY" secondItem="xrd-q8-3Rj" secondAttribute="centerY" id="axO-Tz-ZKq"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="preview" destination="Bu1-eB-MlJ" id="ZcG-Cu-L3G"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xat-96-b4W" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="118" y="-642"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
