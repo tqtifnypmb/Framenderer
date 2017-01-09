@@ -140,10 +140,10 @@ class FrameBuffer: InputFrameBuffer, OutputFrameBuffer {
     /// Create a input framebuffer object using samplebuffer as content
     init(sampleBuffer: CMSampleBuffer) throws {
         if let cv = CMSampleBufferGetImageBuffer(sampleBuffer) {
-            //let width = CVPixelBufferGetWidth(cv)
-            let height = CVPixelBufferGetHeight(cv)
-            let width = CVPixelBufferGetBytesPerRow(cv) / 4
             CVPixelBufferLockBaseAddress(cv, .readOnly)
+            
+            let width = CVPixelBufferGetWidth(cv)
+            let height = CVPixelBufferGetHeight(cv)
             
             glGenTextures(1, &_texture)
             glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
