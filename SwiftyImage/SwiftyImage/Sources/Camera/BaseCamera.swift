@@ -34,6 +34,8 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
         
         let output = AVCaptureVideoDataOutput()
         output.setSampleBufferDelegate(self, queue: _cameraFrameSerialQueue)
+        output.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable : kCVPixelFormatType_32BGRA]
+        
         assert(_captureSession.canAddOutput(output))
         _captureSession.addOutput(output)
         

@@ -40,6 +40,7 @@
 		41B49BB01E1D4EB9000ADDB3 /* InputFrameBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B49BAF1E1D4EB9000ADDB3 /* InputFrameBuffer.swift */; };
 		41B49BB21E1D4ED6000ADDB3 /* OutputFrameBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B49BB11E1D4ED6000ADDB3 /* OutputFrameBuffer.swift */; };
 		41B49BB41E1D4FAC000ADDB3 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B49BB31E1D4FAC000ADDB3 /* CameraPreviewView.swift */; };
+		41B519EA1E2258C30066858C /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B519E91E2258C30066858C /* CameraViewController.swift */; };
 		41BCE3821E0C2A0F00D0BDD5 /* BaseCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BCE37E1E0C2A0E00D0BDD5 /* BaseCamera.swift */; };
 		41BCE3831E0C2A0F00D0BDD5 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BCE37F1E0C2A0E00D0BDD5 /* Camera.swift */; };
 		41BCE3841E0C2A0F00D0BDD5 /* StillImageCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BCE3801E0C2A0F00D0BDD5 /* StillImageCamera.swift */; };
@@ -145,6 +146,7 @@
 		41B49BAF1E1D4EB9000ADDB3 /* InputFrameBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputFrameBuffer.swift; sourceTree = "<group>"; };
 		41B49BB11E1D4ED6000ADDB3 /* OutputFrameBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputFrameBuffer.swift; sourceTree = "<group>"; };
 		41B49BB31E1D4FAC000ADDB3 /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
+		41B519E91E2258C30066858C /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		41BCE37E1E0C2A0E00D0BDD5 /* BaseCamera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCamera.swift; sourceTree = "<group>"; };
 		41BCE37F1E0C2A0E00D0BDD5 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		41BCE3801E0C2A0F00D0BDD5 /* StillImageCamera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StillImageCamera.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 			children = (
 				414602A51DF9443C00DB59FB /* AppDelegate.swift */,
 				414602A71DF9443C00DB59FB /* ViewController.swift */,
+				41B519E91E2258C30066858C /* CameraViewController.swift */,
 				414602A91DF9443C00DB59FB /* Main.storyboard */,
 				414602AC1DF9443C00DB59FB /* Assets.xcassets */,
 				414602AE1DF9443C00DB59FB /* LaunchScreen.storyboard */,
@@ -706,6 +709,7 @@
 				TargetAttributes = {
 					414602A11DF9443C00DB59FB = {
 						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = 6TV9JKNLCC;
 						ProvisioningStyle = Automatic;
 					};
 					414602B51DF9443C00DB59FB = {
@@ -807,6 +811,7 @@
 				41DF70331E029B690091B540 /* MedianBlurFilter.swift in Sources */,
 				414602A81DF9443C00DB59FB /* ViewController.swift in Sources */,
 				41EAAF7F1E17AC86000665BC /* TextureCacher.swift in Sources */,
+				41B519EA1E2258C30066858C /* CameraViewController.swift in Sources */,
 				41DF703E1E029B690091B540 /* DifferenceBlendFilter.swift in Sources */,
 				41BCE3831E0C2A0F00D0BDD5 /* Camera.swift in Sources */,
 				41D484F81E08E81B00C2BFD2 /* Context.swift in Sources */,
@@ -979,6 +984,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6TV9JKNLCC;
 				INFOPLIST_FILE = SwiftyImage/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -992,6 +998,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6TV9JKNLCC;
 				INFOPLIST_FILE = SwiftyImage/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
