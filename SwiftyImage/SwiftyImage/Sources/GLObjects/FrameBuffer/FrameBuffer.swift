@@ -142,7 +142,8 @@ class FrameBuffer: InputFrameBuffer, OutputFrameBuffer {
         if let cv = CMSampleBufferGetImageBuffer(sampleBuffer) {
             CVPixelBufferLockBaseAddress(cv, .readOnly)
             
-            let width = CVPixelBufferGetWidth(cv)
+            let bpr = CVPixelBufferGetBytesPerRow(cv)
+            let width = bpr / 4
             let height = CVPixelBufferGetHeight(cv)
             
             glGenTextures(1, &_texture)

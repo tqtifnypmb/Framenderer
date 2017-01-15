@@ -42,7 +42,6 @@ class Context {
     func setOutput(output: OutputFrameBuffer) {
         _output = output
         
-        self.setAsCurrent()
         output.useAsOutput()
     }
     

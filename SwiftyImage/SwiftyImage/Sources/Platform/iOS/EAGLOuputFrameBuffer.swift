@@ -35,6 +35,14 @@ class EAGLOutputFrameBuffer: OutputFrameBuffer {
     }
     
     func useAsOutput() {
+        if (_fbo == 0) {
+            self.createRenderBuffer()
+        }
+        
+        glViewport(0, 0, _width, _height)
+    }
+    
+    private func createRenderBuffer() {
         glGenFramebuffers(1, &_fbo)
         glBindFramebuffer(GLenum(GL_FRAMEBUFFER), _fbo)
         
@@ -70,9 +78,7 @@ class EAGLOutputFrameBuffer: OutputFrameBuffer {
     }
     
     func present() {
-        guard EAGLContext.current().presentRenderbuffer(Int(GL_RENDERBUFFER)) else {
-            fatalError()
-        }
+        EAGLContext.current().presentRenderbuffer(Int(GL_RENDERBUFFER))
     }
     
     func convertToImage() -> CGImage? {
