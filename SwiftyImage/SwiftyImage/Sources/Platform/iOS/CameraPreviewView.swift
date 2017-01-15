@@ -33,7 +33,7 @@ class CameraPreviewView: UIView, PreviewView {
     }
     
     func buildProgram() throws {
-        _program = try ProgramObjectsCacher.shared.program(vertexShaderSrc: "PassthroughVertexShader", fragmentShaderSrc: "SingleInputFragmentShader")
+        _program = try Program.create(vertexSourcePath: "PassthroughVertexShader", fragmentSourcePath: "SingleInputFragmentShader")
     }
     
     func feedDataAndDraw(context ctx: Context, program: Program) throws {
@@ -67,17 +67,19 @@ class CameraPreviewView: UIView, PreviewView {
         ctx.frameSerialQueue.async {[weak self] in
             guard let strong_self = self else { return }
             do {
-                ctx.setInput(input: inputFrameBuffer)
-                
-                let layer = strong_self.layer as! CAEAGLLayer
-                let outputFrameBuffer = EAGLOutputFrameBuffer(eaglLayer: layer)
-                ctx.setOutput(output: outputFrameBuffer)
+                ctx.setAsCurrent()
                 
                 try strong_self.buildProgram()
                 strong_self.bindAttributes(context: ctx)
                 try strong_self._program.link()
                 ctx.setCurrent(program: strong_self._program)
                 strong_self.setUniformAttributs(context: ctx)
+                
+                ctx.setInput(input: inputFrameBuffer)
+                
+                let layer = strong_self.layer as! CAEAGLLayer
+                let outputFrameBuffer = EAGLOutputFrameBuffer(eaglLayer: layer)
+                ctx.setOutput(output: outputFrameBuffer)
                 
                 try strong_self.feedDataAndDraw(context: ctx, program: strong_self._program)
                 

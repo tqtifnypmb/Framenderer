@@ -18,6 +18,8 @@ class EAGLOutputFrameBuffer: OutputFrameBuffer {
     
     init(eaglLayer layer: CAEAGLLayer) {
         _layer = layer
+        _layer.isOpaque = true
+        _layer.drawableProperties = [kEAGLDrawablePropertyRetainedBacking: false, kEAGLDrawablePropertyColorFormat: kEAGLColorFormatRGBA8]
     }
     
     deinit {
@@ -40,7 +42,9 @@ class EAGLOutputFrameBuffer: OutputFrameBuffer {
         
         glGenRenderbuffers(1, &_rbo)
         glBindRenderbuffer(GLenum(GL_RENDERBUFFER), _rbo)
-        EAGLContext.current().renderbufferStorage(Int(GL_RENDERBUFFER), from: _layer)
+        guard EAGLContext.current().renderbufferStorage(Int(GL_RENDERBUFFER), from: _layer) else {
+            fatalError("Create renderbuffer failed")
+        }
         
         glFramebufferRenderbuffer(GLenum(GL_FRAMEBUFFER),
                                   GLenum(GL_COLOR_ATTACHMENT0),
