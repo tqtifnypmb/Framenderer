@@ -31,7 +31,7 @@ public class StillImageCamera: BaseCamera {
         
         session.addOutput(_photoOutput)
         
-        super.init(captureSession: session)
+        super.init(captureSession: session, cameraPosition: cameraPosition)
     }
     
     override func captureInput() -> AVCaptureInput {
@@ -77,7 +77,7 @@ public class StillImageCamera: BaseCamera {
     
     func applyFilters(toSampleBuffer sm: CMSampleBuffer) throws {
         _ctx.setAsCurrent()
-        let inputFrameBuffer = try FrameBuffer(sampleBuffer: sm)
+        let inputFrameBuffer = try FrameBuffer(sampleBuffer: sm, isFont: _cameraPosition == .front)
         _ctx.setInput(input: inputFrameBuffer)
         
         for filter in filters {

@@ -54,7 +54,7 @@ class FrameBuffer: InputFrameBuffer, OutputFrameBuffer {
     }
     
     /// Create a input framebuffer object using `texture` as content
-    init(texture: CGImage, rotation: Rotation = .none) throws {
+    init(texture: CGImage) throws {
         
         let textureInfo = try GLKTextureLoader.texture(with: texture, options: [GLKTextureLoaderOriginBottomLeft : false])
         assert(textureInfo.target == GLenum(GL_TEXTURE_2D))
@@ -83,7 +83,7 @@ class FrameBuffer: InputFrameBuffer, OutputFrameBuffer {
         
         _textureWidth = GLsizei(textureInfo.width)
         _textureHeight = GLsizei(textureInfo.height)
-        _rotation = rotation
+        _rotation = .none
         _texture = textureInfo.name
         _isInputFrameBuffer = true
     }
@@ -138,7 +138,7 @@ class FrameBuffer: InputFrameBuffer, OutputFrameBuffer {
     }
     
     /// Create a input framebuffer object using samplebuffer as content
-    init(sampleBuffer: CMSampleBuffer) throws {
+    init(sampleBuffer: CMSampleBuffer, isFont: Bool) throws {
         if let cv = CMSampleBufferGetImageBuffer(sampleBuffer) {
             CVPixelBufferLockBaseAddress(cv, .readOnly)
             
@@ -163,6 +163,12 @@ class FrameBuffer: InputFrameBuffer, OutputFrameBuffer {
             _textureWidth = GLsizei(width)
             _textureHeight = GLsizei(height)
             _isInputFrameBuffer = true
+            
+            if isFont {
+                _rotation = .ccw270
+            } else {
+                _rotation = .ccw90
+            }
             configureTexture()
         } else {
             throw DataError.sample(errorDesc: "CMSampleBuffer doesn't contain image data")
@@ -308,7 +314,6 @@ class FrameBuffer: InputFrameBuffer, OutputFrameBuffer {
         return _textureHeight
     }
     
-    /// Why ??
     var textCoor: [GLfloat] {
         switch _rotation {
         case .none:
@@ -321,11 +326,11 @@ class FrameBuffer: InputFrameBuffer, OutputFrameBuffer {
             
         case .ccw90:
             return [
-                      1.0, 0.0,
-                      0.0, 0.0,
-                      1.0, 1.0,
-                      0.0, 1.0
-                   ]
+                0.0, 1.0,
+                1.0, 1.0,
+                0.0, 0.0,
+                1.0, 0.0
+            ]
             
         case .ccw180:
             return [
@@ -337,11 +342,11 @@ class FrameBuffer: InputFrameBuffer, OutputFrameBuffer {
             
         case .ccw270:
             return [
-                      0.0, 1.0,
-                      1.0, 1.0,
-                      0.0, 0.0,
-                      1.0, 0.0
-                   ]
+                1.0, 0.0,
+                0.0, 0.0,
+                1.0, 1.0,
+                0.0, 1.0
+            ]
         }
     }
     

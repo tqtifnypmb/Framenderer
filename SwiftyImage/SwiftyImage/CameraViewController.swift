@@ -11,7 +11,7 @@ import UIKit
 class CameraViewController: UIViewController {
     @IBOutlet weak var preview: CameraPreviewView!
     
-    private let camera = StillImageCamera(cameraPosition: .front)
+    private let camera = StillImageCamera(cameraPosition: .back)
 
     override func viewDidLoad() {
         super.viewDidLoad()

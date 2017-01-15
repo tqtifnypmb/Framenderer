@@ -17,9 +17,11 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
     
     private let _captureSession: AVCaptureSession
     private let _cameraFrameSerialQueue: DispatchQueue
+    private let _cameraPosition: AVCaptureDevicePosition
     
-    init(captureSession: AVCaptureSession) {
+    init(captureSession: AVCaptureSession, cameraPosition: AVCaptureDevicePosition) {
         _captureSession = captureSession
+        _cameraPosition = cameraPosition
         _cameraFrameSerialQueue = DispatchQueue(label: "com.github.SwityImage.CameraSerial")
     }
     
@@ -88,7 +90,7 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
                     }
                 }
                 
-                let input = try FrameBuffer(sampleBuffer: retainBuffer!)
+                let input = try FrameBuffer(sampleBuffer: retainBuffer!, isFont: strong_self._cameraPosition == .front)
                 try starter.applyToFrame(context: strong_self._ctx, inputFrameBuffer:input, time: time, next: continuation)
             } catch {
                 fatalError(error.localizedDescription)
