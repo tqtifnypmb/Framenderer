@@ -15,8 +15,8 @@ class CameraPreviewView: UIView, PreviewView {
     
     weak var _program: Program!
     
-    override var layer: CALayer {
-        return CAEAGLLayer()
+    override class var layerClass: AnyClass {
+        return CAEAGLLayer.self
     }
     
     func apply(context ctx: Context) throws {
@@ -82,10 +82,10 @@ class CameraPreviewView: UIView, PreviewView {
                 ctx.setOutput(output: outputFrameBuffer)
                 
                 try strong_self.feedDataAndDraw(context: ctx, program: strong_self._program)
+                outputFrameBuffer.present()
                 
                 ProgramObjectsCacher.shared.release(program: strong_self._program)
                 strong_self._program = nil
-                
             } catch {
                 fatalError(error.localizedDescription)
             }

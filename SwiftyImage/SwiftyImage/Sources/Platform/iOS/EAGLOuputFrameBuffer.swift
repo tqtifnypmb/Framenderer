@@ -69,6 +69,12 @@ class EAGLOutputFrameBuffer: OutputFrameBuffer {
         }
     }
     
+    func present() {
+        guard EAGLContext.current().presentRenderbuffer(Int(GL_RENDERBUFFER)) else {
+            fatalError()
+        }
+    }
+    
     func convertToImage() -> CGImage? {
         return nil
     }

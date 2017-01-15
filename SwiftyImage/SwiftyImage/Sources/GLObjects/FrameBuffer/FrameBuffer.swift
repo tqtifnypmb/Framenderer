@@ -161,6 +161,7 @@ class FrameBuffer: InputFrameBuffer, OutputFrameBuffer {
             
             _textureWidth = GLsizei(width)
             _textureHeight = GLsizei(height)
+            _isInputFrameBuffer = true
             configureTexture()
         } else {
             throw DataError.sample(errorDesc: "CMSampleBuffer doesn't contain image data")
