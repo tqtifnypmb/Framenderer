@@ -30,8 +30,6 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
         
         precondition(previewView != nil)
         
-        filters.append(previewView)
-        
         _ctx = Context()
         
         let output = AVCaptureVideoDataOutput()
@@ -74,6 +72,7 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
                 let time: CMTime = CMSampleBufferGetPresentationTimeStamp(retainBuffer!)
                 
                 var currentFilters = strong_self.filters
+                currentFilters.append(strong_self.previewView)
                 
                 let starter = currentFilters.removeFirst()
                 
