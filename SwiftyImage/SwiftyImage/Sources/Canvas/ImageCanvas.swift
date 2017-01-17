@@ -23,7 +23,7 @@ public class ImageCanvas: NSObject, Canvas {
         
         let ctx = Context()
         ctx.setAsCurrent()
-        let inputFrameBuffer = try FrameBuffer(texture: _origin.cgImage!)
+        let inputFrameBuffer = try ImageInputFrameBuffer(image: _origin.cgImage!)
         ctx.setInput(input: inputFrameBuffer)
         
         for filter in filters {

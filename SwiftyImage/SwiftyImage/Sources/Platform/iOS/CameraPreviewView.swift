@@ -84,8 +84,7 @@ class CameraPreviewView: UIView, PreviewView {
                 try strong_self.feedDataAndDraw(context: ctx, program: strong_self._program)
                 outputFrameBuffer.present()
                 
-                ctx.endCurrentFrame()
-                
+                glFlush()
                 ProgramObjectsCacher.shared.release(program: strong_self._program)
                 strong_self._program = nil
             } catch {

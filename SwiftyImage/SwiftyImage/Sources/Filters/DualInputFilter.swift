@@ -30,7 +30,7 @@ public class DualInputFilter: BaseFilter {
     
     override func apply(context ctx: Context) throws {
         glActiveTexture(GLenum(GL_TEXTURE1))
-        let blendingInput = try FrameBuffer(texture: _secondSource)
+        let blendingInput = try ImageInputFrameBuffer(image: _secondSource)
         blendingInput.useAsInput()
         
         glActiveTexture(GLenum(GL_TEXTURE0))

@@ -46,7 +46,7 @@ public class BaseFilter: Filter {
             glEnableVertexAttribArray(program.location(ofAttribute: kTextureCoorAttribute))
         }
         
-        let outputFrameBuffer = try FrameBuffer(width: ctx.inputWidth, height: ctx.inputHeight, bitmapInfo: ctx.inputBitmapInfo)
+        let outputFrameBuffer = try TextureOutputFrameBuffer(width: ctx.inputWidth, height: ctx.inputHeight, bitmapInfo: ctx.inputBitmapInfo)
         ctx.setOutput(output: outputFrameBuffer)
         ctx.activateInput()
         glClearColor(0.0, 0.0, 0.0, 1.0);
