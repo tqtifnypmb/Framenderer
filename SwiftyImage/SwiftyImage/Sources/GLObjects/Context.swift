@@ -17,6 +17,8 @@ class Context {
     private var _input: InputFrameBuffer?
     private var _output: OutputFrameBuffer?
     
+    var enableInputOutputToggle = true
+    
     var frameSerialQueue: DispatchQueue = {
         return DispatchQueue(label: "com.github.SwiftyImage.ContextSerial")
     }()
@@ -54,15 +56,10 @@ class Context {
     }
     
     func toggleInputOutputIfNeeded() {
-        if _output != nil && _input != nil {
+        if enableInputOutputToggle && _output != nil && _input != nil {
             let input = _output?.convertToInput(bitmapInfo: _input!.bitmapInfo)
             _input = input
         }
-    }
-    
-    func endCurrentFrame() {
-        _input = nil;
-        _output = nil;
     }
     
     var inputWidth: GLsizei {

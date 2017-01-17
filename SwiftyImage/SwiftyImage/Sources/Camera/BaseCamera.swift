@@ -31,6 +31,7 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
         precondition(previewView != nil)
         
         _ctx = Context()
+        _ctx.enableInputOutputToggle = false
         
         let output = AVCaptureVideoDataOutput()
         output.setSampleBufferDelegate(self, queue: _cameraFrameSerialQueue)
@@ -64,12 +65,12 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
     
     public func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
         
-        _ctx.frameSerialQueue.async {[retainBuffer = sampleBuffer, weak self] in
+        _ctx.frameSerialQueue.async {[retainedBuffer = sampleBuffer, weak self] in
             guard let strong_self = self else { return }
             
             do {
                 strong_self._ctx.setAsCurrent()
-                let time: CMTime = CMSampleBufferGetPresentationTimeStamp(retainBuffer!)
+                let time: CMTime = CMSampleBufferGetPresentationTimeStamp(retainedBuffer!)
                 
                 var currentFilters = strong_self.filters
                 currentFilters.append(strong_self.previewView)
@@ -89,7 +90,7 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
                     }
                 }
                 
-                let input = try FrameBuffer(sampleBuffer: retainBuffer!, isFont: strong_self._cameraPosition == .front)
+                let input = try SMSampleInputFrameBuffer(sampleBuffer: retainedBuffer!, isFont: strong_self._cameraPosition == .front)
                 try starter.applyToFrame(context: strong_self._ctx, inputFrameBuffer:input, time: time, next: continuation)
             } catch {
                 fatalError(error.localizedDescription)

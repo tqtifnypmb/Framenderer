@@ -77,7 +77,7 @@ public class StillImageCamera: BaseCamera {
     
     func applyFilters(toSampleBuffer sm: CMSampleBuffer) throws {
         _ctx.setAsCurrent()
-        let inputFrameBuffer = try FrameBuffer(sampleBuffer: sm, isFont: _cameraPosition == .front)
+        let inputFrameBuffer = try SMSampleInputFrameBuffer(sampleBuffer: sm, isFont: _cameraPosition == .front)
         _ctx.setInput(input: inputFrameBuffer)
         
         for filter in filters {
