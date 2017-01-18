@@ -184,6 +184,11 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
     func convertToInput(bitmapInfo: CGBitmapInfo) -> InputFrameBuffer {
         let input = TextureInputFrameBuffer(texture: _texture, width: _textureWidth, height: _textureHeight, bitmapInfo: _bitmapInfo)
         input.originalOutputFrameBuffer = self
+        
+        if _frameBuffer != 0 {
+            glDeleteFramebuffers(1, &_frameBuffer)
+            _frameBuffer = 0
+        }
         return input
     }
 }

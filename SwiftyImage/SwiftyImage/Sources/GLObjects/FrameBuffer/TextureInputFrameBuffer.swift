@@ -51,9 +51,4 @@ class TextureInputFrameBuffer: InputFrameBuffer {
             1.0, 1.0
         ]
     }
-
-//    deinit {
-//        var toDelete = _texture
-//        glDeleteTextures(1, &toDelete)
-//    }
 }

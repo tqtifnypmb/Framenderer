@@ -34,6 +34,7 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
         _ctx.enableInputOutputToggle = false
         
         let output = AVCaptureVideoDataOutput()
+        output.alwaysDiscardsLateVideoFrames = false
         output.setSampleBufferDelegate(self, queue: _cameraFrameSerialQueue)
         output.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable : kCVPixelFormatType_32BGRA]
         

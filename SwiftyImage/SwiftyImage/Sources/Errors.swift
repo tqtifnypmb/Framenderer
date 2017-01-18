@@ -28,6 +28,7 @@ extension GLError: LocalizedError {
 public enum DataError: Error {
     case sample(errorDesc: String)
     case pixelBuffer(errorDesc: String)
+    case disorderFrame(errorDesc: String)
 }
 
 extension DataError: LocalizedError {
@@ -38,6 +39,9 @@ extension DataError: LocalizedError {
         
         case let .pixelBuffer(errorDesc):
             return "[Buffer Error] description: \(errorDesc)"
+        
+        case let .disorderFrame(errorDesc):
+            return "[Frame Input Error] description: \(errorDesc)"
         }
     }
 }

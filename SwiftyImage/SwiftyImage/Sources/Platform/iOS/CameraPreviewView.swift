@@ -64,32 +64,27 @@ class CameraPreviewView: UIView, PreviewView {
     }
     
     func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
-        ctx.frameSerialQueue.async {[weak self] in
-            guard let strong_self = self else { return }
-            do {
-                ctx.setAsCurrent()
-                
-                try strong_self.buildProgram()
-                strong_self.bindAttributes(context: ctx)
-                try strong_self._program.link()
-                ctx.setCurrent(program: strong_self._program)
-                strong_self.setUniformAttributs(context: ctx)
-                
-                ctx.setInput(input: inputFrameBuffer)
-                
-                let layer = strong_self.layer as! CAEAGLLayer
-                let outputFrameBuffer = EAGLOutputFrameBuffer(eaglLayer: layer)
-                ctx.setOutput(output: outputFrameBuffer)
-                
-                try strong_self.feedDataAndDraw(context: ctx, program: strong_self._program)
-                outputFrameBuffer.present()
-                
-                glFlush()
-                ProgramObjectsCacher.shared.release(program: strong_self._program)
-                strong_self._program = nil
-            } catch {
-                fatalError(error.localizedDescription)
-            }
-        }
+        ctx.setAsCurrent()
+        
+        try buildProgram()
+        bindAttributes(context: ctx)
+        try _program.link()
+        ctx.setCurrent(program: _program)
+        setUniformAttributs(context: ctx)
+        
+        ctx.setInput(input: inputFrameBuffer)
+        
+        let layer = self.layer as! CAEAGLLayer
+        let outputFrameBuffer = EAGLOutputFrameBuffer(eaglLayer: layer)
+        ctx.setOutput(output: outputFrameBuffer)
+        
+        try feedDataAndDraw(context: ctx, program: _program)
+        outputFrameBuffer.present()
+        
+        ProgramObjectsCacher.shared.release(program: _program)
+        _program = nil
+        
+        let dumpInput = TextureInputFrameBuffer(texture: 0, width: 0, height: 0, bitmapInfo: CGBitmapInfo(rawValue: 0))
+        try next(ctx, dumpInput)
     }
 }

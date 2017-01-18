@@ -29,6 +29,9 @@ class CameraViewController: UIViewController {
     
 
     @IBAction func f(_ sender: Any) {
+        let origin = UIImage(named: "zc")
+        let median = MedianBlurFilter()
+        //camera.filters = [median]
         camera.startRunning()
     }
     /*

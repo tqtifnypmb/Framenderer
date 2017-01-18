@@ -38,37 +38,28 @@ public class DualInputFilter: BaseFilter {
     }
     
     override func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
-        let superApply = super.apply
-        ctx.frameSerialQueue.async {[weak self] in
-            guard let strong_self = self else { return }
+        if _firstFrameTimeStamp == nil {
+            glActiveTexture(GLenum(GL_TEXTURE0))
+            _firstFrameTimeStamp = time
+            _firstFrameBuffer = inputFrameBuffer
+        } else if _secondFramebuffer == nil && CMTimeCompare(_firstFrameTimeStamp!, time) < 0 {
+            glActiveTexture(GLenum(GL_TEXTURE1))
+            _secondFramebuffer = inputFrameBuffer
+            _secondFramebuffer?.useAsInput()
             
-            do {
-                if strong_self._firstFrameTimeStamp == nil {
-                    glActiveTexture(GLenum(GL_TEXTURE0))
-                    strong_self._firstFrameTimeStamp = time
-                    strong_self._firstFrameBuffer = inputFrameBuffer
-                } else if strong_self._secondFramebuffer == nil && CMTimeCompare(strong_self._firstFrameTimeStamp!, time) < 0 {
-                    glActiveTexture(GLenum(GL_TEXTURE1))
-                    strong_self._secondFramebuffer = inputFrameBuffer
-                    strong_self._secondFramebuffer?.useAsInput()
-                    
-                    glActiveTexture(GLenum(GL_TEXTURE0))
-                    ctx.setInput(input: strong_self._firstFrameBuffer!)
-                    try superApply(ctx)
-                    
-                    let result = ctx.outputFrameBuffer!.convertToInput(bitmapInfo: strong_self._firstFrameBuffer!.bitmapInfo)
-                    
-                    strong_self._firstFrameBuffer = nil
-                    strong_self._secondFramebuffer = nil
-                    strong_self._firstFrameTimeStamp = nil
-                    
-                    try next(ctx, result)
-                } else {
-                    fatalError("Frame disorder")
-                }
-            } catch {
-                fatalError(error.localizedDescription)
-            }
+            glActiveTexture(GLenum(GL_TEXTURE0))
+            ctx.setInput(input: _firstFrameBuffer!)
+            try super.apply(context: ctx)
+            
+            let result = ctx.outputFrameBuffer!.convertToInput(bitmapInfo: _firstFrameBuffer!.bitmapInfo)
+            
+            _firstFrameBuffer = nil
+            _secondFramebuffer = nil
+            _firstFrameTimeStamp = nil
+            
+            try next(ctx, result)
+        } else {
+            throw DataError.disorderFrame(errorDesc: "Frame disorder")
         }
     }
 }

@@ -72,18 +72,11 @@ public class BaseFilter: Filter {
     }
     
     func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
-        ctx.frameSerialQueue.async {[weak self] in
-            guard let strong_self = self else { return }
-            do {
-                ctx.setInput(input: inputFrameBuffer)
-                
-                try strong_self.apply(context: ctx)
-                
-                let input = ctx.outputFrameBuffer!.convertToInput(bitmapInfo: inputFrameBuffer.bitmapInfo)
-                try next(ctx, input)
-            } catch {
-                fatalError(error.localizedDescription)
-            }
-        }
+        ctx.setInput(input: inputFrameBuffer)
+        
+        try apply(context: ctx)
+        
+        let input = ctx.outputFrameBuffer!.convertToInput(bitmapInfo: inputFrameBuffer.bitmapInfo)
+        try next(ctx, input)
     }
 }
