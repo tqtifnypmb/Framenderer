@@ -71,8 +71,8 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
             return
         }
         
-        _ctx.frameSerialQueue.async {[retainedBuffer = sampleBuffer, weak self] in
-            guard let strong_self = self else { return }
+        _ctx.frameSerialQueue.async {[retainedBuffer = sampleBuffer, weak weakSelf = self] in
+            guard let strong_self = weakSelf else { return }
             
             do {
                 strong_self._ctx.setAsCurrent()
@@ -92,6 +92,7 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
                     } else {
                         ctx.reset()
                         strong_self._renderSemaphore.signal()
+                        continuation = nil      // break the reference-cycle
                     }
                 }
                 
