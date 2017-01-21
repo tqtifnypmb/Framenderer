@@ -12,6 +12,7 @@ import OpenGLES.ES3.glext
 
 public class TwoPassFilter: BaseFilter {
     var _program2: Program!
+    var _isProgram2Setup = false
     
     func bindAttributes2(context: Context) {
         let attr = [kVertexPositionAttribute, kTextureCoorAttribute]
@@ -47,7 +48,9 @@ public class TwoPassFilter: BaseFilter {
         glActiveTexture(GLenum(GL_TEXTURE1))
         ctx.toggleInputOutputIfNeeded()
         
-        if _program2 == nil {
+        if !_isProgram2Setup {
+            _isProgram2Setup = true
+            
             bindAttributes2(context: ctx)
             try _program2.link()
             ctx.setCurrent(program: _program2)

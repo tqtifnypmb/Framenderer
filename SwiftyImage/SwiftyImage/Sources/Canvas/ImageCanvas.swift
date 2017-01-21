@@ -18,6 +18,12 @@ public class ImageCanvas: NSObject, Canvas {
         _origin = image
     }
     
+    #if DEBUG
+    deinit {
+        ProgramObjectsCacher.shared.check_finish()
+    }
+    #endif
+    
     func process() throws {
         precondition(!filters.isEmpty)
         
@@ -29,10 +35,6 @@ public class ImageCanvas: NSObject, Canvas {
         for filter in filters {
             try filter.apply(context: ctx)
         }
-        
-        #if DEBUG
-            ProgramObjectsCacher.shared.check_finish()
-        #endif
         
         _result = ctx.processedImage()
         filters.removeAll()

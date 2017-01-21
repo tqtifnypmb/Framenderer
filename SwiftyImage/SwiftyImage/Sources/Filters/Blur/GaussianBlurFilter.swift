@@ -167,7 +167,6 @@ private class NormalGaussianBlurFilter: TwoPassFilter {
             let distance = i % 2 == 0 ? (i / 2) : (i / 2 + 1)
             let weight = _kernel[distance]
             src += "acc += texture(firstInput, fTextCoor[\(i)]) * \(weight); \n"
-            print("\(i)  \(weight)")
         }
         
         src += "color = acc;                               \n"
