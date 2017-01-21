@@ -11,7 +11,7 @@ import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
 public class TwoPassFilter: BaseFilter {
-    weak var _program2: Program!
+    var _program2: Program!
     
     func bindAttributes2(context: Context) {
         let attr = [kVertexPositionAttribute, kTextureCoorAttribute]
@@ -24,6 +24,13 @@ public class TwoPassFilter: BaseFilter {
         let texelHeight = 1 / GLfloat(ctx.inputHeight)
         _program2.setUniform(name: kTexelWidth, value: GLfloat(0))
         _program2.setUniform(name: kTexelHeight, value: texelHeight)
+    }
+    
+    deinit {
+        if _program2 != nil {
+            ProgramObjectsCacher.shared.release(program: _program2)
+            _program2 = nil
+        }
     }
     
     override func setUniformAttributs(context ctx: Context) {
@@ -40,15 +47,16 @@ public class TwoPassFilter: BaseFilter {
         glActiveTexture(GLenum(GL_TEXTURE1))
         ctx.toggleInputOutputIfNeeded()
         
-        bindAttributes2(context: ctx)
-        try _program2.link()
-        ctx.setCurrent(program: _program2)
-        setUniformAttributs2(context: ctx)
+        if _program2 == nil {
+            bindAttributes2(context: ctx)
+            try _program2.link()
+            ctx.setCurrent(program: _program2)
+            setUniformAttributs2(context: ctx)
+        } else {
+            ctx.setCurrent(program: _program2)
+        }
         
         try feedDataAndDraw(context: ctx, program: _program2)
-        
-        ProgramObjectsCacher.shared.release(program: _program2)
-        _program2 = nil
     }
 }
 

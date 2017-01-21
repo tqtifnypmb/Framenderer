@@ -12,7 +12,7 @@ import OpenGLES.ES3.glext
 import CoreMedia
 
 public class BaseFilter: Filter {
-    weak var _program: Program!
+    var _program: Program!
     
     func bindAttributes(context: Context) {
         let attr = [kVertexPositionAttribute, kTextureCoorAttribute]
@@ -25,6 +25,13 @@ public class BaseFilter: Filter {
     
     func buildProgram() throws {
         fatalError("Called Virtual Function")
+    }
+    
+    deinit {
+        if _program != nil {
+            ProgramObjectsCacher.shared.release(program: _program)
+            _program = nil
+        }
     }
     
     func feedDataAndDraw(context ctx: Context, program: Program) throws {
@@ -59,16 +66,17 @@ public class BaseFilter: Filter {
     func apply(context ctx: Context) throws {
         ctx.toggleInputOutputIfNeeded()
         
-        try buildProgram()
-        bindAttributes(context: ctx)
-        try _program.link()
-        ctx.setCurrent(program: _program)
-        setUniformAttributs(context: ctx)
+        if _program == nil {
+            try buildProgram()
+            bindAttributes(context: ctx)
+            try _program.link()
+            ctx.setCurrent(program: _program)
+            setUniformAttributs(context: ctx)
+        } else {
+            ctx.setCurrent(program: _program)
+        }
         
         try feedDataAndDraw(context: ctx, program: _program)
-        
-        ProgramObjectsCacher.shared.release(program: _program)
-        _program = nil
     }
     
     func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
