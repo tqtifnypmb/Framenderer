@@ -81,6 +81,7 @@ class CameraPreviewView: UIView, PreviewView {
         try feedDataAndDraw(context: ctx, program: _program)
         outputFrameBuffer.present()
         
+        ctx.reset()
         ProgramObjectsCacher.shared.release(program: _program)
         _program = nil
         

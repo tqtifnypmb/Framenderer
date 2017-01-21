@@ -62,6 +62,11 @@ class Context {
         }
     }
     
+    func reset() {
+        _input = nil;
+        _output = nil;
+    }
+    
     var inputWidth: GLsizei {
         return _input!.width
     }
