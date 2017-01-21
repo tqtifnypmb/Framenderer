@@ -18,11 +18,13 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
     private let _captureSession: AVCaptureSession
     private let _cameraFrameSerialQueue: DispatchQueue
     private let _cameraPosition: AVCaptureDevicePosition
+    private let _renderSemaphore: DispatchSemaphore!
     
     init(captureSession: AVCaptureSession, cameraPosition: AVCaptureDevicePosition) {
         _captureSession = captureSession
         _cameraPosition = cameraPosition
         _cameraFrameSerialQueue = DispatchQueue(label: "com.github.SwityImage.CameraSerial")
+        _renderSemaphore = DispatchSemaphore(value: 1)
     }
     
     func startRunning() {
@@ -65,6 +67,9 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
     public func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+        if case .timedOut = _renderSemaphore.wait(timeout: DispatchTime.now()) {
+            return
+        }
         
         _ctx.frameSerialQueue.async {[retainedBuffer = sampleBuffer, weak self] in
             guard let strong_self = self else { return }
@@ -88,6 +93,8 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
                         #if DEBUG
                             ProgramObjectsCacher.shared.check_finish()
                         #endif
+                        ctx.reset()
+                        strong_self._renderSemaphore.signal()
                     }
                 }
                 
