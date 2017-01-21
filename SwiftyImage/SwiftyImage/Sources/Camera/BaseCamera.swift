@@ -90,9 +90,6 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
                         let filter = currentFilters.removeFirst()
                         try filter.applyToFrame(context: ctx, inputFrameBuffer: input, time: time, next: continuation)
                     } else {
-                        #if DEBUG
-                            ProgramObjectsCacher.shared.check_finish()
-                        #endif
                         ctx.reset()
                         strong_self._renderSemaphore.signal()
                     }

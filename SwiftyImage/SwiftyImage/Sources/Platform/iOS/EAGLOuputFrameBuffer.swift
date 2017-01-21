@@ -14,12 +14,21 @@ class EAGLOutputFrameBuffer: OutputFrameBuffer {
     private var _renderBuffer: GLuint = 0
     private var _width: GLsizei = 0
     private var _height:GLsizei = 0
-    private let _layer: CAEAGLLayer
     
     init(eaglLayer layer: CAEAGLLayer) {
-        _layer = layer
-        _layer.isOpaque = true
-        _layer.drawableProperties = [kEAGLDrawablePropertyRetainedBacking: false, kEAGLDrawablePropertyColorFormat: kEAGLColorFormatRGBA8]
+        layer.isOpaque = true
+        layer.drawableProperties = [kEAGLDrawablePropertyRetainedBacking: false, kEAGLDrawablePropertyColorFormat: kEAGLColorFormatRGBA8]
+        
+        glGenFramebuffers(1, &_frameBuffer)
+        glBindFramebuffer(GLenum(GL_FRAMEBUFFER), _frameBuffer)
+        
+        // set up color renderbuffer
+        
+        glGenRenderbuffers(1, &_renderBuffer)
+        glBindRenderbuffer(GLenum(GL_RENDERBUFFER), _renderBuffer)
+        guard EAGLContext.current().renderbufferStorage(Int(GL_RENDERBUFFER), from: layer) else {
+            fatalError("Create renderbuffer failed")
+        }
     }
     
     deinit {
@@ -36,18 +45,7 @@ class EAGLOutputFrameBuffer: OutputFrameBuffer {
     }
     
     func useAsOutput() {
-        precondition(_frameBuffer == 0)
-        
-        glGenFramebuffers(1, &_frameBuffer)
-        glBindFramebuffer(GLenum(GL_FRAMEBUFFER), _frameBuffer)
-        
-        // set up color renderbuffer
-        
-        glGenRenderbuffers(1, &_renderBuffer)
-        glBindRenderbuffer(GLenum(GL_RENDERBUFFER), _renderBuffer)
-        guard EAGLContext.current().renderbufferStorage(Int(GL_RENDERBUFFER), from: _layer) else {
-            fatalError("Create renderbuffer failed")
-        }
+        precondition(_frameBuffer != 0)
         
         glFramebufferRenderbuffer(GLenum(GL_FRAMEBUFFER),
                                   GLenum(GL_COLOR_ATTACHMENT0),

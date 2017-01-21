@@ -13,10 +13,18 @@ import OpenGLES.ES3.glext
 
 class CameraPreviewView: UIView, PreviewView {
     
-    weak var _program: Program!
+    var _program: Program!
+    var _outputFrameBuffer: EAGLOutputFrameBuffer!
     
     override class var layerClass: AnyClass {
         return CAEAGLLayer.self
+    }
+    
+    deinit {
+        if _program != nil {
+            ProgramObjectsCacher.shared.release(program: _program)
+            _program = nil
+        }
     }
     
     func apply(context ctx: Context) throws {
@@ -66,23 +74,26 @@ class CameraPreviewView: UIView, PreviewView {
     func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         ctx.setAsCurrent()
         
-        try buildProgram()
-        bindAttributes(context: ctx)
-        try _program.link()
-        ctx.setCurrent(program: _program)
-        setUniformAttributs(context: ctx)
+        if _program == nil {
+            try buildProgram()
+            bindAttributes(context: ctx)
+            try _program.link()
+            ctx.setCurrent(program: _program)
+            setUniformAttributs(context: ctx)
+        } else {
+            ctx.setCurrent(program: _program)
+        }
         
         ctx.setInput(input: inputFrameBuffer)
         
-        let layer = self.layer as! CAEAGLLayer
-        let outputFrameBuffer = EAGLOutputFrameBuffer(eaglLayer: layer)
-        ctx.setOutput(output: outputFrameBuffer)
-        
+        if _outputFrameBuffer == nil {
+            let layer = self.layer as! CAEAGLLayer
+            _outputFrameBuffer = EAGLOutputFrameBuffer(eaglLayer: layer)
+        }
+        ctx.setOutput(output: _outputFrameBuffer)
+
         try feedDataAndDraw(context: ctx, program: _program)
-        outputFrameBuffer.present()
-        
-        ProgramObjectsCacher.shared.release(program: _program)
-        _program = nil
+        _outputFrameBuffer.present()
         
         let dumpInput = TextureInputFrameBuffer(texture: 0, width: 0, height: 0, bitmapInfo: CGBitmapInfo(rawValue: 0))
         try next(ctx, dumpInput)
