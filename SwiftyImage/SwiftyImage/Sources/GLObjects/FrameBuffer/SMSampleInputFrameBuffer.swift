@@ -93,7 +93,7 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
             rotation = _isFont ? .none : .ccw180
             
         case .portraitUpsideDown:
-            rotation = _isFont ? .none : .ccw270
+            rotation = _isFont ? .ccw180 : .ccw90
             
         default:
             rotation = .none

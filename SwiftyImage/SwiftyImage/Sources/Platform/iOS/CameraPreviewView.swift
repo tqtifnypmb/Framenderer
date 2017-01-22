@@ -14,7 +14,6 @@ import OpenGLES.ES3.glext
 class CameraPreviewView: UIView, PreviewView {
     
     var _program: Program!
-    var _outputFrameBuffer: EAGLOutputFrameBuffer!
     
     override class var layerClass: AnyClass {
         return CAEAGLLayer.self
@@ -86,14 +85,12 @@ class CameraPreviewView: UIView, PreviewView {
         
         ctx.setInput(input: inputFrameBuffer)
         
-        if _outputFrameBuffer == nil {
-            let layer = self.layer as! CAEAGLLayer
-            _outputFrameBuffer = EAGLOutputFrameBuffer(eaglLayer: layer)
-        }
-        ctx.setOutput(output: _outputFrameBuffer)
+        let layer = self.layer as! CAEAGLLayer
+        let outputFrameBuffer = EAGLOutputFrameBuffer(eaglLayer: layer)
+        ctx.setOutput(output: outputFrameBuffer)
 
         try feedDataAndDraw(context: ctx, program: _program)
-        _outputFrameBuffer.present()
+        outputFrameBuffer.present()
         
         let dumpInput = TextureInputFrameBuffer(texture: 0, width: 0, height: 0, bitmapInfo: CGBitmapInfo(rawValue: 0))
         try next(ctx, dumpInput)

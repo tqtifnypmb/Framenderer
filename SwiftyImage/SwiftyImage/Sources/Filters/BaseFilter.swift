@@ -80,6 +80,8 @@ public class BaseFilter: Filter {
     }
     
     func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
+        ctx.setAsCurrent()
+        
         ctx.setInput(input: inputFrameBuffer)
         
         try apply(context: ctx)

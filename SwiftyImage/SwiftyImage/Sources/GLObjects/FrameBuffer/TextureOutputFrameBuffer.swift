@@ -53,7 +53,7 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
             // Code originally sourced from http://allmybrain.com/2011/12/08/rendering-to-a-texture-with-ios-5-texture-cache-api/
             
             let attrs: [String: [Int: Int]] = [kCVPixelBufferIOSurfacePropertiesKey as String: [:]]
-            
+
             var pixelBuffer: CVPixelBuffer?
             if CVPixelBufferCreate(CFAllocatorGetDefault()!.takeRetainedValue(),
                                    Int(_textureWidth),
@@ -66,7 +66,7 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
             _renderTarget = pixelBuffer
             
             TextureCacher.shared.setup(context: EAGLContext.current())
-            
+            kCVPixelFormatType_422YpCbCr8_yuvs
             let cvTexture = try TextureCacher.shared.createTexture(fromPixelBufer: _renderTarget, target: GLenum(GL_TEXTURE_2D), format: GLenum(GL_BGRA))
             assert(CVOpenGLESTextureGetTarget(cvTexture) == GLenum(GL_TEXTURE_2D))
             

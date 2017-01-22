@@ -17,14 +17,15 @@ class ViewController: UIViewController {
         super.viewDidAppear(animated)
         
         let origin = UIImage(named: "lena")
-        //let blend = UIImage(named: "zc")
+        let blend = UIImage(named: "zc")
         originImageView.image = origin
         
         do {
             let canva = ImageCanvas(image: origin!)
             
-            //let blendingFilter = LinearBlendFilter(source: blend!.cgImage!, a: 0.5)
-            canva.filters = [MedianBlurFilter()]
+            let blendingFilter = LinearBlendFilter(source: blend!.cgImage!, a: 0.5)
+            let gaussian = GaussianBlurFilter()
+            canva.filters = [MedianBlurFilter(), blendingFilter, gaussian]
             try canva.process()
             
             let result = canva.processedImage()
