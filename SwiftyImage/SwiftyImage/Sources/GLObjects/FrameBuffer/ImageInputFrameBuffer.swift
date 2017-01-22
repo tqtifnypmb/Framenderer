@@ -76,8 +76,8 @@ class ImageInputFrameBuffer: InputFrameBuffer {
     
     deinit {
         if _texture != 0 {
-            _texture = 0
             glDeleteTextures(1, &_texture)
+            _texture = 0
         }
     }
 }

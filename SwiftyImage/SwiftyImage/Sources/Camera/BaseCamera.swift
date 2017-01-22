@@ -71,8 +71,8 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
             return
         }
         
-        _ctx.frameSerialQueue.async {[retainedBuffer = sampleBuffer, weak weakSelf = self] in
-            guard let strong_self = weakSelf else { return }
+        _ctx.frameSerialQueue.async {[retainedBuffer = sampleBuffer, weak self] in
+            guard let strong_self = self else { return }
             
             do {
                 strong_self._ctx.setAsCurrent()
@@ -85,7 +85,9 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
                 
                 // ref: http://wiki.haskell.org/Continuation
                 var continuation: ((Context, InputFrameBuffer) throws -> Void)!
-                continuation = { ctx, input in
+                continuation = {[weak self] ctx, input in
+                    guard let strong_self = self else { return }
+                    
                     if !currentFilters.isEmpty {
                         let filter = currentFilters.removeFirst()
                         try filter.applyToFrame(context: ctx, inputFrameBuffer: input, time: time, next: continuation)
