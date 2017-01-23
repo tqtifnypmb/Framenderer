@@ -21,7 +21,7 @@ class MotionBlurFilter: BaseFilter {
         - parameter angle: the angle of the motion blur
         - parameter length: the length of the motion blur effect.
      */
-    init(angle: Double, distance: Double = 3.0) {
+    init(angle: Double, distance: Double = 20) {
         _angle = angle
         _distance = distance
         super.init()
@@ -45,8 +45,6 @@ class MotionBlurFilter: BaseFilter {
         let samplerCount: Double = 7
         _program.setUniform(name: kXOffset, value: GLfloat(dx / samplerCount))
         _program.setUniform(name: kYOffset, value: GLfloat(dy / samplerCount))
-        
-        print(dx * height * width / 100.0)
     }
     
     override func buildProgram() throws {

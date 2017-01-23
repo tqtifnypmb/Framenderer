@@ -15,9 +15,7 @@ import CoreMedia
 public class DualInputFilter: BaseFilter {
     
     private let _secondSource: CGImage
-    private var _firstFrameTimeStamp: CMTime?
-    private var _firstFrameBuffer: InputFrameBuffer?
-    private var _secondFramebuffer: InputFrameBuffer?
+    private var _firstInputFrameBuffer: InputFrameBuffer?
     
     init(secondInput: CGImage) {
         _secondSource = secondInput
@@ -38,28 +36,17 @@ public class DualInputFilter: BaseFilter {
     }
     
     override func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
-        if _firstFrameTimeStamp == nil {
-            glActiveTexture(GLenum(GL_TEXTURE0))
-            _firstFrameTimeStamp = time
-            _firstFrameBuffer = inputFrameBuffer
-        } else if _secondFramebuffer == nil && CMTimeCompare(_firstFrameTimeStamp!, time) < 0 {
-            glActiveTexture(GLenum(GL_TEXTURE1))
-            _secondFramebuffer = inputFrameBuffer
-            _secondFramebuffer?.useAsInput()
-            
-            glActiveTexture(GLenum(GL_TEXTURE0))
-            ctx.setInput(input: _firstFrameBuffer!)
-            try super.apply(context: ctx)
-            
-            let result = ctx.outputFrameBuffer!.convertToInput(bitmapInfo: _firstFrameBuffer!.bitmapInfo)
-            
-            _firstFrameBuffer = nil
-            _secondFramebuffer = nil
-            _firstFrameTimeStamp = nil
-            
-            try next(ctx, result)
-        } else {
-            throw DataError.disorderFrame(errorDesc: "Frame disorder")
+        glActiveTexture(GLenum(GL_TEXTURE1))
+        if _firstInputFrameBuffer == nil {
+            _firstInputFrameBuffer = try ImageInputFrameBuffer(image: _secondSource)
         }
+        _firstInputFrameBuffer?.useAsInput()
+        
+        glActiveTexture(GLenum(GL_TEXTURE0))
+        ctx.setInput(input: inputFrameBuffer)
+        try super.apply(context: ctx)
+        
+        let result = ctx.outputFrameBuffer!.convertToInput(bitmapInfo: inputFrameBuffer.bitmapInfo)
+        try next(ctx, result)
     }
 }
