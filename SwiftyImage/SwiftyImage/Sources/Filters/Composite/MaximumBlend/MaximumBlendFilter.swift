@@ -25,4 +25,8 @@ class MaximumBlendFilter: DualInputFilter {
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "MaximumBlendFragmentShader")
     }
+    
+    override var name: String {
+        return "MaximumBlendFilter"
+    }
 }

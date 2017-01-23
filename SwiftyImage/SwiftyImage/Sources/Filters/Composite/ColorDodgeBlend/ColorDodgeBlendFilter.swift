@@ -18,4 +18,8 @@ class ColorDodgeBlendFilter: DualInputFilter {
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "ColorDodgeBlendFragmentShader")
     }
+    
+    override var name: String {
+        return "ColorDodgeBlendFilter"
+    }
 }

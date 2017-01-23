@@ -18,4 +18,8 @@ class ScreenBlendFilter: DualInputFilter {
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "ScreenBlendFragmentShader")
     }
+    
+    override var name: String {
+        return "ScreenBlendFilter"
+    }
 }

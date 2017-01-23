@@ -12,4 +12,8 @@ class MaximumComponentFilter: BaseFilter {
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "MaximumComponentFragmentShader")
     }
+    
+    override var name: String {
+        return "MaximumComponentFilter"
+    }
 }

@@ -19,6 +19,7 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
     private let _cameraFrameSerialQueue: DispatchQueue
     private let _cameraPosition: AVCaptureDevicePosition
     private let _renderSemaphore: DispatchSemaphore!
+    private var _isFullRangeYUV = true
     
     init(captureSession: AVCaptureSession, cameraPosition: AVCaptureDevicePosition) {
         _captureSession = captureSession
@@ -34,10 +35,13 @@ public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferD
         
         _ctx = Context()
         _ctx.enableInputOutputToggle = false
-        
         let output = AVCaptureVideoDataOutput()
         output.alwaysDiscardsLateVideoFrames = false
         output.setSampleBufferDelegate(self, queue: _cameraFrameSerialQueue)
+        
+        for format in output.availableVideoCVPixelFormatTypes as! [NSNumber] {
+            kCMPixelFormat_422YpCbCr8_yuvs
+        }
         output.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable : kCVPixelFormatType_32BGRA]
         
         assert(_captureSession.canAddOutput(output))

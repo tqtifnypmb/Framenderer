@@ -30,6 +30,10 @@ class MotionBlurFilter: BaseFilter {
     private let _angle: Double
     private let _distance: Double
     
+    override var name: String {
+        return "MotionBlurFilter"
+    }
+
     override func setUniformAttributs(context: Context) {
         super.setUniformAttributs(context: context)
         

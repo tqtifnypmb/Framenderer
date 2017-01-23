@@ -25,4 +25,8 @@ class MinimumBlendFilter: DualInputFilter {
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "MinimumBlendFragmentShader")
     }
+    
+    override var name: String {
+        return "MinimumBlendFilter"
+    }
 }

@@ -44,22 +44,26 @@ public class TwoPassFilter: BaseFilter {
 
     override func apply(context ctx: Context) throws {
         try super.apply(context: ctx)
-
-        glActiveTexture(GLenum(GL_TEXTURE1))
-        ctx.toggleInputOutputIfNeeded()
         
-        if !_isProgram2Setup {
-            _isProgram2Setup = true
+        do {
+            glActiveTexture(GLenum(GL_TEXTURE1))
+            ctx.toggleInputOutputIfNeeded()
             
-            bindAttributes2(context: ctx)
-            try _program2.link()
-            ctx.setCurrent(program: _program2)
-            setUniformAttributs2(context: ctx)
-        } else {
-            ctx.setCurrent(program: _program2)
+            if !_isProgram2Setup {
+                _isProgram2Setup = true
+                
+                bindAttributes2(context: ctx)
+                try _program2.link()
+                ctx.setCurrent(program: _program2)
+                setUniformAttributs2(context: ctx)
+            } else {
+                ctx.setCurrent(program: _program2)
+            }
+            
+            try feedDataAndDraw(context: ctx, program: _program2)
+        } catch {
+            throw FilterError.filterError(name: self.name, error: error.localizedDescription)
         }
-        
-        try feedDataAndDraw(context: ctx, program: _program2)
     }
 }
 

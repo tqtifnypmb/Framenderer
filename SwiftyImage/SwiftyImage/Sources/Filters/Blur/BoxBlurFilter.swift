@@ -16,6 +16,10 @@ public class BoxBlurFilter: TwoPassFilter {
     private var _vertexShaderSrc: String!
     private var _fragmentShaderSrc: String!
     
+    override var name: String {
+        return "BoxBlurFilter"
+    }
+    
     /**
      init a [Box blur](https://en.wikipedia.org/wiki/Box_blur) filter
      

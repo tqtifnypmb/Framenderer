@@ -37,4 +37,8 @@ class SubtractBlendFilter: DualInputFilter {
         
         _program.setUniform(name: "isSubtractor", value: _asSubtractor)
     }
+    
+    override var name: String {
+        return "SubtractBlendFilter"
+    }
 }

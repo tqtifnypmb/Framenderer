@@ -25,4 +25,8 @@ class MultiplyBlendFilter: DualInputFilter {
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "MultiplyBlendFragmentShader")
     }
+    
+    override var name: String {
+        return "MultiplyBlendFilter"
+    }
 }

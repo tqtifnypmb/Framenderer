@@ -12,6 +12,10 @@ import OpenGLES.ES3.glext
 
 public class MedianBlurFilter: BaseFilter {
     
+    override var name: String {
+        return "MedianBlurFilter"
+    }
+    
     override func setUniformAttributs(context ctx: Context) {
         super.setUniformAttributs(context: ctx)
         

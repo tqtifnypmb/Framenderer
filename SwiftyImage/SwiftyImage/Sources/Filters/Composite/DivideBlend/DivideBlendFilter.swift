@@ -38,4 +38,8 @@ class DivideBlendFilter: DualInputFilter {
         
         _program.setUniform(name: "isDivisor", value: _asDivisor)
     }
+    
+    override var name: String {
+        return "DivideBlendFilter"
+    }
 }

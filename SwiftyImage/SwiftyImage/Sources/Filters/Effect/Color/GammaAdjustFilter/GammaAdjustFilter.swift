@@ -25,4 +25,8 @@ class GammaAdjustFilter: BaseFilter {
         
         _program.setUniform(name: "adjust", value: _value)
     }
+    
+    override var name: String {
+        return "GammaAdjustFilter"
+    }
 }

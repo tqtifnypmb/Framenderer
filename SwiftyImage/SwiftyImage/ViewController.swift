@@ -25,7 +25,7 @@ class ViewController: UIViewController {
             
             let blendingFilter = LinearBlendFilter(source: blend!.cgImage!, a: 0.5)
             let gaussian = GaussianBlurFilter()
-            canva.filters = [MedianBlurFilter(), blendingFilter, gaussian]
+            canva.filters = [blendingFilter, blendingFilter, gaussian]
             try canva.process()
             
             let result = canva.processedImage()

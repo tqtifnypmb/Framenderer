@@ -7,20 +7,27 @@
 //
 
 import Foundation
+import OpenGLES.ES3.gl
+import OpenGLES.ES3.glext
 
 public enum GLError: Error {
     case compile(type: String, infoLog: String)
     case link(infoLog: String)
+    case invalidFramebuffer(status: GLenum)
 }
 
 extension GLError: LocalizedError {
     public var errorDescription: String? {
+        let glError = glGetError()
         switch self {
         case let .compile(type, infoLog):
-            return "[Compile Error] in: \(type) shader \n infoLog: \(infoLog)"
+            return "[Compile Error] in: \(type) shader infoLog: \(infoLog) [glError]: \(glError) \n"
             
         case let .link(infoLog):
-            return "[Link Error] infoLog: \(infoLog)"
+            return "[Link Error] infoLog: \(infoLog) [glError]: \(glError) \n"
+            
+        case let .invalidFramebuffer(status):
+            return "[Invalid Framebuffer] status: \(status) [glError]: \(glError) \n"
         }
     }
 }
@@ -42,6 +49,19 @@ extension DataError: LocalizedError {
         
         case let .disorderFrame(errorDesc):
             return "[Frame Input Error] description: \(errorDesc)"
+        }
+    }
+}
+
+public enum FilterError: Error {
+    case filterError(name: String, error: String)
+}
+
+extension FilterError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case let .filterError(name, error):
+            return "[Filter]: \(name) " + error
         }
     }
 }

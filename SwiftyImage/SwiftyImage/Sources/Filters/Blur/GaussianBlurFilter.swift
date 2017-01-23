@@ -40,6 +40,16 @@ public class GaussianBlurFilter: Filter {
         _impl = implement
     }
     
+    var name: String {
+        switch _impl {
+        case .box:
+            return "BoxGaussianBlurFilter"
+        
+        case .normal:
+            return "NormalGaussianBlurFilter"
+        }
+    }
+    
     func apply(context: Context) throws {
         switch _impl {
         case .box:
@@ -72,6 +82,10 @@ private class BoxGaussianBlurFilter: Filter {
     private var _boxBlurSize: [Int] = []
     init(radius: Int, pass: Int) {
         _boxBlurSize = calculateBoxBlurSize(radius: radius, pass: pass)
+    }
+    
+    var name: String {
+        return "BoxGaussianBlurFilter"
     }
     
     private func calculateBoxBlurSize(radius: Int, pass: Int) -> [Int] {
@@ -120,6 +134,10 @@ private class NormalGaussianBlurFilter: TwoPassFilter {
     private var _kernel: [Double] = []
     private var _vertexShaderSrc: String!
     private var _fragmentShaderSrc: String!
+    
+    override var name: String {
+        return "NormalGaussianBlurFilter"
+    }
     
     init(radius: Int, sigma: Double) {
         // kernel size <= 6sigma is good enough

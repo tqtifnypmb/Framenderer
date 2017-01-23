@@ -18,4 +18,8 @@ class LightenBlendFilter: DualInputFilter {
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "LightenBlendFragmentShader")
     }
+    
+    override var name: String {
+        return "LightenBlendFilter"
+    }
 }

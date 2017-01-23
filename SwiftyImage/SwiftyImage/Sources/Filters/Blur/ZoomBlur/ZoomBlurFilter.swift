@@ -29,6 +29,10 @@ class ZoomBlurFilter: BaseFilter {
     private let _center: CGPoint
     private let _radius: CGFloat
     
+    override var name: String {
+        return "ZoomBlurFilter"
+    }
+    
     override func setUniformAttributs(context ctx: Context) {
         super.setUniformAttributs(context: ctx)
         

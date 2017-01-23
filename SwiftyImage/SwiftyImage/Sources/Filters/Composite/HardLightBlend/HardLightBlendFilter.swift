@@ -25,4 +25,8 @@ class HardLightBlendFilter: DualInputFilter {
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "HardLightBlendFragmentShader")
     }
+    
+    override var name: String {
+        return "HardLightBlendFilter"
+    }
 }

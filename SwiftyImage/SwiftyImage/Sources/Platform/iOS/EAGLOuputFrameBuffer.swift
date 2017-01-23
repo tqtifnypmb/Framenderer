@@ -14,21 +14,12 @@ class EAGLOutputFrameBuffer: OutputFrameBuffer {
     private var _renderBuffer: GLuint = 0
     private var _width: GLsizei = 0
     private var _height:GLsizei = 0
+    private let _eaglLayer: CAEAGLLayer
     
     init(eaglLayer layer: CAEAGLLayer) {
+        _eaglLayer = layer
         layer.isOpaque = true
         layer.drawableProperties = [kEAGLDrawablePropertyRetainedBacking: false, kEAGLDrawablePropertyColorFormat: kEAGLColorFormatRGBA8]
-        
-        glGenFramebuffers(1, &_frameBuffer)
-        glBindFramebuffer(GLenum(GL_FRAMEBUFFER), _frameBuffer)
-        
-        // set up color renderbuffer
-        
-        glGenRenderbuffers(1, &_renderBuffer)
-        glBindRenderbuffer(GLenum(GL_RENDERBUFFER), _renderBuffer)
-        guard EAGLContext.current().renderbufferStorage(Int(GL_RENDERBUFFER), from: layer) else {
-            fatalError("Create renderbuffer failed")
-        }
     }
     
     deinit {
@@ -44,8 +35,19 @@ class EAGLOutputFrameBuffer: OutputFrameBuffer {
         }
     }
     
-    func useAsOutput() {
-        precondition(_frameBuffer != 0)
+    func useAsOutput() throws {
+        precondition(_frameBuffer == 0)
+        
+        glGenFramebuffers(1, &_frameBuffer)
+        glBindFramebuffer(GLenum(GL_FRAMEBUFFER), _frameBuffer)
+        
+        // set up color renderbuffer
+        
+        glGenRenderbuffers(1, &_renderBuffer)
+        glBindRenderbuffer(GLenum(GL_RENDERBUFFER), _renderBuffer)
+        guard EAGLContext.current().renderbufferStorage(Int(GL_RENDERBUFFER), from: _eaglLayer) else {
+            fatalError("Create renderbuffer failed")
+        }
         
         glFramebufferRenderbuffer(GLenum(GL_FRAMEBUFFER),
                                   GLenum(GL_COLOR_ATTACHMENT0),
@@ -60,15 +62,15 @@ class EAGLOutputFrameBuffer: OutputFrameBuffer {
                                      GLenum(GL_RENDERBUFFER_HEIGHT),
                                      &_height)
         
-        validate()
+        try validate()
         
         glViewport(0, 0, _width, _height)
     }
     
-    private func validate() {
+    private func validate() throws {
         let status = glCheckFramebufferStatus(GLenum(GL_FRAMEBUFFER))
         if status != GLenum(GL_FRAMEBUFFER_COMPLETE) {
-            fatalError("\(status)")
+            throw GLError.invalidFramebuffer(status: status)
         }
     }
     

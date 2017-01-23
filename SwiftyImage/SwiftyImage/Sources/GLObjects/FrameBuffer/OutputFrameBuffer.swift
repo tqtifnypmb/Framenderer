@@ -9,7 +9,7 @@
 import CoreGraphics
 
 protocol OutputFrameBuffer {
-    func useAsOutput()
+    func useAsOutput() throws
     func convertToImage() -> CGImage?
     func convertToInput(bitmapInfo: CGBitmapInfo) -> InputFrameBuffer
 }

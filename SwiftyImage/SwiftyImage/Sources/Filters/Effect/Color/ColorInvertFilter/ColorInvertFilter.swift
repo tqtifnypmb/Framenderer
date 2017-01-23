@@ -13,4 +13,8 @@ class ColorInvertFilter: BaseFilter {
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "ColorInvertFragmentShader")
     }
+    
+    override var name: String {
+        return "ColorInvertFilter"
+    }
 }

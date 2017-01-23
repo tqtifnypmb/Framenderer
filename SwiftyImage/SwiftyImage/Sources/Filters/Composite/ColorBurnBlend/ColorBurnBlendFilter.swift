@@ -18,4 +18,8 @@ class ColorBurnBlendFilter: DualInputFilter {
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "ColorBurnBlendFragmentShader")
     }
+    
+    override var name: String {
+        return "ColorBurnBlendFilter"
+    }
 }

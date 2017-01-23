@@ -26,4 +26,8 @@ class ExplosureAdjustFilter: BaseFilter {
         
         _program.setUniform(name: "ev", value: pow(2.0, _ev))
     }
+    
+    override var name: String {
+        return "ExplosureAdjustFilter"
+    }
 }

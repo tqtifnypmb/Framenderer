@@ -13,4 +13,8 @@ class MinimumComponentFilter: BaseFilter {
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "MinimumComponentFragment")
     }
+    
+    override var name: String {
+        return "MinimumComponentFilter"
+    }
 }

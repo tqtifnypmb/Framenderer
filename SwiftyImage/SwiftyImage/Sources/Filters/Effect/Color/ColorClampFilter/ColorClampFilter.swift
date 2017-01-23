@@ -30,4 +30,8 @@ class ColorClampFilter: BaseFilter {
         _program.setUniform(name: "minColor", value: _min.components!.map{ return GLfloat($0) })
         _program.setUniform(name: "maxColor", value: _max.components!.map{ return GLfloat($0) })
     }
+    
+    override var name: String {
+        return "ColorClampFilter"
+    }
 }

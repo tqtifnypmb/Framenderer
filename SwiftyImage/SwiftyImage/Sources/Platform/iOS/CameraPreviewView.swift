@@ -19,6 +19,10 @@ class CameraPreviewView: UIView, PreviewView {
         return CAEAGLLayer.self
     }
     
+    var name: String {
+        return "CameraPreviewView"
+    }
+    
     deinit {
         if _program != nil {
             ProgramObjectsCacher.shared.release(program: _program)
@@ -87,7 +91,7 @@ class CameraPreviewView: UIView, PreviewView {
         
         let layer = self.layer as! CAEAGLLayer
         let outputFrameBuffer = EAGLOutputFrameBuffer(eaglLayer: layer)
-        ctx.setOutput(output: outputFrameBuffer)
+        try ctx.setOutput(output: outputFrameBuffer)
 
         try feedDataAndDraw(context: ctx, program: _program)
         outputFrameBuffer.present()

@@ -25,4 +25,8 @@ class AdditionBlendFilter: DualInputFilter {
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "AdditionBlendFragmentShader")
     }
+    
+    override var name: String {
+        return "AdditionBlendFilter"
+    }
 }

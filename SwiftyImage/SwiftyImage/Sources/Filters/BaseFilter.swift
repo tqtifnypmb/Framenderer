@@ -14,6 +14,10 @@ import CoreMedia
 public class BaseFilter: Filter {
     var _program: Program!
     
+    var name: String {
+        fatalError("Called Virtual Function")
+    }
+    
     func bindAttributes(context: Context) {
         let attr = [kVertexPositionAttribute, kTextureCoorAttribute]
         _program.bind(attributes: attr)
@@ -54,7 +58,7 @@ public class BaseFilter: Filter {
         }
         
         let outputFrameBuffer = try TextureOutputFrameBuffer(width: ctx.inputWidth, height: ctx.inputHeight, bitmapInfo: ctx.inputBitmapInfo)
-        ctx.setOutput(output: outputFrameBuffer)
+        try ctx.setOutput(output: outputFrameBuffer)
         ctx.activateInput()
         glClearColor(0.0, 0.0, 0.0, 1.0);
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT));
@@ -64,19 +68,23 @@ public class BaseFilter: Filter {
     }
     
     func apply(context ctx: Context) throws {
-        ctx.toggleInputOutputIfNeeded()
-        
-        if _program == nil {
-            try buildProgram()
-            bindAttributes(context: ctx)
-            try _program.link()
-            ctx.setCurrent(program: _program)
-            setUniformAttributs(context: ctx)
-        } else {
-            ctx.setCurrent(program: _program)
+        do {
+            ctx.toggleInputOutputIfNeeded()
+            
+            if _program == nil {
+                try buildProgram()
+                bindAttributes(context: ctx)
+                try _program.link()
+                ctx.setCurrent(program: _program)
+                setUniformAttributs(context: ctx)
+            } else {
+                ctx.setCurrent(program: _program)
+            }
+            
+            try feedDataAndDraw(context: ctx, program: _program)
+        } catch {
+            throw FilterError.filterError(name: self.name, error: error.localizedDescription)
         }
-        
-        try feedDataAndDraw(context: ctx, program: _program)
     }
     
     func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {

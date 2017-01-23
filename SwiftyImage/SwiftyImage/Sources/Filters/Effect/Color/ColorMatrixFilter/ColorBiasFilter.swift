@@ -37,4 +37,8 @@ class ColorBiasFilter: BaseFilter {
         
         _program.setUniform(name: "bias", value: [_red, _green, _blue, _alpha])
     }
+    
+    override var name: String {
+        return "ColorBiasFilter"
+    }
 }

@@ -66,25 +66,25 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
             _renderTarget = pixelBuffer
             
             TextureCacher.shared.setup(context: EAGLContext.current())
-            kCVPixelFormatType_422YpCbCr8_yuvs
+            
             let cvTexture = try TextureCacher.shared.createTexture(fromPixelBufer: _renderTarget, target: GLenum(GL_TEXTURE_2D), format: GLenum(GL_BGRA))
             assert(CVOpenGLESTextureGetTarget(cvTexture) == GLenum(GL_TEXTURE_2D))
             
             _texture = CVOpenGLESTextureGetName(cvTexture)
-            glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
             configureTexture()
         } else {
             glGenTextures(1, &_texture)
-            glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
             configureTexture()
         }
     }
     
     private func configureTexture() {
+        glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
         glTexParameteri(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_MAG_FILTER), GL_LINEAR)
         glTexParameteri(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_MIN_FILTER), GL_LINEAR)
         glTexParameteri(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_WRAP_S), GL_CLAMP_TO_EDGE)
         glTexParameteri(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_WRAP_T), GL_CLAMP_TO_EDGE)
+        glBindTexture(GLenum(GL_TEXTURE_2D), 0)
     }
     
     deinit {
@@ -99,8 +99,9 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
         }
     }
     
-    func useAsOutput() {
+    func useAsOutput() throws {
         precondition(_frameBuffer == 0)
+        precondition(_texture != 0)
         
         glGenFramebuffers(1, &_frameBuffer)
         glBindFramebuffer(GLenum(GL_FRAMEBUFFER), _frameBuffer)
@@ -126,13 +127,13 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
                                _texture,
                                0)
         glBindTexture(GLenum(GL_TEXTURE_2D), 0)
-        validate()
+        try validate()
     }
     
-    private func validate() {
+    private func validate() throws {
         let status = glCheckFramebufferStatus(GLenum(GL_FRAMEBUFFER))
         if status != GLenum(GL_FRAMEBUFFER_COMPLETE) {
-            fatalError("\(status)")
+            throw GLError.invalidFramebuffer(status: status)
         }
     }
     
@@ -182,6 +183,8 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
     }
     
     func convertToInput(bitmapInfo: CGBitmapInfo) -> InputFrameBuffer {
+        glBindTexture(GLenum(GL_TEXTURE_2D), 0)
+        
         let input = TextureInputFrameBuffer(texture: _texture, width: _textureWidth, height: _textureHeight, bitmapInfo: _bitmapInfo)
         input.originalOutputFrameBuffer = self
         

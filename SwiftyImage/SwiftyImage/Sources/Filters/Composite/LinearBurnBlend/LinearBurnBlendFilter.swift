@@ -18,4 +18,8 @@ class LinearBurnBlendFilter: DualInputFilter {
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "LinearBurnBlendFragmentShader")
     }
+    
+    override var name: String {
+        return "LinearBurnBlendFilter"
+    }
 }
