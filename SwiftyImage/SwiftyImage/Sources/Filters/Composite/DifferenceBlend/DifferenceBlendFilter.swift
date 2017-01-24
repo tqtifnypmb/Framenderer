@@ -18,8 +18,8 @@ class DifferenceBlendShader: DualInputFilter {
      
      - parameter backgroundImage: specifies a bakground image
      */
-    init(backgroundImage: CGImage) {
-        super.init(secondInput: backgroundImage)
+    init(otherImage: CGImage) {
+        super.init(secondInput: otherImage)
     }
     
     override func buildProgram() throws {

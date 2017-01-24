@@ -10,8 +10,8 @@ uniform sampler2D secondInput;
 out vec4 color;
 
 void main() {
-    vec4 base = texture(secondInput, fTextCoor);
-    vec4 top = texture(firstInput, fTextCoor);
+    vec4 top = texture(secondInput, fTextCoor);
+    vec4 bottom = texture(firstInput, fTextCoor);
     
-    color = max(base, top);
+    color = max(bottom, top);
 }

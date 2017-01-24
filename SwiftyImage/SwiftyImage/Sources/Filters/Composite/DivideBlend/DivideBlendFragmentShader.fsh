@@ -6,7 +6,6 @@ in vec2 fTextCoor;
 
 uniform sampler2D firstInput;
 uniform sampler2D secondInput;
-uniform bool isDivisor;
 
 out vec4 color;
 
@@ -27,13 +26,9 @@ vec4 divide(vec4 a, vec4 b) {
 }
 
 void main() {
-    vec4 base = texture(secondInput, fTextCoor);
-    vec4 top = texture(firstInput, fTextCoor);
+    vec4 top = texture(secondInput, fTextCoor);
+    vec4 bottom = texture(firstInput, fTextCoor);
     
-    if (isDivisor) {
-        color = divide(top, base);
-    } else {
-        color = divide(base, top);
-    }
+    color = divide(top, bottom);
 }
 
