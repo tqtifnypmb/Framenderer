@@ -29,10 +29,10 @@ class CameraViewController: UIViewController {
     
 
     @IBAction func f(_ sender: Any) {
-        let origin = UIImage(named: "zc")
+        let origin = UIImage(named: "lena")
         let blendingFilter = LinearBlendFilter(source: origin!.cgImage!, a: 0.5)
-        let median = MedianBlurFilter()
-        camera.filters = [median]
+        let blur = GaussianBlurFilter()
+        camera.filters = [blur]
         camera.startRunning()
     }
     /*

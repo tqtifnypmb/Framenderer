@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreImage
 
 class ViewController: UIViewController {
 
@@ -17,15 +18,24 @@ class ViewController: UIViewController {
         super.viewDidAppear(animated)
         
         let origin = UIImage(named: "lena")
-        let blend = UIImage(named: "zc")
-        originImageView.image = origin
+        let blend = UIImage(named: "aero1")
+        
+        let context = CIContext()
+        
+        let filter = CIFilter(name: "CISaturationBlendMode")!
+        
+        filter.setValue(CIImage(cgImage: blend!.cgImage!), forKey: kCIInputImageKey)
+        filter.setValue(CIImage(cgImage: origin!.cgImage!), forKey: kCIInputBackgroundImageKey)
+        let result = filter.outputImage!
+        let cgImage = context.createCGImage(result, from: result.extent)
+        originImageView.image = UIImage(cgImage: cgImage!)
         
         do {
             let canva = ImageCanvas(image: origin!)
-            
-            let blendingFilter = LinearBlendFilter(source: blend!.cgImage!, a: 0.5)
-            let gaussian = GaussianBlurFilter()
-            canva.filters = [blendingFilter, blendingFilter, gaussian]
+
+            let test = SaturationBlendFilter(otherImage: blend!.cgImage!)
+            let motion = MotionBlurFilter(angle: 0, distance: 25)
+            canva.filters = [test]
             try canva.process()
             
             let result = canva.processedImage()
