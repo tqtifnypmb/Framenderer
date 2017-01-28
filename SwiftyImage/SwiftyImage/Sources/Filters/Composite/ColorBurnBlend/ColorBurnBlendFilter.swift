@@ -11,8 +11,8 @@ import CoreGraphics
 
 class ColorBurnBlendFilter: DualInputFilter {
     
-    init(backgroundImage: CGImage) {
-        super.init(secondInput: backgroundImage)
+    init(otherImage: CGImage) {
+        super.init(secondInput: otherImage)
     }
     
     override func buildProgram() throws {

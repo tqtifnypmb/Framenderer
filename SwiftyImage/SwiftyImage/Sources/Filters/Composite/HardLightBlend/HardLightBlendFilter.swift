@@ -16,10 +16,10 @@ class HardLightBlendFilter: DualInputFilter {
         
         equivalent to Overlay, but with the bottom and top images swapped
      
-        - parameter foregroundImage: specifies the foreground image
+        - parameter otherImage: specifies the foreground image
      */
-    init(foregroundImage: CGImage) {
-        super.init(secondInput: foregroundImage)
+    init(otherImage: CGImage) {
+        super.init(secondInput: otherImage)
     }
     
     override func buildProgram() throws {

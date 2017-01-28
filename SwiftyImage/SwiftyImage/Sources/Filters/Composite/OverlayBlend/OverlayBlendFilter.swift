@@ -14,10 +14,10 @@ class OverlayBlendFilter: DualInputFilter {
     /**
         init a [Overlay blend](https://en.wikipedia.org/wiki/Blend_modes) filter
         
-        - parameter backgroundImage: specifies a image that's used as background
+        - parameter otherImage: specifies a image that's used as background
      */
-    init(backgroundImage: CGImage) {
-        super.init(secondInput: backgroundImage)
+    init(otherImage: CGImage) {
+        super.init(secondInput: otherImage)
     }
     
     override func buildProgram() throws {

@@ -6,18 +6,15 @@ in vec2 fTextCoor;
 
 uniform sampler2D firstInput;
 uniform sampler2D secondInput;
-uniform bool isSubtractor;
 
 out vec4 color;
 
 void main() {
-    vec4 base = texture(secondInput, fTextCoor);
-    vec4 top = texture(firstInput, fTextCoor);
+    vec4 top = texture(secondInput, fTextCoor);
+    vec4 bottom = texture(firstInput, fTextCoor);
     
-    if (isSubtractor) {
-        color = vec4(top.rgb - base.rgb, 1.0);
-    } else {
-        color = vec4(base.rgb - top.rgb, 1.0);
-    }
+    vec3 tmp = top.rgb - bottom.rgb;
+    tmp = tmp * top.a * bottom.a + top.rgb * (1.0 - top.a * bottom.a);
+    color = vec4(clamp(tmp, vec3(0.0), vec3(1.0)), 1.0);
 }
 

@@ -10,9 +10,11 @@ uniform sampler2D secondInput;
 out vec4 color;
 
 void main() {
-    vec4 base = texture(secondInput, fTextCoor);
-    vec4 top = texture(firstInput, fTextCoor);
+    vec4 top = texture(secondInput, fTextCoor);
+    vec4 bottom = texture(firstInput, fTextCoor);
     
-    color = clamp(base + top - vec4(1.0), vec4(0.0), vec4(1.0));
+    vec3 tmp = bottom.rgb + top.rgb - vec3(1.0);
+    tmp = tmp * top.a * bottom.a + top.rgb * top.a * (1.0 - bottom.a) + bottom.rgb * (1.0 - top.a) * bottom.a + top.rgb * (1.0 - top.a) * (1.0 - bottom.a);
+    color = vec4(clamp(tmp, vec3(0.0), vec3(1.0)), 1.0);
 }
 
