@@ -15,6 +15,7 @@ let kVertexPositionAttribute = "vPosition"      // vertex position attribute nam
 let kTextureCoorAttribute = "vTextCoor"         // texture coordinate attribute name
 let kFirstInputSampler = "firstInput"           // texture sampler name for single input program
 let kSecondInputSampler = "secondInput"         // texture sampler name for second input of dual input program
+let kThirdInputSampler = "thirdInput"           // texture sampler name for the third input of three input program
 let kTexelWidth = "texelWidth"                  // texture element width uniform name
 let kTexelHeight = "texelHeight"                // texture element height uniform name
 let kXOffset = "xOffset"
