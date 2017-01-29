@@ -12,5 +12,5 @@ out vec4 color;
 
 void main() {
     vec4 tmp = texture(firstInput, fTextCoor);
-    color = clamp(minColor, maxColor);
+    color = clamp(tmp, minColor, maxColor);
 }

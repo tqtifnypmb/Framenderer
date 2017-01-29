@@ -15,5 +15,5 @@ void main() {
     float r = pow(tmp.r, adjust);
     float g = pow(tmp.g, adjust);
     float b = pow(tmp.b, adjust);
-    color = vec4(clamp(vec3(r, g, b), vec3(0.0), vec3(1.0)), vec4(1.0));
+    color = vec4(clamp(vec3(r, g, b), vec3(0.0), vec3(1.0)), 1.0);
 }

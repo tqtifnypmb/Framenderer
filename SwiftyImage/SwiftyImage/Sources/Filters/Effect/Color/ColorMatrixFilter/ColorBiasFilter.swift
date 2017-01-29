@@ -29,7 +29,7 @@ class ColorBiasFilter: BaseFilter {
     private let _alpha: GLfloat
     
     override func buildProgram() throws {
-        _program = try Program.create(fragmentSourcePath: "ColorMatrixFragmentShader")
+        _program = try Program.create(fragmentSourcePath: "ColorBiasFragmentShader")
     }
     
     override func setUniformAttributs(context: Context) {
