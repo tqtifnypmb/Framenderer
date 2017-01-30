@@ -183,6 +183,8 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
     }
     
     func convertToInput(bitmapInfo: CGBitmapInfo) -> InputFrameBuffer {
+        glFlush()
+        
         glBindTexture(GLenum(GL_TEXTURE_2D), 0)
         
         let input = TextureInputFrameBuffer(texture: _texture, width: _textureWidth, height: _textureHeight, bitmapInfo: _bitmapInfo)
