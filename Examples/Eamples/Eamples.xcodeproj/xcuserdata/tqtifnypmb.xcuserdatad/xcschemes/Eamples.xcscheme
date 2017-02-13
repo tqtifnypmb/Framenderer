@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "412343231E51EEBA00B3FDEF"
-               BuildableName = "SwiftyImage.framework"
-               BlueprintName = "SwiftyImage"
-               ReferencedContainer = "container:SwiftyImage.xcodeproj">
+               BlueprintIdentifier = "412343371E51EF0E00B3FDEF"
+               BuildableName = "Eamples.app"
+               BlueprintName = "Eamples"
+               ReferencedContainer = "container:Eamples.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4123434B1E51EF0E00B3FDEF"
+               BuildableName = "EamplesUITests.xctest"
+               BlueprintName = "EamplesUITests"
+               ReferencedContainer = "container:Eamples.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "412343371E51EF0E00B3FDEF"
+            BuildableName = "Eamples.app"
+            BlueprintName = "Eamples"
+            ReferencedContainer = "container:Eamples.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -42,15 +61,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "412343231E51EEBA00B3FDEF"
-            BuildableName = "SwiftyImage.framework"
-            BlueprintName = "SwiftyImage"
-            ReferencedContainer = "container:SwiftyImage.xcodeproj">
+            BlueprintIdentifier = "412343371E51EF0E00B3FDEF"
+            BuildableName = "Eamples.app"
+            BlueprintName = "Eamples"
+            ReferencedContainer = "container:Eamples.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -60,15 +80,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "412343231E51EEBA00B3FDEF"
-            BuildableName = "SwiftyImage.framework"
-            BlueprintName = "SwiftyImage"
-            ReferencedContainer = "container:SwiftyImage.xcodeproj">
+            BlueprintIdentifier = "412343371E51EF0E00B3FDEF"
+            BuildableName = "Eamples.app"
+            BlueprintName = "Eamples"
+            ReferencedContainer = "container:Eamples.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

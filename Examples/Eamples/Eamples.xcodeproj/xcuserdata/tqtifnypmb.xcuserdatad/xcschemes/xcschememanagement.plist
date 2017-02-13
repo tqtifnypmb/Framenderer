@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>SwiftyImage.xcscheme</key>
+		<key>Eamples.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,7 +12,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>412343231E51EEBA00B3FDEF</key>
+		<key>412343371E51EF0E00B3FDEF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4123434B1E51EF0E00B3FDEF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
