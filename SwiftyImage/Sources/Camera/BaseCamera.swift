@@ -9,7 +9,7 @@
 import Foundation
 import AVFoundation
 
-public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDelegate {
+open public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDelegate {
     var filters: [Filter] = []
     var previewView: PreviewView!
     

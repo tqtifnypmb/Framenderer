@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyImage
 
 class CameraViewController: UIViewController {
     @IBOutlet weak var preview: CameraPreviewView!

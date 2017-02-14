@@ -11,11 +11,11 @@ import CoreMedia
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-class CameraPreviewView: UIView, PreviewView {
+open class CameraPreviewView: UIView, PreviewView {
     
     var _program: Program!
     
-    override class var layerClass: AnyClass {
+    override open class var layerClass: AnyClass {
         return CAEAGLLayer.self
     }
     

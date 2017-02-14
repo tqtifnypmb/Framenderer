@@ -9,7 +9,7 @@
 import Foundation
 import AVFoundation
 
-public class StillImageCamera: BaseCamera {
+open class StillImageCamera: BaseCamera {
    
     private let _cameraPosition: AVCaptureDevicePosition
     private let _photoOutput: AVCaptureOutput

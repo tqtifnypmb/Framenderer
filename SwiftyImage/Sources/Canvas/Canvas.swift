@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol Canvas {
+public protocol Canvas {
     /// Filters that are going to be applied to the content of this canvas
     var filters: [Filter] {get set}
     

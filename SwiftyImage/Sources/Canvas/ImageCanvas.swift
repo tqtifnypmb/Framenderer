@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class ImageCanvas: NSObject, Canvas {
+open public class ImageCanvas: NSObject, Canvas {
     private let _origin: UIImage
     private var _result: CGImage?
     
