@@ -8,13 +8,13 @@
 
 import Foundation
 
-class MinimumComponentFilter: BaseFilter {
+public class MinimumComponentFilter: BaseFilter {
     
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "MinimumComponentFragment")
     }
     
-    override var name: String {
+    override public var name: String {
         return "MinimumComponentFilter"
     }
 }

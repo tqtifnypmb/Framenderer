@@ -19,7 +19,7 @@ open class CameraPreviewView: UIView, PreviewView {
         return CAEAGLLayer.self
     }
     
-    var name: String {
+    public var name: String {
         return "CameraPreviewView"
     }
     
@@ -30,7 +30,7 @@ open class CameraPreviewView: UIView, PreviewView {
         }
     }
     
-    func apply(context ctx: Context) throws {
+    public func apply(context ctx: Context) throws {
         fatalError()
     }
     
@@ -74,7 +74,7 @@ open class CameraPreviewView: UIView, PreviewView {
         glDeleteBuffers(1, &vbo)
     }
     
-    func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
+    public func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         ctx.setAsCurrent()
         
         if _program == nil {

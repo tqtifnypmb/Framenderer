@@ -11,10 +11,10 @@ import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 import CoreMedia
 
-public class BaseFilter: Filter {
+open class BaseFilter: Filter {
     var _program: Program!
     
-    var name: String {
+    public var name: String {
         fatalError("Called Virtual Function")
     }
     
@@ -67,7 +67,7 @@ public class BaseFilter: Filter {
         glDeleteBuffers(1, &vbo)
     }
     
-    func apply(context ctx: Context) throws {
+    public func apply(context ctx: Context) throws {
         do {
             ctx.toggleInputOutputIfNeeded()
             
@@ -87,7 +87,7 @@ public class BaseFilter: Filter {
         }
     }
     
-    func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
+    public func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         ctx.setAsCurrent()
         
         ctx.setInput(input: inputFrameBuffer)

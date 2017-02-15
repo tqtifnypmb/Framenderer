@@ -9,7 +9,7 @@
 import Foundation
 import CoreGraphics
 
-class AdditionBlendFilter: DualInputFilter {
+public class AdditionBlendFilter: DualInputFilter {
     
     /**
      init a [Overlay blend](https://en.wikipedia.org/wiki/Blend_modes) filter
@@ -18,7 +18,7 @@ class AdditionBlendFilter: DualInputFilter {
      
      - parameter otherImage: specifies a image to multiply with content of the applied convas.
      */
-    init(otherImage: CGImage) {
+    public init(otherImage: CGImage) {
         super.init(secondInput: otherImage)
     }
     
@@ -26,7 +26,7 @@ class AdditionBlendFilter: DualInputFilter {
         _program = try Program.create(fragmentSourcePath: "AdditionBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "AdditionBlendFilter"
     }
 }

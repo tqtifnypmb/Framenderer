@@ -19,7 +19,7 @@ public class LinearBlendFilter: DualInputFilter {
         - parameter source: A image used to blending with content of a canva
         - parameter a: result = source * a + canva * (1 - a)
      */
-    init(source: CGImage, a: CGFloat) {
+    public init(source: CGImage, a: CGFloat) {
         precondition(a >= 0 && a <= 1)
         
         _a = a
@@ -36,7 +36,7 @@ public class LinearBlendFilter: DualInputFilter {
         _program = try Program.create(fragmentSourcePath: "LinearBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "LinearBlendFilter"
     }
 }

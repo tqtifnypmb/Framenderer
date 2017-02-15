@@ -8,8 +8,8 @@
 
 import UIKit
 
-class HueAdjustFilter: BaseFilter {
-    init(angle: Float = 0.0) {
+public class HueAdjustFilter: BaseFilter {
+    public init(angle: Float = 0.0) {
         _angle = angle
     }
     private let _angle: GLfloat
@@ -24,7 +24,7 @@ class HueAdjustFilter: BaseFilter {
         _program.setUniform(name: "angle", value: _angle)
     }
     
-    override var name: String {
+    override public var name: String {
         return "HueAdjustFilter"
     }
 }

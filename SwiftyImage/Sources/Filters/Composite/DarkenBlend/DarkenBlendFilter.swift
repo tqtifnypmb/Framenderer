@@ -9,9 +9,9 @@
 import Foundation
 import CoreGraphics
 
-class DarkenBlendFilter: DualInputFilter {
+public class DarkenBlendFilter: DualInputFilter {
     
-    init(otherImage: CGImage) {
+    public init(otherImage: CGImage) {
         super.init(secondInput: otherImage)
     }
     
@@ -19,7 +19,7 @@ class DarkenBlendFilter: DualInputFilter {
         _program = try Program.create(fragmentSourcePath: "DarkenBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "DarkenBlendFilter"
     }
 }

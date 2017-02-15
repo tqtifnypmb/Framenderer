@@ -9,7 +9,7 @@
 import Foundation
 import CoreGraphics
 
-class DivideBlendFilter: DualInputFilter {
+public class DivideBlendFilter: DualInputFilter {
 
     /**
      init a [Divide blend](https://en.wikipedia.org/wiki/Blend_modes) filter
@@ -18,7 +18,7 @@ class DivideBlendFilter: DualInputFilter {
      
      - parameter otherImage: specifies a other image
      */
-    init(otherImage: CGImage) {
+    public init(otherImage: CGImage) {
         super.init(secondInput: otherImage)
     }
     
@@ -26,7 +26,7 @@ class DivideBlendFilter: DualInputFilter {
         _program = try Program.create(fragmentSourcePath: "DivideBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "DivideBlendFilter"
     }
 }

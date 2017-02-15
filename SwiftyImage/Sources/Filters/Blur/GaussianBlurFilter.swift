@@ -12,7 +12,7 @@ import OpenGLES.ES3.glext
 import CoreMedia
 
 public class GaussianBlurFilter: Filter {
-    enum Implement {
+    public enum Implement {
         case box
         case normal
     }
@@ -22,10 +22,10 @@ public class GaussianBlurFilter: Filter {
     
     /// specifies the maximum number of times 
     /// Box blur to mimic Gaussian blur
-    var boxPass: Int = 3
+    public var boxPass: Int = 3
     
     /// sigma value used by Gaussian algorithm
-    var gaussianSigma: Double = 3.0
+    public var gaussianSigma: Double = 3.0
     
     /**
         init a [Gaussian blur](https://en.wikipedia.org/wiki/Gaussian_blur) filter
@@ -35,12 +35,12 @@ public class GaussianBlurFilter: Filter {
             - box: mimic Gaussian blur by applying box blur mutiple times
             - normal: use Gaussian algorithm
      */
-    init(radius: Int = 4, implement: Implement = .normal) {
+    public init(radius: Int = 4, implement: Implement = .normal) {
         _radius = radius
         _impl = implement
     }
     
-    var name: String {
+    public var name: String {
         switch _impl {
         case .box:
             return "BoxGaussianBlurFilter"
@@ -50,7 +50,7 @@ public class GaussianBlurFilter: Filter {
         }
     }
     
-    func apply(context: Context) throws {
+    public func apply(context: Context) throws {
         switch _impl {
         case .box:
             let blur = BoxGaussianBlurFilter(radius: _radius, pass: max(boxPass, 3))
@@ -62,7 +62,7 @@ public class GaussianBlurFilter: Filter {
         }
     }
     
-    func applyToFrame(context: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
+    public func applyToFrame(context: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         switch _impl {
         case .box:
             let blur = BoxGaussianBlurFilter(radius: _radius, pass: max(boxPass, 3))

@@ -9,7 +9,7 @@
 import Foundation
 import CoreGraphics
 
-class DifferenceBlendShader: DualInputFilter {
+public class DifferenceBlendShader: DualInputFilter {
     
     /**
      init a [Difference blend](https://en.wikipedia.org/wiki/Blend_modes) filter
@@ -18,7 +18,7 @@ class DifferenceBlendShader: DualInputFilter {
      
      - parameter backgroundImage: specifies a bakground image
      */
-    init(otherImage: CGImage) {
+    public init(otherImage: CGImage) {
         super.init(secondInput: otherImage)
     }
     
@@ -26,7 +26,7 @@ class DifferenceBlendShader: DualInputFilter {
         _program = try Program.create(fragmentSourcePath: "DifferenceBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "DifferenceBlendShader"
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-public class TwoPassFilter: BaseFilter {
+open class TwoPassFilter: BaseFilter {
     var _program2: Program!
     var _isProgram2Setup = false
     
@@ -42,7 +42,7 @@ public class TwoPassFilter: BaseFilter {
         _program.setUniform(name: kTexelHeight, value: GLfloat(0))
     }
 
-    override func apply(context ctx: Context) throws {
+    override public func apply(context ctx: Context) throws {
         try super.apply(context: ctx)
         
         do {

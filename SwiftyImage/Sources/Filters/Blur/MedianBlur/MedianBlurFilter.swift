@@ -12,7 +12,7 @@ import OpenGLES.ES3.glext
 
 public class MedianBlurFilter: BaseFilter {
     
-    override var name: String {
+    override public var name: String {
         return "MedianBlurFilter"
     }
     

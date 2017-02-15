@@ -9,9 +9,9 @@
 import Foundation
 import CoreGraphics
 
-class SoftLightBlendFilter: DualInputFilter {
+public class SoftLightBlendFilter: DualInputFilter {
     
-    init(otherImage: CGImage) {
+    public init(otherImage: CGImage) {
         super.init(secondInput: otherImage)
     }
     
@@ -19,7 +19,7 @@ class SoftLightBlendFilter: DualInputFilter {
         _program = try Program.create(fragmentSourcePath: "SoftLightBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "SoftLightBlendFilter"
     }
 }

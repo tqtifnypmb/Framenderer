@@ -10,14 +10,14 @@ import Foundation
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-class ColorBiasFilter: BaseFilter {
+public class ColorBiasFilter: BaseFilter {
     
     /**
         init a color matrix filter
         
         Multiplies source color values and adds a bias factor to each color component.
      */
-    init(red: Float, green: Float, blue: Float, alpha: Float) {
+    public init(red: Float, green: Float, blue: Float, alpha: Float) {
         _red = GLfloat(red)
         _green = GLfloat(green)
         _blue = GLfloat(blue)
@@ -38,7 +38,7 @@ class ColorBiasFilter: BaseFilter {
         _program.setUniform(name: "bias", value: [_red, _green, _blue, _alpha])
     }
     
-    override var name: String {
+    override public var name: String {
         return "ColorBiasFilter"
     }
 }

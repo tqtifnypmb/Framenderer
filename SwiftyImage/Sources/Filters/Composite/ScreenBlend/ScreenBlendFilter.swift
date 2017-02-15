@@ -9,9 +9,9 @@
 import Foundation
 import CoreGraphics
 
-class ScreenBlendFilter: DualInputFilter {
+public class ScreenBlendFilter: DualInputFilter {
     
-    init(otherImage: CGImage) {
+    public init(otherImage: CGImage) {
         super.init(secondInput: otherImage)
     }
     
@@ -19,7 +19,7 @@ class ScreenBlendFilter: DualInputFilter {
         _program = try Program.create(fragmentSourcePath: "ScreenBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "ScreenBlendFilter"
     }
 }

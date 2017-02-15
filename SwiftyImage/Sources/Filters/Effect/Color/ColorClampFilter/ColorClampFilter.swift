@@ -11,9 +11,9 @@ import CoreGraphics
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-class ColorClampFilter: BaseFilter {
+public class ColorClampFilter: BaseFilter {
     
-    init(minColor: CGColor, maxColor: CGColor) {
+    public init(minColor: CGColor, maxColor: CGColor) {
         _max = maxColor
         _min = minColor
     }
@@ -30,7 +30,7 @@ class ColorClampFilter: BaseFilter {
         _program.setUniform(name: "maxColor", value: _max.components!.map{ return GLfloat($0) })
     }
     
-    override var name: String {
+    override public var name: String {
         return "ColorClampFilter"
     }
 }

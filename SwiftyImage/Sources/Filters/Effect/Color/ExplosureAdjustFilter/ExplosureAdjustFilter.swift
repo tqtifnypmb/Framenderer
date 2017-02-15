@@ -10,9 +10,9 @@ import Foundation
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-class ExplosureAdjustFilter: BaseFilter {
+public class ExplosureAdjustFilter: BaseFilter {
     
-    init(value: Float = 0.25) {
+    public init(value: Float = 0.25) {
         _ev = GLfloat(value)
     }
     private let _ev: GLfloat
@@ -27,7 +27,7 @@ class ExplosureAdjustFilter: BaseFilter {
         _program.setUniform(name: "ev", value: pow(2.0, _ev))
     }
     
-    override var name: String {
+    override public var name: String {
         return "ExplosureAdjustFilter"
     }
 }

@@ -13,7 +13,7 @@ import CoreImage
     Data flow:
         Camera --> Filters --> Output
  */
-protocol Camera {
+public protocol Camera {
     /// Filters that are going to be applied to the data from Camera
     var filters: [Filter] {get set}
     
@@ -30,4 +30,4 @@ protocol Camera {
     func takePhoto(onComplete:@escaping (_ error: Error?, _ image: CGImage?) -> Void)
 }
 
-typealias PreviewView = Filter
+public typealias PreviewView = Filter

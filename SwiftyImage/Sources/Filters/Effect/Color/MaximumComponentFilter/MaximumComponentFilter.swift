@@ -8,12 +8,12 @@
 
 import Foundation
 
-class MaximumComponentFilter: BaseFilter {
+public class MaximumComponentFilter: BaseFilter {
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "MaximumComponentFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "MaximumComponentFilter"
     }
 }

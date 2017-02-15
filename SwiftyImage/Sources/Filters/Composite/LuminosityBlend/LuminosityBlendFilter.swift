@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LuminosityBlendFilter: DualInputFilter {
+public class LuminosityBlendFilter: DualInputFilter {
     init(otherImage: CGImage) {
         super.init(secondInput: otherImage)
     }
@@ -17,7 +17,7 @@ class LuminosityBlendFilter: DualInputFilter {
         _program = try Program.create(fragmentSourcePath: "LuminosityBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "LuminosityBlendFilter"
     }
 }

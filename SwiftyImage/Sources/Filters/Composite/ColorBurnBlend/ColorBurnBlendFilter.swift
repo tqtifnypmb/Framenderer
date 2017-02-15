@@ -9,9 +9,9 @@
 import Foundation
 import CoreGraphics
 
-class ColorBurnBlendFilter: DualInputFilter {
+public class ColorBurnBlendFilter: DualInputFilter {
     
-    init(otherImage: CGImage) {
+    public init(otherImage: CGImage) {
         super.init(secondInput: otherImage)
     }
     
@@ -19,7 +19,7 @@ class ColorBurnBlendFilter: DualInputFilter {
         _program = try Program.create(fragmentSourcePath: "ColorBurnBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "ColorBurnBlendFilter"
     }
 }

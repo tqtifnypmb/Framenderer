@@ -9,8 +9,8 @@
 import Foundation
 import CoreImage
 
-class AlphaMaskBlendFilter: ThreeInputFilter {
-    init(otherImage: CGImage, mask: CGImage) {
+public class AlphaMaskBlendFilter: ThreeInputFilter {
+    public init(otherImage: CGImage, mask: CGImage) {
         super.init(secondInput: otherImage, thirdInput: mask)
     }
     
@@ -18,7 +18,7 @@ class AlphaMaskBlendFilter: ThreeInputFilter {
         _program = try Program.create(fragmentSourcePath: "AlphaMaskBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "AlphaMaskBlendFilter"
     }
 }

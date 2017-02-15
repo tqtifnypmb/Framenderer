@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreImage
+import SwiftyImage
 
 class ViewController: UIViewController {
 

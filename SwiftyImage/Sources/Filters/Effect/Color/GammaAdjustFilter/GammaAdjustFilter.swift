@@ -10,8 +10,8 @@ import Foundation
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-class GammaAdjustFilter: BaseFilter {
-    init(value: Float = 0.75) {
+public class GammaAdjustFilter: BaseFilter {
+    public init(value: Float = 0.75) {
         _value = value
     }
     private let _value: GLfloat
@@ -26,7 +26,7 @@ class GammaAdjustFilter: BaseFilter {
         _program.setUniform(name: "adjust", value: _value)
     }
     
-    override var name: String {
+    override public var name: String {
         return "GammaAdjustFilter"
     }
 }

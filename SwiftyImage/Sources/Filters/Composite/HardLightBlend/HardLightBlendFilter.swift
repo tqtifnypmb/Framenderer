@@ -9,7 +9,7 @@
 import Foundation
 import CoreGraphics
 
-class HardLightBlendFilter: DualInputFilter {
+public class HardLightBlendFilter: DualInputFilter {
     
     /**
         init a [HardLight blend](https://en.wikipedia.org/wiki/Blend_modes) filter
@@ -18,7 +18,7 @@ class HardLightBlendFilter: DualInputFilter {
      
         - parameter otherImage: specifies the foreground image
      */
-    init(otherImage: CGImage) {
+    public init(otherImage: CGImage) {
         super.init(secondInput: otherImage)
     }
     
@@ -26,7 +26,7 @@ class HardLightBlendFilter: DualInputFilter {
         _program = try Program.create(fragmentSourcePath: "HardLightBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "HardLightBlendFilter"
     }
 }

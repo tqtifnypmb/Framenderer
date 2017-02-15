@@ -8,13 +8,13 @@
 
 import UIKit
 
-open public class ImageCanvas: NSObject, Canvas {
+open class ImageCanvas: NSObject, Canvas {
     private let _origin: UIImage
     private var _result: CGImage?
     
-    var filters: [Filter] = []
+    public var filters: [Filter] = []
     
-    init(image: UIImage) {
+    public init(image: UIImage) {
         _origin = image
     }
     
@@ -24,7 +24,7 @@ open public class ImageCanvas: NSObject, Canvas {
     }
     #endif
     
-    func process() throws {
+    public func process() throws {
         precondition(!filters.isEmpty)
         
         let ctx = Context()
@@ -40,7 +40,7 @@ open public class ImageCanvas: NSObject, Canvas {
         filters.removeAll()
     }
     
-    func processAsync(onCompletion: @escaping (_ isFinished: Bool, _ error: Error?) -> Void) {
+    public func processAsync(onCompletion: @escaping (_ isFinished: Bool, _ error: Error?) -> Void) {
         precondition(!filters.isEmpty)
         
         DispatchQueue.global(qos: .background).async {
@@ -55,7 +55,7 @@ open public class ImageCanvas: NSObject, Canvas {
         }
     }
     
-    func processedImage() -> CGImage {
+    public func processedImage() -> CGImage {
         return _result!
     }
 }

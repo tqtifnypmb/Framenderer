@@ -8,8 +8,8 @@
 
 import UIKit
 
-class HueBlendFilter: DualInputFilter {
-    init(otherImage: CGImage) {
+public class HueBlendFilter: DualInputFilter {
+    public init(otherImage: CGImage) {
         super.init(secondInput: otherImage)
     }
     
@@ -17,7 +17,7 @@ class HueBlendFilter: DualInputFilter {
         _program = try Program.create(fragmentSourcePath: "HueBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "HueBlendFilter"
     }
 }

@@ -15,7 +15,7 @@ open class StillImageCamera: BaseCamera {
     private let _photoOutput: AVCaptureOutput
     var _onComplete: ((_ error: Error?, _ image: CGImage?) -> Void)?
     
-    init(cameraPosition: AVCaptureDevicePosition) {
+    public init(cameraPosition: AVCaptureDevicePosition) {
         _cameraPosition = cameraPosition
         
         let session = AVCaptureSession()
@@ -47,7 +47,7 @@ open class StillImageCamera: BaseCamera {
         fatalError("No available capture device")
     }
     
-    override func takePhoto(onComplete:@escaping (_ error: Error?, _ image: CGImage?) -> Void) {
+    override public func takePhoto(onComplete:@escaping (_ error: Error?, _ image: CGImage?) -> Void) {
         if #available(iOS 10, *) {
             _onComplete = onComplete
             

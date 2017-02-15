@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MaskBlendFilter: ThreeInputFilter {
+public class MaskBlendFilter: ThreeInputFilter {
     init(otherImage: CGImage, mask: CGImage) {
         super.init(secondInput: otherImage, thirdInput: mask)
     }
@@ -17,7 +17,7 @@ class MaskBlendFilter: ThreeInputFilter {
         _program = try Program.create(fragmentSourcePath: "MaskBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "MaskBlendFilter"
     }
 }

@@ -29,10 +29,9 @@ let kVertices: [GLfloat] = [
                                  1.0,  1.0,
                            ]
 
-protocol Filter {
+public protocol Filter {
     var name: String { get }
     
     func apply(context: Context) throws
-    
     func applyToFrame(context: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (_ context: Context, _ inputFrameBuffer: InputFrameBuffer) throws -> Void) throws
 }

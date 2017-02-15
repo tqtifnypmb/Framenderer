@@ -9,14 +9,14 @@
 import Foundation
 import CoreGraphics
 
-class OverlayBlendFilter: DualInputFilter {
+public class OverlayBlendFilter: DualInputFilter {
     
     /**
         init a [Overlay blend](https://en.wikipedia.org/wiki/Blend_modes) filter
         
         - parameter otherImage: specifies a image that's used as background
      */
-    init(otherImage: CGImage) {
+    public init(otherImage: CGImage) {
         super.init(secondInput: otherImage)
     }
     
@@ -24,7 +24,7 @@ class OverlayBlendFilter: DualInputFilter {
         _program = try Program.create(fragmentSourcePath: "OverlayBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "OverlayBlendFilter"
     }
 }

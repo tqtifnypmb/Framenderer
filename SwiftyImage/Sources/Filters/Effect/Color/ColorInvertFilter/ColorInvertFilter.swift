@@ -8,13 +8,13 @@
 
 import Foundation
 
-class ColorInvertFilter: BaseFilter {
+public class ColorInvertFilter: BaseFilter {
     
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "ColorInvertFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "ColorInvertFilter"
     }
 }

@@ -10,7 +10,7 @@ import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 import CoreGraphics
 
-protocol InputFrameBuffer {
+public protocol InputFrameBuffer {
     func useAsInput()
     
     var bitmapInfo: CGBitmapInfo {get}

@@ -16,7 +16,7 @@ public class BoxBlurFilter: TwoPassFilter {
     private var _vertexShaderSrc: String!
     private var _fragmentShaderSrc: String!
     
-    override var name: String {
+    override public var name: String {
         return "BoxBlurFilter"
     }
     

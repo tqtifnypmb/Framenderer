@@ -12,7 +12,7 @@ import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 import CoreMedia
 
-public class DualInputFilter: BaseFilter {
+open class DualInputFilter: BaseFilter {
     
     private let _secondSource: CGImage
     private var _firstInputFrameBuffer: InputFrameBuffer?
@@ -26,7 +26,7 @@ public class DualInputFilter: BaseFilter {
         _program.setUniform(name: kSecondInputSampler, value: GLint(1))
     }
     
-    override func apply(context ctx: Context) throws {
+    override public func apply(context ctx: Context) throws {
         glActiveTexture(GLenum(GL_TEXTURE1))
         let blendingInput = try ImageInputFrameBuffer(image: _secondSource)
         blendingInput.useAsInput()
@@ -35,7 +35,7 @@ public class DualInputFilter: BaseFilter {
         try super.apply(context: ctx)
     }
     
-    override func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
+    override public func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         glActiveTexture(GLenum(GL_TEXTURE1))
         if _firstInputFrameBuffer == nil {
             _firstInputFrameBuffer = try ImageInputFrameBuffer(image: _secondSource)

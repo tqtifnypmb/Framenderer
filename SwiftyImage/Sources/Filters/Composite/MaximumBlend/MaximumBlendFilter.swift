@@ -9,7 +9,7 @@
 import Foundation
 import CoreGraphics
 
-class MaximumBlendFilter: DualInputFilter {
+public class MaximumBlendFilter: DualInputFilter {
     
     /**
      init a [Maximum blend](https://en.wikipedia.org/wiki/Blend_modes) filter
@@ -18,7 +18,7 @@ class MaximumBlendFilter: DualInputFilter {
      
      - parameter otherImage: specifies a image to be used.
      */
-    init(otherImage: CGImage) {
+    public init(otherImage: CGImage) {
         super.init(secondInput: otherImage)
     }
     
@@ -26,7 +26,7 @@ class MaximumBlendFilter: DualInputFilter {
         _program = try Program.create(fragmentSourcePath: "MaximumBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "MaximumBlendFilter"
     }
 }

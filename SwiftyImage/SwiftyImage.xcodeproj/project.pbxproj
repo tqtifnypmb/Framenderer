@@ -280,16 +280,16 @@
 			isa = PBXGroup;
 			children = (
 				4123445A1E51EF4600B3FDEF /* 3x3KernelVertexShader.vsh */,
-				4123445B1E51EF4600B3FDEF /* BaseFilter.swift */,
-				4123445C1E51EF4600B3FDEF /* Blur */,
-				412344691E51EF4700B3FDEF /* Composite */,
-				412344AE1E51EF4700B3FDEF /* DualInputFilter.swift */,
-				412344AF1E51EF4700B3FDEF /* Effect */,
-				412344C91E51EF4700B3FDEF /* Filter.swift */,
 				412344CA1E51EF4700B3FDEF /* PassthroughVertexShader.vsh */,
 				412344CB1E51EF4700B3FDEF /* SingleInputFragmentShader.fsh */,
+				412344C91E51EF4700B3FDEF /* Filter.swift */,
+				4123445B1E51EF4600B3FDEF /* BaseFilter.swift */,
+				412344AE1E51EF4700B3FDEF /* DualInputFilter.swift */,
 				412344CC1E51EF4700B3FDEF /* ThreeInputFilter.swift */,
 				412344CD1E51EF4700B3FDEF /* TwoPassFilter.swift */,
+				4123445C1E51EF4600B3FDEF /* Blur */,
+				412344691E51EF4700B3FDEF /* Composite */,
+				412344AF1E51EF4700B3FDEF /* Effect */,
 			);
 			path = Filters;
 			sourceTree = "<group>";

@@ -9,7 +9,7 @@
 import Foundation
 import CoreGraphics
 
-class MultiplyBlendFilter: DualInputFilter {
+public class MultiplyBlendFilter: DualInputFilter {
     
     /**
      init a [Multiply blend](https://en.wikipedia.org/wiki/Blend_modes) filter
@@ -18,7 +18,7 @@ class MultiplyBlendFilter: DualInputFilter {
      
      - parameter otherImage: specifies a image to multiply with content of the applied convas.
      */
-    init(otherImage: CGImage) {
+    public init(otherImage: CGImage) {
         super.init(secondInput: otherImage)
     }
     
@@ -26,7 +26,7 @@ class MultiplyBlendFilter: DualInputFilter {
         _program = try Program.create(fragmentSourcePath: "MultiplyBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "MultiplyBlendFilter"
     }
 }

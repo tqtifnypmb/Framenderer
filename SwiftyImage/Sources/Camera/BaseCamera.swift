@@ -9,9 +9,9 @@
 import Foundation
 import AVFoundation
 
-open public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDelegate {
-    var filters: [Filter] = []
-    var previewView: PreviewView!
+open class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDelegate {
+    public var filters: [Filter] = []
+    public var previewView: PreviewView!
     
     var _ctx: Context!
     
@@ -21,14 +21,14 @@ open public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBu
     private let _renderSemaphore: DispatchSemaphore!
     private var _isFullRangeYUV = true
     
-    init(captureSession: AVCaptureSession, cameraPosition: AVCaptureDevicePosition) {
+    public init(captureSession: AVCaptureSession, cameraPosition: AVCaptureDevicePosition) {
         _captureSession = captureSession
         _cameraPosition = cameraPosition
         _cameraFrameSerialQueue = DispatchQueue(label: "com.github.SwityImage.CameraSerial")
         _renderSemaphore = DispatchSemaphore(value: 1)
     }
     
-    func startRunning() {
+    public func startRunning() {
         guard !_captureSession.isRunning else { return }
         
         precondition(previewView != nil)
@@ -54,13 +54,13 @@ open public class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBu
         _captureSession.startRunning()
     }
     
-    func stopRunning() {
+    public func stopRunning() {
         guard _captureSession.isRunning else { return }
         
         _captureSession.stopRunning()
     }
     
-    func takePhoto(onComplete:@escaping (_ error: Error?, _ image: CGImage?) -> Void) {
+    public func takePhoto(onComplete:@escaping (_ error: Error?, _ image: CGImage?) -> Void) {
         fatalError("Called virtual function")
     }
     

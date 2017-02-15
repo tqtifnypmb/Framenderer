@@ -11,7 +11,7 @@ import Foundation
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-class Context {
+public class Context {
     private let _context: EAGLContext
     static let _shareGroup: EAGLSharegroup = EAGLSharegroup()
     private var _input: InputFrameBuffer?

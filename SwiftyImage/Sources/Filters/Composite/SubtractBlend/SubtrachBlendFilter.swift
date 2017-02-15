@@ -9,7 +9,7 @@
 import Foundation
 import CoreGraphics
 
-class SubtractBlendFilter: DualInputFilter {
+public class SubtractBlendFilter: DualInputFilter {
     
     /**
      init a [Subtract blend](https://en.wikipedia.org/wiki/Blend_modes) filter
@@ -18,7 +18,7 @@ class SubtractBlendFilter: DualInputFilter {
      
      - parameter otherImage: specifies a other image
      */
-    init(otherImage: CGImage) {
+    public init(otherImage: CGImage) {
         super.init(secondInput: otherImage)
     }
   
@@ -26,7 +26,7 @@ class SubtractBlendFilter: DualInputFilter {
         _program = try Program.create(fragmentSourcePath: "SubtractBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "SubtractBlendFilter"
     }
 }

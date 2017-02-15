@@ -8,8 +8,8 @@
 
 import UIKit
 
-class SaturationBlendFilter: DualInputFilter {
-    init(otherImage: CGImage) {
+public class SaturationBlendFilter: DualInputFilter {
+    public init(otherImage: CGImage) {
         super.init(secondInput: otherImage)
     }
     
@@ -17,7 +17,7 @@ class SaturationBlendFilter: DualInputFilter {
         _program = try Program.create(fragmentSourcePath: "SaturationBlendFragmentShader")
     }
     
-    override var name: String {
+    override public var name: String {
         return "SaturationBlendFilter"
     }
 }
