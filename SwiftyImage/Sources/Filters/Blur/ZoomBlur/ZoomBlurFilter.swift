@@ -11,7 +11,7 @@ import CoreGraphics
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-class ZoomBlurFilter: BaseFilter {
+public class ZoomBlurFilter: BaseFilter {
     
     /**
         init a [Zoom blur](https://en.wikipedia.org/wiki/Zoom_burst) filter
@@ -19,7 +19,7 @@ class ZoomBlurFilter: BaseFilter {
         - parameter center: specifies the center of blur effect **[0 <= x <= 1, 0 <= y <= 1]**
         - parameter size: specifies the size of blur effect
      */
-    init(center: CGPoint, radius: CGFloat) {
+    public init(center: CGPoint, radius: CGFloat) {
         precondition(center.x >= 0 && center.x <= 1)
         precondition(center.y >= 0 && center.y <= 1)
         
@@ -29,7 +29,7 @@ class ZoomBlurFilter: BaseFilter {
     private let _center: CGPoint
     private let _radius: CGFloat
     
-    override var name: String {
+    override public var name: String {
         return "ZoomBlurFilter"
     }
     

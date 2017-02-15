@@ -342,13 +342,11 @@
 				412344701E51EF4700B3FDEF /* ColorBurnBlend */,
 				412344731E51EF4700B3FDEF /* ColorDodgeBlend */,
 				412344761E51EF4700B3FDEF /* DarkenBlend */,
-				412344791E51EF4700B3FDEF /* DarkenOnlyBlend */,
 				4123447A1E51EF4700B3FDEF /* DifferenceBlend */,
 				4123447D1E51EF4700B3FDEF /* DivideBlend */,
 				412344801E51EF4700B3FDEF /* HardLightBlend */,
 				412344831E51EF4700B3FDEF /* HueBlend */,
 				412344861E51EF4700B3FDEF /* LightenBlend */,
-				412344891E51EF4700B3FDEF /* LightenOnlyBlend */,
 				4123448A1E51EF4700B3FDEF /* LinearBlend */,
 				4123448D1E51EF4700B3FDEF /* LinearBurnBlend */,
 				412344901E51EF4700B3FDEF /* LuminosityBlend */,
@@ -410,13 +408,6 @@
 			path = DarkenBlend;
 			sourceTree = "<group>";
 		};
-		412344791E51EF4700B3FDEF /* DarkenOnlyBlend */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = DarkenOnlyBlend;
-			sourceTree = "<group>";
-		};
 		4123447A1E51EF4700B3FDEF /* DifferenceBlend */ = {
 			isa = PBXGroup;
 			children = (
@@ -460,13 +451,6 @@
 				412344881E51EF4700B3FDEF /* LightenBlendFragmentShader.fsh */,
 			);
 			path = LightenBlend;
-			sourceTree = "<group>";
-		};
-		412344891E51EF4700B3FDEF /* LightenOnlyBlend */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = LightenOnlyBlend;
 			sourceTree = "<group>";
 		};
 		4123448A1E51EF4700B3FDEF /* LinearBlend */ = {
@@ -676,11 +660,11 @@
 			isa = PBXGroup;
 			children = (
 				412344CF1E51EF4700B3FDEF /* Context.swift */,
-				412344D01E51EF4700B3FDEF /* FrameBuffer */,
 				412344D71E51EF4700B3FDEF /* Limits.swift */,
 				412344D81E51EF4700B3FDEF /* Program.swift */,
 				412344D91E51EF4700B3FDEF /* ProgramObjectsCacher.swift */,
 				412344DA1E51EF4700B3FDEF /* TextureCacher.swift */,
+				412344D01E51EF4700B3FDEF /* FrameBuffer */,
 			);
 			path = GLObjects;
 			sourceTree = "<group>";
