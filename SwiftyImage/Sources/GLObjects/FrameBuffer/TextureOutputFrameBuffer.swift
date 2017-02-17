@@ -12,7 +12,7 @@ import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
 fileprivate func isSupportFastTexture() -> Bool {
-    return false
+    //return false
     if TARGET_IPHONE_SIMULATOR != 0 {
         return false
     } else if TARGET_OS_IPHONE != 0 {
@@ -90,7 +90,10 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
     
     deinit {
         if _texture != 0 {
-            glDeleteTextures(1, &_texture)
+            if !isSupportFastTexture() {        // We're not supposed to delete shared texture
+                glDeleteTextures(1, &_texture)
+            }
+            
             _texture = 0
         }
         
@@ -145,18 +148,16 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
             let width = CVPixelBufferGetBytesPerRow(_renderTarget) / 4
             let size = width * (Int)(_textureHeight) * 4
             
-            if CVPixelBufferLockBaseAddress(_renderTarget,
-                                            .readOnly) != kCVReturnSuccess {
+            if CVPixelBufferLockBaseAddress(_renderTarget, .readOnly) != kCVReturnSuccess {
                 fatalError()
             }
             
             let pixelDataPtr = CVPixelBufferGetBaseAddress(_renderTarget)!
-            let imageDataProvider = CGDataProvider(dataInfo: &_renderTarget, data: pixelDataPtr, size: size, releaseData: { (info, _, _) in
-                let renderTarget = info!.assumingMemoryBound(to: CVPixelBuffer.self)
-                CVPixelBufferUnlockBaseAddress(renderTarget.pointee, .readOnly)
-            })!
             
+            let imageDataProvider = CGDataProvider(dataInfo: nil, data: pixelDataPtr, size: size, releaseData: {_ in})!
             let cgImage = CGImage(width: Int(_textureWidth), height: Int(_textureHeight), bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: CVPixelBufferGetBytesPerRow(_renderTarget), space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: _bitmapInfo, provider: imageDataProvider, decode: nil, shouldInterpolate: false, intent: CGColorRenderingIntent.defaultIntent)
+            
+            CVPixelBufferUnlockBaseAddress(_renderTarget, .readOnly)
             
             return cgImage
         } else {
