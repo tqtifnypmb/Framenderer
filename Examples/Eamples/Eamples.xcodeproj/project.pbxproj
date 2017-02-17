@@ -14,7 +14,8 @@
 		412343461E51EF0E00B3FDEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 412343441E51EF0E00B3FDEF /* LaunchScreen.storyboard */; };
 		412343511E51EF0E00B3FDEF /* EamplesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412343501E51EF0E00B3FDEF /* EamplesUITests.swift */; };
 		412345461E51EFA900B3FDEF /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412345451E51EFA900B3FDEF /* CameraViewController.swift */; };
-		4126450A1E5312E300916542 /* SwiftyImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 412645071E5312A500916542 /* SwiftyImage.framework */; };
+		417751A51E56CB2400EF1125 /* SwiftyImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 412645071E5312A500916542 /* SwiftyImage.framework */; };
+		417751A61E56CB2400EF1125 /* SwiftyImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 412645071E5312A500916542 /* SwiftyImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +40,28 @@
 			remoteGlobalIDString = 412343231E51EEBA00B3FDEF;
 			remoteInfo = SwiftyImage;
 		};
+		417751A71E56CB2400EF1125 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 412645021E5312A500916542 /* SwiftyImage.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 412343231E51EEBA00B3FDEF;
+			remoteInfo = SwiftyImage;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		417751A91E56CB2400EF1125 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				417751A61E56CB2400EF1125 /* SwiftyImage.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		412343381E51EF0E00B3FDEF /* Eamples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eamples.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,7 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4126450A1E5312E300916542 /* SwiftyImage.framework in Frameworks */,
+				417751A51E56CB2400EF1125 /* SwiftyImage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,11 +157,13 @@
 				412343341E51EF0E00B3FDEF /* Sources */,
 				412343351E51EF0E00B3FDEF /* Frameworks */,
 				412343361E51EF0E00B3FDEF /* Resources */,
+				417751A91E56CB2400EF1125 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				412645091E5312AB00916542 /* PBXTargetDependency */,
+				417751A81E56CB2400EF1125 /* PBXTargetDependency */,
 			);
 			name = Eamples;
 			productName = Eamples;
@@ -176,6 +200,7 @@
 				TargetAttributes = {
 					412343371E51EF0E00B3FDEF = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 6TV9JKNLCC;
 						ProvisioningStyle = Automatic;
 					};
 					4123434B1E51EF0E00B3FDEF = {
@@ -271,6 +296,11 @@
 			isa = PBXTargetDependency;
 			name = SwiftyImage;
 			targetProxy = 412645081E5312AB00916542 /* PBXContainerItemProxy */;
+		};
+		417751A81E56CB2400EF1125 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwiftyImage;
+			targetProxy = 417751A71E56CB2400EF1125 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -388,7 +418,9 @@
 		412343561E51EF0E00B3FDEF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6TV9JKNLCC;
 				INFOPLIST_FILE = Eamples/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -401,7 +433,9 @@
 		412343571E51EF0E00B3FDEF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6TV9JKNLCC;
 				INFOPLIST_FILE = Eamples/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

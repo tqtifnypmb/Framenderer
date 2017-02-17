@@ -38,10 +38,10 @@ open class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDel
         let output = AVCaptureVideoDataOutput()
         output.alwaysDiscardsLateVideoFrames = false
         output.setSampleBufferDelegate(self, queue: _cameraFrameSerialQueue)
-        
-        for format in output.availableVideoCVPixelFormatTypes as! [NSNumber] {
-            kCMPixelFormat_422YpCbCr8_yuvs
-        }
+//        
+//        for format in output.availableVideoCVPixelFormatTypes as! [NSNumber] {
+//            kCMPixelFormat_422YpCbCr8_yuvs
+//        }
         output.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable : kCVPixelFormatType_32BGRA]
         
         assert(_captureSession.canAddOutput(output))

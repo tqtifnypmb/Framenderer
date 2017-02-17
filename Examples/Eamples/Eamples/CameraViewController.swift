@@ -10,13 +10,18 @@ import UIKit
 import SwiftyImage
 
 class CameraViewController: UIViewController {
-    @IBOutlet weak var preview: CameraPreviewView!
+    var preview: CameraPreviewView!
+    
+    @IBOutlet weak var previewContainer: UIView!
     
     private let camera = StillImageCamera(cameraPosition: .back)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        preview = CameraPreviewView(frame: previewContainer.bounds)
+        previewContainer.addSubview(preview)
+        
         camera.previewView = self.preview
         // Do any additional setup after loading the view.
     }
@@ -33,7 +38,7 @@ class CameraViewController: UIViewController {
         let origin = UIImage(named: "lena")
         let blendingFilter = LinearBlendFilter(source: origin!.cgImage!, a: 0.5)
         let blur = GaussianBlurFilter()
-        camera.filters = [blur]
+        //camera.filters = [blendingFilter]
         camera.startRunning()
     }
     /*

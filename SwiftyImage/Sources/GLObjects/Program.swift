@@ -34,8 +34,8 @@ class Program {
     }
     
     class func create(vertexSourcePath vPath: String, fragmentSourcePath fPath: String) throws -> Program {
-        let vSrc = try! String(contentsOfFile: Bundle.main.path(forResource: vPath, ofType: "vsh")!)
-        let fSrc = try! String(contentsOfFile: Bundle.main.path(forResource: fPath, ofType: "fsh")!)
+        let vSrc = try! String(contentsOfFile: Bundle(for: Program.self).path(forResource: vPath, ofType: "vsh")!)
+        let fSrc = try! String(contentsOfFile: Bundle(for: Program.self).path(forResource: fPath, ofType: "fsh")!)
         return try Program.create(vertexSource: vSrc, fragmentSource: fSrc)
     }
     
