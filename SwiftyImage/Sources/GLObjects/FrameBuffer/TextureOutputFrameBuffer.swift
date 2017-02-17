@@ -12,6 +12,7 @@ import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
 fileprivate func isSupportFastTexture() -> Bool {
+    return false
     if TARGET_IPHONE_SIMULATOR != 0 {
         return false
     } else if TARGET_OS_IPHONE != 0 {
