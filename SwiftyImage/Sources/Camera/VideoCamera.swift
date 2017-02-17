@@ -9,19 +9,19 @@
 import Foundation
 import CoreImage
 
-class VideoCamera: Camera {
-    var filters: [Filter] = []
-    var previewView: PreviewView!
+public class VideoCamera: Camera {
+    public var filters: [Filter] = []
+    public var previewView: PreviewView!
     
-    func startRunning() {
+    public func startRunning() {
         
     }
     
-    func stopRunning() {
+    public func stopRunning() {
         
     }
     
-    func takePhoto(onComplete:@escaping (_ error: Error?, _ image: CGImage?) -> Void) {
+    public func takePhoto(onComplete:@escaping (_ error: Error?, _ image: CGImage?) -> Void) {
         fatalError()
     }
 }
