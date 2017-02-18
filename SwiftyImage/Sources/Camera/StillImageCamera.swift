@@ -61,28 +61,40 @@ public class StillImageCamera: BaseCamera {
                     onComplete(error, nil)
                 } else {
                     guard let strong_self = self else { return }
+                    strong_self.stopRunning()
                     
-                    do {
-                        try strong_self.applyFilters(toSampleBuffer: sampleBufer!)
-                        
-                        let result = strong_self._ctx.processedImage()!
-                        onComplete(nil, result)
-                    } catch {
-                        fatalError(error.localizedDescription)
+                    strong_self._ctx.frameSerialQueue.sync {
+                        do {
+                            let result = try strong_self.applyFilters(toSampleBuffer: sampleBufer!)!
+                            onComplete(nil, result)
+                        } catch {
+                            onComplete(error, nil)
+                        }
                     }
                 }
             })
         }
     }
     
-    func applyFilters(toSampleBuffer sm: CMSampleBuffer) throws {
+    fileprivate func applyFilters(toSampleBuffer sm: CMSampleBuffer) throws -> CGImage? {
+        let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sm)!
+        let dataProvider = CGDataProvider(data: data as CFData)!
+        let captured = CGImage(jpegDataProviderSource: dataProvider, decode: nil, shouldInterpolate: true, intent: CGColorRenderingIntent.defaultIntent)!
+        
         _ctx.setAsCurrent()
-        let inputFrameBuffer = try SMSampleInputFrameBuffer(sampleBuffer: sm, isFont: _cameraPosition == .front)
+        _ctx.reset()
+        _ctx.enableInputOutputToggle = true
+        let inputFrameBuffer = try ImageInputFrameBuffer(image: captured)
         _ctx.setInput(input: inputFrameBuffer)
+        
+        let bgr2rgb = ComponentExchangeFilter(mode: .bgr_rgb_32)
+        try bgr2rgb.apply(context: _ctx)
         
         for filter in filters {
             try filter.apply(context: _ctx)
         }
+        
+        return _ctx.processedImage()
     }
 }
 
@@ -96,14 +108,16 @@ extension StillImageCamera: AVCapturePhotoCaptureDelegate {
             DispatchQueue.global(qos: .background).async {[weak self] in
                 guard let strong_self = self else { return }
                 
-                do {
-                    try strong_self.applyFilters(toSampleBuffer: photoSampleBuffer!)
-                    let result = strong_self._ctx.processedImage()!
-                    strong_self._onComplete?(nil, result)
-                } catch {
-                    fatalError(error.localizedDescription)
+                strong_self.stopRunning()
+                strong_self._ctx.frameSerialQueue.sync {
+                    do {
+                        let result = try strong_self.applyFilters(toSampleBuffer: photoSampleBuffer!)
+                        strong_self._onComplete?(nil, result)
+                    } catch {
+                        strong_self._onComplete?(error, nil)
+                    }
+                    strong_self._onComplete = nil
                 }
-                strong_self._onComplete = nil
             }
         }
     }

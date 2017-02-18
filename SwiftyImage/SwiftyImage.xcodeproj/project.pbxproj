@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41012E0D1E58015500D39AA0 /* ComponentExchangeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41012E0C1E58015500D39AA0 /* ComponentExchangeFilter.swift */; };
+		41012E101E58066800D39AA0 /* BGR2RGBExchangeFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41012E0F1E58066800D39AA0 /* BGR2RGBExchangeFragmentShader.fsh */; };
 		412344E11E51EF4700B3FDEF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4123444E1E51EF4600B3FDEF /* Info.plist */; };
 		412344E21E51EF4700B3FDEF /* BaseCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344511E51EF4600B3FDEF /* BaseCamera.swift */; };
 		412344E31E51EF4700B3FDEF /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344521E51EF4600B3FDEF /* Camera.swift */; };
@@ -110,6 +112,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		41012E0C1E58015500D39AA0 /* ComponentExchangeFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentExchangeFilter.swift; sourceTree = "<group>"; };
+		41012E0F1E58066800D39AA0 /* BGR2RGBExchangeFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BGR2RGBExchangeFragmentShader.fsh; sourceTree = "<group>"; };
 		412343241E51EEBA00B3FDEF /* SwiftyImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4123444E1E51EF4600B3FDEF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		412344511E51EF4600B3FDEF /* BaseCamera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCamera.swift; sourceTree = "<group>"; };
@@ -224,6 +228,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		41012E0B1E58012A00D39AA0 /* Convert */ = {
+			isa = PBXGroup;
+			children = (
+				41012E0C1E58015500D39AA0 /* ComponentExchangeFilter.swift */,
+				41012E0F1E58066800D39AA0 /* BGR2RGBExchangeFragmentShader.fsh */,
+			);
+			path = Convert;
+			sourceTree = "<group>";
+		};
 		4123431A1E51EEBA00B3FDEF = {
 			isa = PBXGroup;
 			children = (
@@ -287,6 +300,7 @@
 				412344AE1E51EF4700B3FDEF /* DualInputFilter.swift */,
 				412344CC1E51EF4700B3FDEF /* ThreeInputFilter.swift */,
 				412344CD1E51EF4700B3FDEF /* TwoPassFilter.swift */,
+				41012E0B1E58012A00D39AA0 /* Convert */,
 				4123445C1E51EF4600B3FDEF /* Blur */,
 				412344691E51EF4700B3FDEF /* Composite */,
 				412344AF1E51EF4700B3FDEF /* Effect */,
@@ -798,6 +812,7 @@
 				4123452A1E51EF4700B3FDEF /* GammaAdjustFragmentShader.fsh in Resources */,
 				412344E11E51EF4700B3FDEF /* Info.plist in Resources */,
 				412345011E51EF4700B3FDEF /* DivideBlendFragmentShader.fsh in Resources */,
+				41012E101E58066800D39AA0 /* BGR2RGBExchangeFragmentShader.fsh in Resources */,
 				412344FD1E51EF4700B3FDEF /* DarkenBlendFragmentShader.fsh in Resources */,
 				4123451D1E51EF4700B3FDEF /* SoftLightBlendFragmentShader.fsh in Resources */,
 				412345151E51EF4700B3FDEF /* MultiplyBlendFragmentShader.fsh in Resources */,
@@ -818,6 +833,7 @@
 			files = (
 				4123453F1E51EF4700B3FDEF /* ProgramObjectsCacher.swift in Sources */,
 				412345081E51EF4700B3FDEF /* LinearBlendFilter.swift in Sources */,
+				41012E0D1E58015500D39AA0 /* ComponentExchangeFilter.swift in Sources */,
 				412345061E51EF4700B3FDEF /* LightenBlendFilter.swift in Sources */,
 				412344E51E51EF4700B3FDEF /* VideoCamera.swift in Sources */,
 				412344F41E51EF4700B3FDEF /* AdditionBlendFilter.swift in Sources */,

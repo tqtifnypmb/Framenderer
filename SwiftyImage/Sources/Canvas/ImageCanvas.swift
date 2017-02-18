@@ -9,27 +9,21 @@
 import UIKit
 
 open class ImageCanvas: NSObject, Canvas {
-    private let _origin: UIImage
+    private let _origin: CGImage
     private var _result: CGImage?
     
     public var filters: [Filter] = []
     
-    public init(image: UIImage) {
+    public init(image: CGImage) {
         _origin = image
     }
-    
-    #if DEBUG
-    deinit {
-        ProgramObjectsCacher.shared.check_finish()
-    }
-    #endif
     
     public func process() throws {
         precondition(!filters.isEmpty)
         
         let ctx = Context()
         ctx.setAsCurrent()
-        let inputFrameBuffer = try ImageInputFrameBuffer(image: _origin.cgImage!)
+        let inputFrameBuffer = try ImageInputFrameBuffer(image: _origin)
         ctx.setInput(input: inputFrameBuffer)
         
         for filter in filters {
