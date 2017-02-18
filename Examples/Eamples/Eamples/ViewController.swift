@@ -33,12 +33,10 @@ class ViewController: UIViewController {
         originImageView.image = UIImage(cgImage: cgImage!)
         
         do {
-            let canva = ImageCanvas(image: origin!)
+            let canva = ImageCanvas(image: origin!.cgImage!)
 
-            let test1 = GaussianBlurFilter()
-            let test = SaturationBlendFilter(otherImage: blend!.cgImage!)
-            let motion = MotionBlurFilter(angle: 0, distance: 25)
-            canva.filters = [test1,test1,test1,test1]
+            let invert = ColorInvertFilter()
+            canva.filters = [invert]
             try canva.process()
             
             let result = canva.processedImage()

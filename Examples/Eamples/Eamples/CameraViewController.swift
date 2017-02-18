@@ -23,14 +23,30 @@ class CameraViewController: UIViewController {
         previewContainer.addSubview(preview)
         
         camera.previewView = self.preview
-        // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+//        let origin = UIImage(named: "lena")
+//        let blendingFilter = LinearBlendFilter(source: origin!.cgImage!, a: 0.5)
+        let inverted = ColorInvertFilter()
+        let hueAdjust = HueAdjustFilter()
+        camera.filters = [inverted, hueAdjust]
+        camera.startRunning()
     }
 
     @IBAction func f(_ sender: Any) {
-        let origin = UIImage(named: "lena")
-        let blendingFilter = LinearBlendFilter(source: origin!.cgImage!, a: 0.5)
-        let inverted = ColorInvertFilter()
-        camera.filters = [inverted, HueAdjustFilter()]
-        camera.startRunning()
+        camera.takePhoto { error, image in
+            if let cgImage = image {
+                DispatchQueue.main.async {
+                    let imageView = UIImageView(frame: self.view.bounds)
+                    imageView.image = UIImage(cgImage: cgImage)
+                    self.view.addSubview(imageView)
+                }
+            } else if let error = error {
+                fatalError(error.localizedDescription)
+            }
+        }
     }
 }
