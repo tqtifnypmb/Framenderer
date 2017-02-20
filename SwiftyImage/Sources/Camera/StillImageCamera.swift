@@ -87,8 +87,10 @@ public class StillImageCamera: BaseCamera {
         let inputFrameBuffer = try ImageInputFrameBuffer(image: captured)
         _ctx.setInput(input: inputFrameBuffer)
         
-        let bgr2rgb = ComponentExchangeFilter(mode: .bgr_rgb_32)
-        try bgr2rgb.apply(context: _ctx)
+        if isSupportFastTexture() {
+            let bgr2rgb = ComponentExchangeFilter(mode: .rgb_bgr_32)
+            try bgr2rgb.apply(context: _ctx)
+        }
         
         for filter in filters {
             try filter.apply(context: _ctx)

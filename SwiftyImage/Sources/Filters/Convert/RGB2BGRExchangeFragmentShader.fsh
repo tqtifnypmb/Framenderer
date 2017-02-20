@@ -6,7 +6,7 @@ in vec2 fTextCoor;
 uniform sampler2D firstInput;
 out vec4 color;
 
-//bgr -> rgb
+//rgb -> bgr
 void main() {
     vec4 tmp = texture(firstInput, fTextCoor);
     color = tmp.bgra;

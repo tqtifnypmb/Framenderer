@@ -17,6 +17,7 @@ class ImageInputFrameBuffer: InputFrameBuffer {
     private let _textureHeight: GLsizei
     
     /// Create a input framebuffer object using `texture` as content
+    /// Note: Texture format is RGB32
     init(image: CGImage) throws {
         
         let textureInfo = try GLKTextureLoader.texture(with: image, options: [GLKTextureLoaderOriginBottomLeft : false])

@@ -11,7 +11,7 @@ import GLKit
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-fileprivate func isSupportFastTexture() -> Bool {
+func isSupportFastTexture() -> Bool {
     return TARGET_OS_IOS != 0 ? true : false
 }
 

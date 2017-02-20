@@ -10,7 +10,7 @@ import Foundation
 
 public class ComponentExchangeFilter: BaseFilter {
     public enum Mode {
-        case bgr_rgb_32
+        case rgb_bgr_32
     }
     
     private let _mode: Mode
@@ -20,8 +20,8 @@ public class ComponentExchangeFilter: BaseFilter {
     
     override func buildProgram() throws {
         switch _mode {
-        case .bgr_rgb_32:
-            _program = try Program.create(fragmentSourcePath: "BGR2RGBExchangeFragmentShader")
+        case .rgb_bgr_32:
+            _program = try Program.create(fragmentSourcePath: "RGB2BGRExchangeFragmentShader")
         }
     }
     
