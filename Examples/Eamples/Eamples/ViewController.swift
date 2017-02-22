@@ -30,13 +30,12 @@ class ViewController: UIViewController {
        //filter.setValue(CIImage(cgImage: origin!.cgImage!), forKey: kCIInputBackgroundImageKey)
         let result = filter.outputImage!
         let cgImage = context.createCGImage(result, from: result.extent)
-        originImageView.image = UIImage(cgImage: cgImage!)
+        originImageView.image = origin//UIImage(cgImage: cgImage!)
         
         do {
             let canva = ImageCanvas(image: origin!.cgImage!)
 
-            let invert = ColorInvertFilter()
-            canva.filters = [invert]
+            canva.filters = [PassthroughFilter()]
             try canva.process()
             
             let result = canva.processedImage()

@@ -32,7 +32,7 @@ class CameraViewController: UIViewController {
 //        let blendingFilter = LinearBlendFilter(source: origin!.cgImage!, a: 0.5)
         let inverted = ColorInvertFilter()
         let hueAdjust = HueAdjustFilter()
-        camera.filters = [inverted, hueAdjust]
+        camera.filters = [PassthroughFilter()]
         camera.startRunning()
     }
 

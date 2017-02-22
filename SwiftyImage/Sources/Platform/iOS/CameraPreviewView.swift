@@ -96,7 +96,7 @@ open class CameraPreviewView: UIView, PreviewView {
         try feedDataAndDraw(context: ctx, program: _program)
         outputFrameBuffer.present()
         
-        let dumpInput = TextureInputFrameBuffer(texture: 0, width: 0, height: 0, bitmapInfo: CGBitmapInfo(rawValue: 0))
-        try next(ctx, dumpInput)
+        // Act like a passthrough filter
+        try next(ctx, inputFrameBuffer)
     }
 }
