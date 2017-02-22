@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		41012E0D1E58015500D39AA0 /* ComponentExchangeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41012E0C1E58015500D39AA0 /* ComponentExchangeFilter.swift */; };
-		41012E101E58066800D39AA0 /* RGB2BGRExchangeFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41012E0F1E58066800D39AA0 /* RGB2BGRExchangeFragmentShader.fsh */; };
+		41012E101E58066800D39AA0 /* RGBNBGRExchangeFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41012E0F1E58066800D39AA0 /* RGBNBGRExchangeFragmentShader.fsh */; };
 		412344E11E51EF4700B3FDEF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4123444E1E51EF4600B3FDEF /* Info.plist */; };
 		412344E21E51EF4700B3FDEF /* BaseCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344511E51EF4600B3FDEF /* BaseCamera.swift */; };
 		412344E31E51EF4700B3FDEF /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344521E51EF4600B3FDEF /* Camera.swift */; };
@@ -91,7 +91,7 @@
 		412345301E51EF4700B3FDEF /* MinimumComponentFragment.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344C81E51EF4700B3FDEF /* MinimumComponentFragment.fsh */; };
 		412345311E51EF4700B3FDEF /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344C91E51EF4700B3FDEF /* Filter.swift */; };
 		412345321E51EF4700B3FDEF /* PassthroughVertexShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344CA1E51EF4700B3FDEF /* PassthroughVertexShader.vsh */; };
-		412345331E51EF4700B3FDEF /* SingleInputFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344CB1E51EF4700B3FDEF /* SingleInputFragmentShader.fsh */; };
+		412345331E51EF4700B3FDEF /* PassthroughFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344CB1E51EF4700B3FDEF /* PassthroughFragmentShader.fsh */; };
 		412345341E51EF4700B3FDEF /* ThreeInputFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344CC1E51EF4700B3FDEF /* ThreeInputFilter.swift */; };
 		412345351E51EF4700B3FDEF /* TwoPassFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344CD1E51EF4700B3FDEF /* TwoPassFilter.swift */; };
 		412345361E51EF4700B3FDEF /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344CF1E51EF4700B3FDEF /* Context.swift */; };
@@ -109,11 +109,12 @@
 		412345421E51EF4700B3FDEF /* EAGLOuputFrameBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344DE1E51EF4700B3FDEF /* EAGLOuputFrameBuffer.swift */; };
 		412345431E51EF4700B3FDEF /* String+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344DF1E51EF4700B3FDEF /* String+Helper.swift */; };
 		412644E31E53108200916542 /* SwiftyImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 412344E01E51EF4700B3FDEF /* SwiftyImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		41F1E5281E5D81C700C836DA /* PassthroughFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F1E5271E5D81C700C836DA /* PassthroughFilter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		41012E0C1E58015500D39AA0 /* ComponentExchangeFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentExchangeFilter.swift; sourceTree = "<group>"; };
-		41012E0F1E58066800D39AA0 /* RGB2BGRExchangeFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = RGB2BGRExchangeFragmentShader.fsh; sourceTree = "<group>"; };
+		41012E0F1E58066800D39AA0 /* RGBNBGRExchangeFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = RGBNBGRExchangeFragmentShader.fsh; sourceTree = "<group>"; };
 		412343241E51EEBA00B3FDEF /* SwiftyImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4123444E1E51EF4600B3FDEF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		412344511E51EF4600B3FDEF /* BaseCamera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCamera.swift; sourceTree = "<group>"; };
@@ -197,7 +198,7 @@
 		412344C81E51EF4700B3FDEF /* MinimumComponentFragment.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MinimumComponentFragment.fsh; sourceTree = "<group>"; };
 		412344C91E51EF4700B3FDEF /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		412344CA1E51EF4700B3FDEF /* PassthroughVertexShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = PassthroughVertexShader.vsh; sourceTree = "<group>"; };
-		412344CB1E51EF4700B3FDEF /* SingleInputFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SingleInputFragmentShader.fsh; sourceTree = "<group>"; };
+		412344CB1E51EF4700B3FDEF /* PassthroughFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = PassthroughFragmentShader.fsh; sourceTree = "<group>"; };
 		412344CC1E51EF4700B3FDEF /* ThreeInputFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreeInputFilter.swift; sourceTree = "<group>"; };
 		412344CD1E51EF4700B3FDEF /* TwoPassFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoPassFilter.swift; sourceTree = "<group>"; };
 		412344CF1E51EF4700B3FDEF /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
@@ -215,6 +216,7 @@
 		412344DE1E51EF4700B3FDEF /* EAGLOuputFrameBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EAGLOuputFrameBuffer.swift; sourceTree = "<group>"; };
 		412344DF1E51EF4700B3FDEF /* String+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Helper.swift"; sourceTree = "<group>"; };
 		412344E01E51EF4700B3FDEF /* SwiftyImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftyImage.h; sourceTree = "<group>"; };
+		41F1E5271E5D81C700C836DA /* PassthroughFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughFilter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,7 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				41012E0C1E58015500D39AA0 /* ComponentExchangeFilter.swift */,
-				41012E0F1E58066800D39AA0 /* RGB2BGRExchangeFragmentShader.fsh */,
+				41012E0F1E58066800D39AA0 /* RGBNBGRExchangeFragmentShader.fsh */,
 			);
 			path = Convert;
 			sourceTree = "<group>";
@@ -294,12 +296,13 @@
 			children = (
 				4123445A1E51EF4600B3FDEF /* 3x3KernelVertexShader.vsh */,
 				412344CA1E51EF4700B3FDEF /* PassthroughVertexShader.vsh */,
-				412344CB1E51EF4700B3FDEF /* SingleInputFragmentShader.fsh */,
+				412344CB1E51EF4700B3FDEF /* PassthroughFragmentShader.fsh */,
 				412344C91E51EF4700B3FDEF /* Filter.swift */,
 				4123445B1E51EF4600B3FDEF /* BaseFilter.swift */,
 				412344AE1E51EF4700B3FDEF /* DualInputFilter.swift */,
 				412344CC1E51EF4700B3FDEF /* ThreeInputFilter.swift */,
 				412344CD1E51EF4700B3FDEF /* TwoPassFilter.swift */,
+				41F1E5261E5D818300C836DA /* Test */,
 				41012E0B1E58012A00D39AA0 /* Convert */,
 				4123445C1E51EF4600B3FDEF /* Blur */,
 				412344691E51EF4700B3FDEF /* Composite */,
@@ -713,6 +716,14 @@
 			path = iOS;
 			sourceTree = "<group>";
 		};
+		41F1E5261E5D818300C836DA /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				41F1E5271E5D81C700C836DA /* PassthroughFilter.swift */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -801,7 +812,7 @@
 				412344F51E51EF4700B3FDEF /* AdditionBlendFragmentShader.fsh in Resources */,
 				412344F71E51EF4700B3FDEF /* AlphaMaskBlendFragmentShader.fsh in Resources */,
 				412345091E51EF4700B3FDEF /* LinearBlendFragmentShader.fsh in Resources */,
-				412345331E51EF4700B3FDEF /* SingleInputFragmentShader.fsh in Resources */,
+				412345331E51EF4700B3FDEF /* PassthroughFragmentShader.fsh in Resources */,
 				4123452C1E51EF4700B3FDEF /* HueAdjustFragmentShader.fsh in Resources */,
 				412344E91E51EF4700B3FDEF /* 3x3KernelVertexShader.vsh in Resources */,
 				412345071E51EF4700B3FDEF /* LightenBlendFragmentShader.fsh in Resources */,
@@ -812,7 +823,7 @@
 				4123452A1E51EF4700B3FDEF /* GammaAdjustFragmentShader.fsh in Resources */,
 				412344E11E51EF4700B3FDEF /* Info.plist in Resources */,
 				412345011E51EF4700B3FDEF /* DivideBlendFragmentShader.fsh in Resources */,
-				41012E101E58066800D39AA0 /* RGB2BGRExchangeFragmentShader.fsh in Resources */,
+				41012E101E58066800D39AA0 /* RGBNBGRExchangeFragmentShader.fsh in Resources */,
 				412344FD1E51EF4700B3FDEF /* DarkenBlendFragmentShader.fsh in Resources */,
 				4123451D1E51EF4700B3FDEF /* SoftLightBlendFragmentShader.fsh in Resources */,
 				412345151E51EF4700B3FDEF /* MultiplyBlendFragmentShader.fsh in Resources */,
@@ -865,6 +876,7 @@
 				4123453B1E51EF4700B3FDEF /* TextureInputFrameBuffer.swift in Sources */,
 				4123451E1E51EF4700B3FDEF /* SubtrachBlendFilter.swift in Sources */,
 				412345291E51EF4700B3FDEF /* GammaAdjustFilter.swift in Sources */,
+				41F1E5281E5D81C700C836DA /* PassthroughFilter.swift in Sources */,
 				412345381E51EF4700B3FDEF /* InputFrameBuffer.swift in Sources */,
 				412344E61E51EF4700B3FDEF /* Canvas.swift in Sources */,
 				4123453E1E51EF4700B3FDEF /* Program.swift in Sources */,

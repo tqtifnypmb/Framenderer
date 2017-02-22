@@ -72,7 +72,7 @@ public class StillImageCamera: BaseCamera {
         _ctx.setInput(input: inputFrameBuffer)
         
         if isSupportFastTexture() {
-            let bgr2rgb = ComponentExchangeFilter(mode: .rgb_bgr_32)
+            let bgr2rgb = ComponentExchangeFilter(mode: .rgb_bgr_toggle)
             try bgr2rgb.apply(context: _ctx)
         }
         

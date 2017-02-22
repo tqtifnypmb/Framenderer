@@ -30,6 +30,11 @@ open class ImageCanvas: NSObject, Canvas {
             try filter.apply(context: ctx)
         }
         
+        if isSupportFastTexture() {
+            let bgr_2_rgb = ComponentExchangeFilter(mode: .rgb_bgr_toggle)
+            try bgr_2_rgb.apply(context: ctx)
+        }
+        
         _result = ctx.processedImage()
         filters.removeAll()
     }

@@ -148,7 +148,17 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
             let pixelDataPtr = CVPixelBufferGetBaseAddress(_renderTarget)!
             
             let imageDataProvider = CGDataProvider(dataInfo: nil, data: pixelDataPtr, size: size, releaseData: {_ in})!
-            let cgImage = CGImage(width: Int(_textureWidth), height: Int(_textureHeight), bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: CVPixelBufferGetBytesPerRow(_renderTarget), space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: _bitmapInfo, provider: imageDataProvider, decode: nil, shouldInterpolate: false, intent: CGColorRenderingIntent.defaultIntent)
+            let cgImage = CGImage(width: Int(_textureWidth),
+                                  height: Int(_textureHeight),
+                                  bitsPerComponent: 8,
+                                  bitsPerPixel: 32,
+                                  bytesPerRow: CVPixelBufferGetBytesPerRow(_renderTarget),
+                                  space: CGColorSpaceCreateDeviceRGB(),
+                                  bitmapInfo: _bitmapInfo,
+                                  provider: imageDataProvider,
+                                  decode: nil,
+                                  shouldInterpolate: true,
+                                  intent: CGColorRenderingIntent.defaultIntent)
             
             CVPixelBufferUnlockBaseAddress(_renderTarget, .readOnly)
             
@@ -171,7 +181,17 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
                 })
             }
             
-            let cgImage = CGImage(width: Int(_textureWidth), height: Int(_textureHeight), bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: Int(_textureWidth) * 4, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: _bitmapInfo, provider: imageDataProvider, decode: nil, shouldInterpolate: false, intent: CGColorRenderingIntent.defaultIntent)
+            let cgImage = CGImage(width: Int(_textureWidth),
+                                  height: Int(_textureHeight),
+                                  bitsPerComponent: 8,
+                                  bitsPerPixel: 32,
+                                  bytesPerRow: Int(_textureWidth) * 4,
+                                  space: CGColorSpaceCreateDeviceRGB(),
+                                  bitmapInfo: _bitmapInfo,
+                                  provider: imageDataProvider,
+                                  decode: nil,
+                                  shouldInterpolate: true,
+                                  intent: CGColorRenderingIntent.defaultIntent)
             
             return cgImage
         }

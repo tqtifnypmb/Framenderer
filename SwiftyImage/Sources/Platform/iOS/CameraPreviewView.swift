@@ -44,7 +44,7 @@ open class CameraPreviewView: UIView, PreviewView {
     }
     
     func buildProgram() throws {
-        _program = try Program.create(vertexSourcePath: "PassthroughVertexShader", fragmentSourcePath: "SingleInputFragmentShader")
+        _program = try Program.create(vertexSourcePath: "PassthroughVertexShader", fragmentSourcePath: "PassthroughFragmentShader")
     }
     
     func feedDataAndDraw(context ctx: Context, program: Program) throws {

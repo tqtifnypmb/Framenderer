@@ -37,6 +37,7 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
             let width = bpr / 4
             let height = CVPixelBufferGetHeight(cv)
             
+            let format = isSupportFastTexture() ? GLenum(GL_BGRA) : GLenum(GL_RGBA)
             glGenTextures(1, &_texture)
             glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
             glTexImage2D(GLenum(GL_TEXTURE_2D),
@@ -45,7 +46,7 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
                          GLsizei(width),
                          GLsizei(height),
                          0,
-                         GLenum(GL_BGRA),
+                         format,
                          GLenum(GL_UNSIGNED_BYTE),
                          CVPixelBufferGetBaseAddress(cv)!)
             
