@@ -25,9 +25,6 @@ public protocol Camera {
 
     /// Stop camera
     func stopRunning()
-    
-    /// Take a photo
-    func takePhoto(onComplete:@escaping (_ error: Error?, _ image: CGImage?) -> Void)
 }
 
 public typealias PreviewView = Filter

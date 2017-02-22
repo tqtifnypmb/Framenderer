@@ -21,7 +21,7 @@ open class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDel
     private let _renderSemaphore: DispatchSemaphore!
     private var _isFullRangeYUV = true
     
-    public init(captureSession: AVCaptureSession, cameraPosition: AVCaptureDevicePosition) {
+    init(captureSession: AVCaptureSession, cameraPosition: AVCaptureDevicePosition) {
         _captureSession = captureSession
         _cameraPosition = cameraPosition
         _cameraFrameSerialQueue = DispatchQueue(label: "com.github.SwityImage.CameraSerial")
@@ -47,7 +47,7 @@ open class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDel
         assert(_captureSession.canAddOutput(output))
         _captureSession.addOutput(output)
         
-        let input = captureInput()
+        let input = cameraInput()
         assert(_captureSession.canAddInput(input))
         _captureSession.addInput(input)
         
@@ -60,13 +60,25 @@ open class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDel
         _captureSession.stopRunning()
     }
     
-    public func takePhoto(onComplete:@escaping (_ error: Error?, _ image: CGImage?) -> Void) {
-        fatalError("Called virtual function")
+    func cameraInput() -> AVCaptureInput {
+        if let devices = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) as? [AVCaptureDevice] {
+            for d in devices {
+                if d.position == _cameraPosition {
+                    let input = try! AVCaptureDeviceInput(device: d)
+                    return input
+                }
+            }
+        }
+        
+        fatalError("No available capture device")
     }
     
-    func captureInput() -> AVCaptureInput {
-        fatalError("Called virtual function")
+    var isInterestInCookedInput: Bool {
+        return false
     }
+    
+    func rawCameraInputReceived(sampleBuffer: CMSampleBuffer) {}
+    func cookedCameraInput(sampleBuffer: CMSampleBuffer) {}
     
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
@@ -77,6 +89,8 @@ open class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDel
         
         _ctx.frameSerialQueue.async {[retainedBuffer = sampleBuffer, weak self] in
             guard let strong_self = self else { return }
+            
+            strong_self.rawCameraInputReceived(sampleBuffer: sampleBuffer)
             
             do {
                 strong_self._ctx.setAsCurrent()

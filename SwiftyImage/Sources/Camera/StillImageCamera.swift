@@ -11,13 +11,10 @@ import AVFoundation
 
 public class StillImageCamera: BaseCamera {
    
-    private let _cameraPosition: AVCaptureDevicePosition
     private let _photoOutput: AVCaptureOutput
     var _onComplete: ((_ error: Error?, _ image: CGImage?) -> Void)?
     
-    public init(cameraPosition: AVCaptureDevicePosition) {
-        _cameraPosition = cameraPosition
-        
+    public init(cameraPosition: AVCaptureDevicePosition = .back) {
         let session = AVCaptureSession()
         session.beginConfiguration()
         session.sessionPreset = AVCaptureSessionPresetPhoto
@@ -34,20 +31,7 @@ public class StillImageCamera: BaseCamera {
         super.init(captureSession: session, cameraPosition: cameraPosition)
     }
     
-    override func captureInput() -> AVCaptureInput {
-        if let devices = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) as? [AVCaptureDevice] {
-            for d in devices {
-                if d.position == _cameraPosition {
-                    let input = try! AVCaptureDeviceInput(device: d)
-                    return input
-                }
-            }
-        }
-        
-        fatalError("No available capture device")
-    }
-    
-    override public func takePhoto(onComplete:@escaping (_ error: Error?, _ image: CGImage?) -> Void) {
+    public func takePhoto(onComplete:@escaping (_ error: Error?, _ image: CGImage?) -> Void) {
         if #available(iOS 10, *) {
             _onComplete = onComplete
             
