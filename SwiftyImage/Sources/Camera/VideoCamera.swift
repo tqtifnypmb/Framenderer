@@ -71,6 +71,7 @@ public class VideoCamera: BaseCamera {
         _isRecording = true
         
         _outputWriter.startWriting()
+        _outputWriter.startSession(atSourceTime: kCMTimeZero)
         filters.append(_frameWriter)
     }
     
@@ -81,7 +82,7 @@ public class VideoCamera: BaseCamera {
         if let idx = filters.index(where: { $0 is FrameWriter }) {
             filters.remove(at: idx)
         }
-        
+
         _outputWriter.finishWriting(completionHandler: handler)
     }
 }

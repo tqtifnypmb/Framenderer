@@ -27,20 +27,29 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcV-5g-Ihv">
-                                <rect key="frame" x="164" y="318" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
+                                <rect key="frame" x="170" y="318" width="34" height="30"/>
+                                <state key="normal" title="Start"/>
                                 <connections>
-                                    <action selector="f:" destination="3sL-cP-ID2" eventType="touchUpInside" id="Uyg-5a-xMd"/>
+                                    <action selector="start:" destination="3sL-cP-ID2" eventType="touchUpInside" id="m3S-bi-yap"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IoZ-7E-LLy">
+                                <rect key="frame" x="166.5" y="398" width="41" height="30"/>
+                                <state key="normal" title="Finish"/>
+                                <connections>
+                                    <action selector="finish:" destination="3sL-cP-ID2" eventType="touchUpInside" id="Vtv-ZW-Ao3"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="IoZ-7E-LLy" firstAttribute="top" secondItem="hcV-5g-Ihv" secondAttribute="bottom" constant="50" id="0Ze-Cu-3VA"/>
                             <constraint firstItem="Bu1-eB-MlJ" firstAttribute="centerX" secondItem="xrd-q8-3Rj" secondAttribute="centerX" id="1pc-6Y-YHT"/>
                             <constraint firstItem="hcV-5g-Ihv" firstAttribute="centerY" secondItem="xrd-q8-3Rj" secondAttribute="centerY" id="7Rb-Hp-iab"/>
                             <constraint firstItem="Bu1-eB-MlJ" firstAttribute="height" secondItem="xrd-q8-3Rj" secondAttribute="height" id="94h-zl-v88"/>
                             <constraint firstItem="hcV-5g-Ihv" firstAttribute="centerX" secondItem="xrd-q8-3Rj" secondAttribute="centerX" id="Cdu-a2-KUL"/>
                             <constraint firstItem="Bu1-eB-MlJ" firstAttribute="width" secondItem="xrd-q8-3Rj" secondAttribute="width" id="Mjy-4R-2KE"/>
+                            <constraint firstItem="IoZ-7E-LLy" firstAttribute="centerX" secondItem="xrd-q8-3Rj" secondAttribute="centerX" id="T74-7N-dZt"/>
                             <constraint firstItem="Bu1-eB-MlJ" firstAttribute="centerY" secondItem="xrd-q8-3Rj" secondAttribute="centerY" id="axO-Tz-ZKq"/>
                         </constraints>
                     </view>
