@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41011A431E5E6E2E006B54FD /* FrameWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41011A421E5E6E2E006B54FD /* FrameWriter.swift */; };
 		41012E0D1E58015500D39AA0 /* ComponentExchangeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41012E0C1E58015500D39AA0 /* ComponentExchangeFilter.swift */; };
 		41012E101E58066800D39AA0 /* RGBNBGRExchangeFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41012E0F1E58066800D39AA0 /* RGBNBGRExchangeFragmentShader.fsh */; };
 		412344E11E51EF4700B3FDEF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4123444E1E51EF4600B3FDEF /* Info.plist */; };
@@ -113,6 +114,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		41011A421E5E6E2E006B54FD /* FrameWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameWriter.swift; sourceTree = "<group>"; };
 		41012E0C1E58015500D39AA0 /* ComponentExchangeFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentExchangeFilter.swift; sourceTree = "<group>"; };
 		41012E0F1E58066800D39AA0 /* RGBNBGRExchangeFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = RGBNBGRExchangeFragmentShader.fsh; sourceTree = "<group>"; };
 		412343241E51EEBA00B3FDEF /* SwiftyImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -278,6 +280,7 @@
 				412344521E51EF4600B3FDEF /* Camera.swift */,
 				412344531E51EF4600B3FDEF /* StillImageCamera.swift */,
 				412344541E51EF4600B3FDEF /* VideoCamera.swift */,
+				41011A421E5E6E2E006B54FD /* FrameWriter.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -863,6 +866,7 @@
 				412345371E51EF4700B3FDEF /* ImageInputFrameBuffer.swift in Sources */,
 				412345431E51EF4700B3FDEF /* String+Helper.swift in Sources */,
 				412344EB1E51EF4700B3FDEF /* BoxBlurFilter.swift in Sources */,
+				41011A431E5E6E2E006B54FD /* FrameWriter.swift in Sources */,
 				412345311E51EF4700B3FDEF /* Filter.swift in Sources */,
 				412345231E51EF4700B3FDEF /* ColorInvertFilter.swift in Sources */,
 				412345411E51EF4700B3FDEF /* CameraPreviewView.swift in Sources */,

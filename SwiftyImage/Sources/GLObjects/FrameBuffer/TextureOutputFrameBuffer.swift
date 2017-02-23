@@ -18,7 +18,7 @@ func isSupportFastTexture() -> Bool {
 class TextureOutputFrameBuffer: OutputFrameBuffer {
     
     // fast texture
-    private var _renderTarget: CVPixelBuffer!
+    var _renderTarget: CVPixelBuffer!
     
     private var _texture: GLuint = 0
     private let _textureWidth: GLsizei

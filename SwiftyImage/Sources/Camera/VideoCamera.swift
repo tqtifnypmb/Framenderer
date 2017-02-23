@@ -12,18 +12,16 @@ import AVFoundation
 
 public class VideoCamera: BaseCamera {
     public enum Quality {
-        case auto
         case low
         case medium
         case high
     }
     
     private let _outputWriter: AVAssetWriter
-    private let _input: AVAssetWriterInput
+    private let _frameWriter: FrameWriter
+    private var _isRecording = false
     
-    private var _isRecording: Bool = false
-    
-    public init(outputURL url: URL, fileType type: String = AVFileTypeMPEG4, quality: Quality = .auto, cameraPosition: AVCaptureDevicePosition = .back) throws {
+    public init(outputURL url: URL, width: Int32, height: Int32, quality: Quality = .high, fileType type: String = AVFileTypeMPEG4, codecType: CMVideoCodecType = kCMVideoCodecType_MPEG4Video, cameraPosition: AVCaptureDevicePosition = .back) throws {
         precondition(url.isFileURL)
 
         let session = AVCaptureSession()
@@ -38,40 +36,52 @@ public class VideoCamera: BaseCamera {
             
         case .high:
             session.sessionPreset = AVCaptureSessionPresetHigh
-            
-        case .auto:
-            // TODO choose base on network connection type
-            session.sessionPreset = AVCaptureSessionPresetLow
         }
         
         session.commitConfiguration()
         
         _outputWriter = try AVAssetWriter(outputURL: url, fileType: type)
-        _input = AVAssetWriterInput(mediaType: type, outputSettings: nil)
-        _outputWriter.add(_input)
+        
+        var descp: CMVideoFormatDescription?
+        if noErr != CMVideoFormatDescriptionCreate(nil, codecType, width, height, nil, &descp) {
+            throw AVAssetSettingsError.assetWriter(errorDessc: "Incompatible arguments")
+        }
+        
+        let input = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: nil, sourceFormatHint: descp)
+        
+        var sourceAttrs: [String: Any]? = nil
+        
+        // Only if fast texture is not supported, we need to use the CVPixelBufferPool of 
+        // AVAssetWriterInputPixelBufferAdaptor
+        if !isSupportFastTexture() {
+            sourceAttrs = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
+                           kCVPixelBufferWidthKey as String: width,
+                           kCVPixelBufferHeightKey as String: height]
+        }
+        
+        let adaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: input, sourcePixelBufferAttributes: sourceAttrs)
+        _frameWriter = FrameWriter(writer: adaptor)
+        _outputWriter.add(input)
         
         super.init(captureSession: session, cameraPosition: cameraPosition)
     }
     
-    override var isInterestInCookedInput: Bool {
-        return _isRecording
-    }
-    
-    public func resumeRecording() {
+    public func startRecording() {
+        guard !_isRecording else { return }
         _isRecording = true
-    }
-    
-    public func stopRecording() {
-        _isRecording = false
+        
+        _outputWriter.startWriting()
+        filters.append(_frameWriter)
     }
     
     public func finishRecording(completionHandler handler: @escaping () -> Void) {
-        _isRecording = false
-        _outputWriter.finishWriting(completionHandler: handler)
-    }
-    
-    override func cookedCameraInput(sampleBuffer: CMSampleBuffer) {
         guard _isRecording else { return }
+        _isRecording = false
         
+        if let idx = filters.index(where: { $0 is FrameWriter }) {
+            filters.remove(at: idx)
+        }
+        
+        _outputWriter.finishWriting(completionHandler: handler)
     }
 }

@@ -73,13 +73,6 @@ open class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDel
         fatalError("No available capture device")
     }
     
-    var isInterestInCookedInput: Bool {
-        return false
-    }
-    
-    func rawCameraInputReceived(sampleBuffer: CMSampleBuffer) {}
-    func cookedCameraInput(sampleBuffer: CMSampleBuffer) {}
-    
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
     public func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
@@ -89,9 +82,7 @@ open class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDel
         
         _ctx.frameSerialQueue.async {[retainedBuffer = sampleBuffer, weak self] in
             guard let strong_self = self else { return }
-            
-            strong_self.rawCameraInputReceived(sampleBuffer: sampleBuffer)
-            
+                        
             do {
                 strong_self._ctx.setAsCurrent()
                 let time: CMTime = CMSampleBufferGetPresentationTimeStamp(retainedBuffer!)
