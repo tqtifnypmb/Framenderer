@@ -22,6 +22,9 @@ class CameraViewController: UIViewController {
         var url = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
         url.appendPathComponent("tmp.mp4")
         
+        if FileManager.default.fileExists(atPath: url.relativePath) {
+            try! FileManager.default.removeItem(at: url)
+        }
         let width = self.view.bounds.width
         let height = self.view.bounds.height
         camera = try! VideoCamera(outputURL: url, width: Int32(width), height: Int32(height))
