@@ -27,7 +27,7 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
     
     private var _frameBuffer: GLuint = 0
     
-    init(width: GLsizei, height: GLsizei, bitmapInfo: CGBitmapInfo) throws {
+    init(width: GLsizei, height: GLsizei, bitmapInfo: CGBitmapInfo, pixelBuffer: CVPixelBuffer? = nil) throws {
         let maxTextureSize = GLsizei(Limits.max_texture_size)
         if width < maxTextureSize && height < maxTextureSize {
             _textureWidth = width
@@ -46,18 +46,16 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
         if isSupportFastTexture() {
             // Code originally sourced from http://allmybrain.com/2011/12/08/rendering-to-a-texture-with-ios-5-texture-cache-api/
             
-            let attrs: [String: [Int: Int]] = [kCVPixelBufferIOSurfacePropertiesKey as String: [:]]
-
-            var pixelBuffer: CVPixelBuffer?
-            if CVPixelBufferCreate(CFAllocatorGetDefault()!.takeRetainedValue(),
-                                   Int(_textureWidth),
-                                   Int(_textureHeight),
-                                   kCVPixelFormatType_32BGRA,
-                                   attrs as CFDictionary,
-                                   &pixelBuffer) != kCVReturnSuccess {
-                throw DataError.pixelBuffer(errorDesc: "Can't create a pixel buffer")
+            if let pb = pixelBuffer {
+                _renderTarget = pb
+            } else {
+                let pool = try PixelBufferPool.pool(width: _textureWidth, height: _textureHeight)
+                var pixelBuffer: CVPixelBuffer?
+                if kCVReturnSuccess != CVPixelBufferPoolCreatePixelBuffer(nil, pool, &pixelBuffer) {
+                    throw DataError.pixelBuffer(errorDesc: "Can't create CVPixelBuffer from shared CVPixelBufferPool")
+                }
+                _renderTarget = pixelBuffer
             }
-            _renderTarget = pixelBuffer
             
             TextureCacher.shared.setup(context: EAGLContext.current())
             

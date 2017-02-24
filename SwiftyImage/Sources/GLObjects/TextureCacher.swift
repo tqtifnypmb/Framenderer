@@ -18,6 +18,7 @@ class TextureCacher {
     static var shared: TextureCacher! = {
         return TextureCacher()
     }()
+    
     var cacher: CVOpenGLESTextureCache! = nil
     
     func setup(context: EAGLContext) {

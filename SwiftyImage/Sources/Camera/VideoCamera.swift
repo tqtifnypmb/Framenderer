@@ -20,10 +20,12 @@ public class VideoCamera: BaseCamera {
     private let _outputWriter: AVAssetWriter
     private let _frameWriter: FrameWriter
     private var _isRecording = false
+    private let _outputURL: URL
     
     public init(outputURL url: URL, width: Int32, height: Int32, quality: Quality = .high, fileType type: String = AVFileTypeMPEG4, codecType: CMVideoCodecType = kCMVideoCodecType_MPEG4Video, cameraPosition: AVCaptureDevicePosition = .back) throws {
         precondition(url.isFileURL)
-
+        precondition(!FileManager.default.fileExists(atPath: url.relativePath), "File already exists at \(url.relativePath)")
+        
         let session = AVCaptureSession()
         session.beginConfiguration()
         
@@ -40,6 +42,7 @@ public class VideoCamera: BaseCamera {
         
         session.commitConfiguration()
         
+        _outputURL = url
         _outputWriter = try AVAssetWriter(outputURL: url, fileType: type)
         
         var descp: CMVideoFormatDescription?
@@ -49,15 +52,13 @@ public class VideoCamera: BaseCamera {
         
         let input = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: nil, sourceFormatHint: descp)
         
-        var sourceAttrs: [String: Any]? = nil
-        
         // Only if fast texture is not supported, we need to use the CVPixelBufferPool of 
         // AVAssetWriterInputPixelBufferAdaptor
-        if !isSupportFastTexture() {
-            sourceAttrs = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
+        let sourceAttrs: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
                            kCVPixelBufferWidthKey as String: width,
-                           kCVPixelBufferHeightKey as String: height]
-        }
+                           kCVPixelBufferHeightKey as String: height,
+                           kCVPixelBufferOpenGLCompatibilityKey as String: true,
+                           kCVPixelBufferIOSurfacePropertiesKey as String: [:]]
         
         let adaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: input, sourcePixelBufferAttributes: sourceAttrs)
         _frameWriter = FrameWriter(writer: adaptor)
@@ -75,14 +76,16 @@ public class VideoCamera: BaseCamera {
         filters.append(_frameWriter)
     }
     
-    public func finishRecording(completionHandler handler: @escaping () -> Void) {
+    public func finishRecording(completionHandler handler: (() -> Void)?) {
         guard _isRecording else { return }
         _isRecording = false
         
         if let idx = filters.index(where: { $0 is FrameWriter }) {
             filters.remove(at: idx)
         }
-
-        _outputWriter.finishWriting(completionHandler: handler)
+        
+        _outputWriter.finishWriting {
+            handler?()
+        }
     }
 }

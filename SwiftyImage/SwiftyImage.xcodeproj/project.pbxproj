@@ -110,6 +110,7 @@
 		412345421E51EF4700B3FDEF /* EAGLOuputFrameBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344DE1E51EF4700B3FDEF /* EAGLOuputFrameBuffer.swift */; };
 		412345431E51EF4700B3FDEF /* String+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344DF1E51EF4700B3FDEF /* String+Helper.swift */; };
 		412644E31E53108200916542 /* SwiftyImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 412344E01E51EF4700B3FDEF /* SwiftyImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4149650E1E5FBED400CB7ADA /* PixelBufferPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4149650D1E5FBED400CB7ADA /* PixelBufferPool.swift */; };
 		41F1E5281E5D81C700C836DA /* PassthroughFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F1E5271E5D81C700C836DA /* PassthroughFilter.swift */; };
 /* End PBXBuildFile section */
 
@@ -218,6 +219,7 @@
 		412344DE1E51EF4700B3FDEF /* EAGLOuputFrameBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EAGLOuputFrameBuffer.swift; sourceTree = "<group>"; };
 		412344DF1E51EF4700B3FDEF /* String+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Helper.swift"; sourceTree = "<group>"; };
 		412344E01E51EF4700B3FDEF /* SwiftyImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftyImage.h; sourceTree = "<group>"; };
+		4149650D1E5FBED400CB7ADA /* PixelBufferPool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelBufferPool.swift; sourceTree = "<group>"; };
 		41F1E5271E5D81C700C836DA /* PassthroughFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughFilter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -684,6 +686,7 @@
 				412344D81E51EF4700B3FDEF /* Program.swift */,
 				412344D91E51EF4700B3FDEF /* ProgramObjectsCacher.swift */,
 				412344DA1E51EF4700B3FDEF /* TextureCacher.swift */,
+				4149650D1E5FBED400CB7ADA /* PixelBufferPool.swift */,
 				412344D01E51EF4700B3FDEF /* FrameBuffer */,
 			);
 			path = GLObjects;
@@ -889,6 +892,7 @@
 				4123452D1E51EF4700B3FDEF /* MaximumComponentFilter.swift in Sources */,
 				412345401E51EF4700B3FDEF /* TextureCacher.swift in Sources */,
 				412345141E51EF4700B3FDEF /* MultiplyBlendFilter.swift in Sources */,
+				4149650E1E5FBED400CB7ADA /* PixelBufferPool.swift in Sources */,
 				412345021E51EF4700B3FDEF /* HardLightBlendFilter.swift in Sources */,
 				412344F61E51EF4700B3FDEF /* AlphaMaskBlendFilter.swift in Sources */,
 				412344FE1E51EF4700B3FDEF /* DifferenceBlendFilter.swift in Sources */,
