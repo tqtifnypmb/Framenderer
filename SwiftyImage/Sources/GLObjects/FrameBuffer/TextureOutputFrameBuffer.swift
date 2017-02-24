@@ -44,8 +44,6 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
         _bitmapInfo = bitmapInfo
         
         if isSupportFastTexture() {
-            // Code originally sourced from http://allmybrain.com/2011/12/08/rendering-to-a-texture-with-ios-5-texture-cache-api/
-            
             if let pb = pixelBuffer {
                 _renderTarget = pb
             } else {

@@ -57,7 +57,9 @@ class FrameWriter: BaseFilter {
         try feedDataAndDraw(context: ctx, program: _program)
         
         let timeStamp = calculateTime(with: time)
-        _writer.append(outputFrameBuffer._renderTarget, withPresentationTime: timeStamp)
+        if !_writer.append(outputFrameBuffer._renderTarget, withPresentationTime: timeStamp) {
+            throw AVAssetError.assetWriter(errorDessc: "Can't append frame at time: \(time) to output")
+        }
         
         try next(ctx, inputFrameBuffer)
     }

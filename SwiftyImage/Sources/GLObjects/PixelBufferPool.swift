@@ -50,6 +50,13 @@ class PixelBufferPool {
                 throw DataError.pixelBuffer(errorDesc: "Can't create CVPixelBufferPool")
             }
         }
+        
+        #if DEBUG
+            if _pool != nil {
+                print("[CVPixelBufferPool] Something bad happended")
+            }
+        #endif
+        
         _width = width
         _height = height
         _pool = pool

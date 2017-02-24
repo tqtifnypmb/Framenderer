@@ -47,7 +47,7 @@ public class VideoCamera: BaseCamera {
         
         var descp: CMVideoFormatDescription?
         if noErr != CMVideoFormatDescriptionCreate(nil, codecType, width, height, nil, &descp) {
-            throw AVAssetSettingsError.assetWriter(errorDessc: "Incompatible arguments")
+            throw AVAssetError.assetWriter(errorDessc: "Incompatible arguments")
         }
         
         let input = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: nil, sourceFormatHint: descp)

@@ -53,11 +53,11 @@ extension DataError: LocalizedError {
     }
 }
 
-public enum AVAssetSettingsError: Error {
+public enum AVAssetError: Error {
     case assetWriter(errorDessc: String)
 }
 
-extension AVAssetSettingsError: LocalizedError {
+extension AVAssetError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case let .assetWriter(errorDesc):
