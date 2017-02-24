@@ -66,6 +66,7 @@ open class CameraPreviewView: UIView, PreviewView {
             glEnableVertexAttribArray(program.location(ofAttribute: kTextureCoorAttribute))
         }
         
+        try ctx.activateOutput()
         ctx.activateInput()
         glClearColor(0.0, 0.0, 0.0, 1.0);
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT));
@@ -91,7 +92,7 @@ open class CameraPreviewView: UIView, PreviewView {
         
         let layer = self.layer as! CAEAGLLayer
         let outputFrameBuffer = EAGLOutputFrameBuffer(eaglLayer: layer)
-        try ctx.setOutput(output: outputFrameBuffer)
+        ctx.setOutput(output: outputFrameBuffer)
 
         try feedDataAndDraw(context: ctx, program: _program)
         outputFrameBuffer.present()

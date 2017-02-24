@@ -27,7 +27,7 @@ class CameraViewController: UIViewController {
         }
         let width = self.view.bounds.width
         let height = self.view.bounds.height
-        camera = try! VideoCamera(outputURL: url, width: 1920, height: 1080)
+        camera = try! VideoCamera(outputURL: url, width: 960, height: 540)
         
         preview = CameraPreviewView(frame: previewContainer.bounds)
         previewContainer.addSubview(preview)

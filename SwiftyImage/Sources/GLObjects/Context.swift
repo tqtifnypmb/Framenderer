@@ -41,10 +41,12 @@ public class Context {
         _input = input
     }
     
-    func setOutput(output: OutputFrameBuffer) throws {
+    func setOutput(output: OutputFrameBuffer) {
         _output = output
-        
-        try output.useAsOutput()
+    }
+    
+    func activateOutput() throws {
+        try _output?.useAsOutput()
     }
     
     func activateInput() {

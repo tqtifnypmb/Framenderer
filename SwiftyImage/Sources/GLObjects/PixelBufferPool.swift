@@ -20,11 +20,14 @@ class PixelBufferPool {
             return pool
         }
         
-        let attr: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: kCMPixelFormat_32BGRA,
+        var attr: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: kCMPixelFormat_32BGRA,
                                    kCVPixelBufferWidthKey as String: Int(width),
                                    kCVPixelBufferHeightKey as String: Int(height),
-                                   kCVPixelBufferOpenGLCompatibilityKey as String: true,
+                                   //kCVPixelFormatOpenGLESCompatibility as String: true,
                                    kCVPixelBufferIOSurfacePropertiesKey as String: [:]]
+        if #available(iOS 9, *) {
+            attr[kCVPixelBufferOpenGLESTextureCacheCompatibilityKey as String] = true
+        }
         
         var pool: CVPixelBufferPool?
         

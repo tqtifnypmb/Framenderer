@@ -50,15 +50,14 @@ class FrameWriter: BaseFilter {
         if kCVReturnSuccess != CVPixelBufferPoolCreatePixelBuffer(nil, _writer.pixelBufferPool!, &pixelBuffer) {
             throw DataError.pixelBuffer(errorDesc: "Can't create CVPixelBuffer from shared CVPixelBufferPool")
         }
+        let outputFrameBuffer = try TextureOutputFrameBuffer(width: ctx.inputWidth, height: ctx.inputHeight, bitmapInfo: inputFrameBuffer.bitmapInfo, pixelBuffer: pixelBuffer)
+        ctx.setOutput(output: outputFrameBuffer)
         
-        let outputFrameBuffer = try TextureOutputFrameBuffer(width: inputFrameBuffer.width, height: inputFrameBuffer.height, bitmapInfo: inputFrameBuffer.bitmapInfo, pixelBuffer: pixelBuffer)
-        try ctx.setOutput(output: outputFrameBuffer)
-        
-        try feedDataAndDraw(context: ctx, program: _program)
+        try super.feedDataAndDraw(context: ctx, program: _program)
         
         let timeStamp = calculateTime(with: time)
         if !_writer.append(outputFrameBuffer._renderTarget, withPresentationTime: timeStamp) {
-            throw AVAssetError.assetWriter(errorDessc: "Can't append frame at time: \(time) to output")
+            throw AVAssetError.assetWriter(errorDessc: "Can't append frame at time: \(timeStamp) to output")
         }
         
         try next(ctx, inputFrameBuffer)

@@ -22,7 +22,7 @@ public class VideoCamera: BaseCamera {
     private var _isRecording = false
     private let _outputURL: URL
     
-    public init(outputURL url: URL, width: Int32, height: Int32, quality: Quality = .high, fileType type: String = AVFileTypeMPEG4, codecType: CMVideoCodecType = kCMVideoCodecType_MPEG4Video, cameraPosition: AVCaptureDevicePosition = .back) throws {
+    public init(outputURL url: URL, width: Int32, height: Int32, quality: Quality = .high, fileType type: String = AVFileTypeMPEG4, codecType: String = AVVideoCodecH264, cameraPosition: AVCaptureDevicePosition = .back) throws {
         precondition(url.isFileURL)
         precondition(!FileManager.default.fileExists(atPath: url.relativePath), "File already exists at \(url.relativePath)")
         
@@ -45,19 +45,17 @@ public class VideoCamera: BaseCamera {
         _outputURL = url
         _outputWriter = try AVAssetWriter(outputURL: url, fileType: type)
         
-        var descp: CMVideoFormatDescription?
-        if noErr != CMVideoFormatDescriptionCreate(nil, codecType, width, height, nil, &descp) {
-            throw AVAssetError.assetWriter(errorDessc: "Incompatible arguments")
-        }
-        
-        let input = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: nil, sourceFormatHint: descp)
+        let settings: [String: Any] = [AVVideoCodecKey: AVVideoCodecH264,
+                                       AVVideoWidthKey: width,
+                                       AVVideoHeightKey: height]
+        let input = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: settings)
         
         // Only if fast texture is not supported, we need to use the CVPixelBufferPool of 
         // AVAssetWriterInputPixelBufferAdaptor
         let sourceAttrs: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
                            kCVPixelBufferWidthKey as String: width,
                            kCVPixelBufferHeightKey as String: height,
-                           kCVPixelBufferOpenGLCompatibilityKey as String: true,
+                           //kCVPixelFormatOpenGLESCompatibility as String: true,
                            kCVPixelBufferIOSurfacePropertiesKey as String: [:]]
         
         let adaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: input, sourcePixelBufferAttributes: sourceAttrs)

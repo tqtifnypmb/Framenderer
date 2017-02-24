@@ -59,8 +59,7 @@ open class BaseFilter: Filter {
             glEnableVertexAttribArray(program.location(ofAttribute: kTextureCoorAttribute))
         }
         
-        let outputFrameBuffer = try TextureOutputFrameBuffer(width: ctx.inputWidth, height: ctx.inputHeight, bitmapInfo: ctx.inputBitmapInfo)
-        try ctx.setOutput(output: outputFrameBuffer)
+        try ctx.activateOutput()
         ctx.activateInput()
         glClearColor(0.0, 0.0, 0.0, 1.0);
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT));
@@ -83,6 +82,8 @@ open class BaseFilter: Filter {
                 ctx.setCurrent(program: _program)
             }
             
+            let outputFrameBuffer = try TextureOutputFrameBuffer(width: ctx.inputWidth, height: ctx.inputHeight, bitmapInfo: ctx.inputBitmapInfo)
+            ctx.setOutput(output: outputFrameBuffer)
             try feedDataAndDraw(context: ctx, program: _program)
         } catch {
             throw FilterError.filterError(name: self.name, error: error.localizedDescription)

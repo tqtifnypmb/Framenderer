@@ -264,9 +264,9 @@
 		4123444F1E51EF4600B3FDEF /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				412344581E51EF4600B3FDEF /* Errors.swift */,
 				412344501E51EF4600B3FDEF /* Camera */,
 				412344551E51EF4600B3FDEF /* Canvas */,
-				412344581E51EF4600B3FDEF /* Errors.swift */,
 				412344591E51EF4600B3FDEF /* Filters */,
 				412344CE1E51EF4700B3FDEF /* GLObjects */,
 				412344DB1E51EF4700B3FDEF /* Platform */,
