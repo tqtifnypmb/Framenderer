@@ -76,10 +76,14 @@ public class VideoCamera: BaseCamera {
         guard _isRecording else { return }
         _isRecording = false
         
+        // stop writing ASAP
         _additionalFilter = nil
         
-        _outputWriter.finishWriting {
-            handler?()
+        // stop when current filters-application-cycle finished
+        _ctx.frameSerialQueue.async { [weak self] in
+            self?._outputWriter.finishWriting {
+                handler?()
+            }
         }
     }
 }

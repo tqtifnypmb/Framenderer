@@ -13,10 +13,11 @@ import OpenGLES.ES3.glext
 import CoreMedia
 
 class SMSampleInputFrameBuffer: InputFrameBuffer {
+    
     private var _texture: GLuint = 0
     private let _textureWidth: GLsizei
     private let _textureHeight: GLsizei
-    
+    private var _flipVertically = false
     private let _isFont: Bool
     
     /// Create a input framebuffer object using samplebuffer as content
@@ -61,6 +62,10 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
         glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
     }
     
+    func textCoorFlipVertically(flip: Bool) {
+        _flipVertically = flip
+    }
+    
     var bitmapInfo: CGBitmapInfo {
         return [CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue), .byteOrder32Little]
     }
@@ -75,30 +80,33 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
     
     var textCoor: [GLfloat] {        
         var rotation: Rotation = .none
-        var flipHorizontally = false
+        var flipHorzontally = false
         
         switch UIDevice.current.orientation {
         case .landscapeRight:
-            rotation = _isFont ? .ccw180 : .none
-            flipHorizontally = true
+            rotation = _isFont ? .none : .ccw180
             
         case .portrait:
-            rotation = .ccw270
-            flipHorizontally = true
-            
+            rotation = .ccw90
+           
         case .landscapeLeft:
-            rotation = _isFont ? .none : .ccw180
-            flipHorizontally = true
-            
-        case .portraitUpsideDown:
             rotation = _isFont ? .ccw180 : .none
-            flipHorizontally = true
+           
+        case .portraitUpsideDown:
+            rotation = _isFont ? .ccw90 : .ccw270
+            flipHorzontally = true
             
         default:
             rotation = .none
         }
         
-        return textCoordinate(forRotation: rotation, flipHorizontally: flipHorizontally, flipVertically: false)
+        let coor = textCoordinate(forRotation: rotation, flipHorizontally: flipHorzontally, flipVertically: false)
+        
+        if _flipVertically {
+            return flipTextCoorVertically(textCoor: coor)
+        } else {
+            return coor
+        }
     }
     
     deinit {

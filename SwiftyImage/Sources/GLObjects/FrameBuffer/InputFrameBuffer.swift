@@ -13,6 +13,7 @@ import CoreVideo
 
 public protocol InputFrameBuffer {
     func useAsInput()
+    func textCoorFlipVertically(flip: Bool)
     
     var bitmapInfo: CGBitmapInfo {get}
     var width: GLsizei {get}
@@ -25,6 +26,15 @@ enum Rotation {
     case ccw90
     case ccw180
     case ccw270
+}
+
+func flipTextCoorVertically(textCoor: [GLfloat]) -> [GLfloat] {
+    return [
+        textCoor[2], textCoor[3],
+        textCoor[0], textCoor[1],
+        textCoor[6], textCoor[7],
+        textCoor[4], textCoor[5]
+    ]
 }
 
 func textCoordinate(forRotation rotation: Rotation, flipHorizontally: Bool, flipVertically: Bool) -> [GLfloat] {

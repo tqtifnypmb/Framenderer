@@ -15,6 +15,7 @@ class ImageInputFrameBuffer: InputFrameBuffer {
     private var _texture: GLuint = 0
     private let _textureWidth: GLsizei
     private let _textureHeight: GLsizei
+    private var _flipVertically = false
     
     /// Create a input framebuffer object using `texture` as content
     ///
@@ -55,6 +56,10 @@ class ImageInputFrameBuffer: InputFrameBuffer {
         glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
     }
     
+    func textCoorFlipVertically(flip: Bool) {
+        _flipVertically = flip
+    }
+    
     var bitmapInfo: CGBitmapInfo {
         return CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue)
     }
@@ -68,12 +73,18 @@ class ImageInputFrameBuffer: InputFrameBuffer {
     }
 
     var textCoor: [GLfloat] {
-        return [
+        let coor: [GLfloat] = [
             0.0, 0.0,
             0.0, 1.0,
             1.0, 0.0,
             1.0, 1.0
         ]
+        
+        if _flipVertically {
+            return flipTextCoorVertically(textCoor: coor)
+        } else {
+            return coor
+        }
     }
     
     deinit {

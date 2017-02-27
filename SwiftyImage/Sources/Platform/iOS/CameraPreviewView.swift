@@ -88,6 +88,7 @@ open class CameraPreviewView: UIView, PreviewView {
             ctx.setCurrent(program: _program)
         }
         
+        inputFrameBuffer.textCoorFlipVertically(flip: true)
         ctx.setInput(input: inputFrameBuffer)
         
         let layer = self.layer as! CAEAGLLayer
@@ -97,6 +98,7 @@ open class CameraPreviewView: UIView, PreviewView {
         try feedDataAndDraw(context: ctx, program: _program)
         outputFrameBuffer.present()
         
+        inputFrameBuffer.textCoorFlipVertically(flip: false)
         // Act like a passthrough filter
         try next(ctx, inputFrameBuffer)
     }

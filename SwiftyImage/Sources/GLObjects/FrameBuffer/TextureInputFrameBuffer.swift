@@ -11,14 +11,12 @@ import GLKit
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
-class TextureInputFrameBuffer: InputFrameBuffer {
-    var derivedTextCoor: [GLfloat]?
-
-    
+class TextureInputFrameBuffer: InputFrameBuffer {    
     private let _texture: GLuint
     private let _textureWidth: GLsizei
     private let _textureHeight: GLsizei
     private var _bitmapInfo: CGBitmapInfo!
+    private var _flipVertically = false
     
     var originalOutputFrameBuffer: OutputFrameBuffer!
     
@@ -31,6 +29,10 @@ class TextureInputFrameBuffer: InputFrameBuffer {
     
     func useAsInput() {
         glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
+    }
+    
+    func textCoorFlipVertically(flip: Bool) {
+        _flipVertically = flip
     }
     
     var bitmapInfo: CGBitmapInfo {
@@ -46,15 +48,17 @@ class TextureInputFrameBuffer: InputFrameBuffer {
     }
     
     var textCoor: [GLfloat] {
-        if let textCoor = derivedTextCoor {
-            return textCoor
+        let coor: [GLfloat] = [
+            0.0, 0.0,
+            0.0, 1.0,
+            1.0, 0.0,
+            1.0, 1.0
+        ]
+        
+        if _flipVertically {
+            return flipTextCoorVertically(textCoor: coor)
         } else {
-            return [
-                0.0, 0.0,
-                0.0, 1.0,
-                1.0, 0.0,
-                1.0, 1.0
-            ]
+            return coor
         }
     }
 }
