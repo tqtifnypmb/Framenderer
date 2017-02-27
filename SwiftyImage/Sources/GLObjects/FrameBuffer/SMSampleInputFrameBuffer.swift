@@ -19,13 +19,6 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
     
     private let _isFont: Bool
     
-    private enum Rotation {
-        case none
-        case ccw90
-        case ccw180
-        case ccw270
-    }
-    
     /// Create a input framebuffer object using samplebuffer as content
     init(sampleBuffer: CMSampleBuffer, isFont: Bool) throws {
         _isFont = isFont
@@ -80,7 +73,7 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
         return _textureHeight
     }
     
-    var textCoor: [GLfloat] {
+    var textCoor: [GLfloat] {        
         var rotation: Rotation = .none
         var flipHorizontally = false
         
@@ -105,75 +98,7 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
             rotation = .none
         }
         
-        switch rotation {
-        case .none:
-            if flipHorizontally {
-                return [
-                    1.0, 0.0,
-                    1.0, 1.0,
-                    0.0, 0.0,
-                    0.0, 1.0
-                ]
-            } else {
-                return [
-                    0.0, 0.0,
-                    0.0, 1.0,
-                    1.0, 0.0,
-                    1.0, 1.0
-                ]
-            }
-            
-        case .ccw90:
-            if flipHorizontally {
-                return [
-                    0.0, 0.0,
-                    1.0, 0.0,
-                    0.0, 1.0,
-                    1.0, 1.0
-                ]
-            } else {
-                return [
-                    0.0, 1.0,
-                    1.0, 1.0,
-                    0.0, 0.0,
-                    1.0, 0.0
-                ]
-            }
-            
-        case .ccw180:
-            if flipHorizontally {
-                return [
-                    0.0, 1.0,
-                    0.0, 0.0,
-                    1.0, 1.0,
-                    1.0, 0.0
-                ]
-            } else {
-                return [
-                    1.0, 1.0,
-                    1.0, 0.0,
-                    0.0, 1.0,
-                    0.0, 0.0
-                ]
-            }
-            
-        case .ccw270:
-            if flipHorizontally {
-                return [
-                    1.0, 1.0,
-                    0.0, 1.0,
-                    1.0, 0.0,
-                    0.0, 0.0
-                ]
-            } else {
-                return [
-                    1.0, 0.0,
-                    0.0, 0.0,
-                    1.0, 1.0,
-                    0.0, 1.0
-                ]
-            }
-        }
+        return textCoordinate(forRotation: rotation, flipHorizontally: flipHorizontally, flipVertically: false)
     }
     
     deinit {

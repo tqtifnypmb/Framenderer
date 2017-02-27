@@ -15,7 +15,7 @@ import CoreMedia
 open class ThreeInputFilter: DualInputFilter {
     
     private let _thirdSource: CGImage
-    private var _firstInputFrameBuffer: InputFrameBuffer?
+    private var _thirdInputFrameBuffer: InputFrameBuffer?
     
     init(secondInput: CGImage, thirdInput: CGImage) {
         _thirdSource = thirdInput
@@ -38,10 +38,10 @@ open class ThreeInputFilter: DualInputFilter {
     
     override public func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         glActiveTexture(GLenum(GL_TEXTURE2))
-        if _firstInputFrameBuffer == nil {
-            _firstInputFrameBuffer = try ImageInputFrameBuffer(image: _thirdSource)
+        if _thirdInputFrameBuffer == nil {
+            _thirdInputFrameBuffer = try ImageInputFrameBuffer(image: _thirdSource)
         }
-        _firstInputFrameBuffer?.useAsInput()
+        _thirdInputFrameBuffer?.useAsInput()
         
         glActiveTexture(GLenum(GL_TEXTURE0))
         ctx.setInput(input: inputFrameBuffer)

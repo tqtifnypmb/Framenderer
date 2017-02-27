@@ -14,6 +14,7 @@ open class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDel
     public var previewView: PreviewView!
     
     var _ctx: Context!
+    var _additionalFilter: Filter?
     
     private let _captureSession: AVCaptureSession
     private let _cameraFrameSerialQueue: DispatchQueue
@@ -88,6 +89,9 @@ open class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDel
                 let time: CMTime = CMSampleBufferGetPresentationTimeStamp(retainedBuffer!)
                 
                 var currentFilters = strong_self.filters
+                if let addition = strong_self._additionalFilter {
+                    currentFilters.append(addition)
+                }
                 currentFilters.append(strong_self.previewView)
                 
                 let starter = currentFilters.removeFirst()

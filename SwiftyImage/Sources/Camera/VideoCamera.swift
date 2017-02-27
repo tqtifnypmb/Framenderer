@@ -49,14 +49,12 @@ public class VideoCamera: BaseCamera {
                                        AVVideoWidthKey: width,
                                        AVVideoHeightKey: height]
         let input = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: settings)
+        input.expectsMediaDataInRealTime = true
         
-        // Only if fast texture is not supported, we need to use the CVPixelBufferPool of 
-        // AVAssetWriterInputPixelBufferAdaptor
         let sourceAttrs: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
-                           kCVPixelBufferWidthKey as String: width,
-                           kCVPixelBufferHeightKey as String: height,
-                           //kCVPixelFormatOpenGLESCompatibility as String: true,
-                           kCVPixelBufferIOSurfacePropertiesKey as String: [:]]
+                                          kCVPixelBufferWidthKey as String: width,
+                                          kCVPixelBufferHeightKey as String: height,
+                                          kCVPixelBufferIOSurfacePropertiesKey as String: [:]]
         
         let adaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: input, sourcePixelBufferAttributes: sourceAttrs)
         _frameWriter = FrameWriter(writer: adaptor)
@@ -71,16 +69,14 @@ public class VideoCamera: BaseCamera {
         
         _outputWriter.startWriting()
         _outputWriter.startSession(atSourceTime: kCMTimeZero)
-        filters.append(_frameWriter)
+        _additionalFilter = _frameWriter
     }
     
     public func finishRecording(completionHandler handler: (() -> Void)?) {
         guard _isRecording else { return }
         _isRecording = false
         
-        if let idx = filters.index(where: { $0 is FrameWriter }) {
-            filters.remove(at: idx)
-        }
+        _additionalFilter = nil
         
         _outputWriter.finishWriting {
             handler?()

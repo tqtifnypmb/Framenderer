@@ -15,7 +15,7 @@ import CoreMedia
 open class DualInputFilter: BaseFilter {
     
     private let _secondSource: CGImage
-    private var _firstInputFrameBuffer: InputFrameBuffer?
+    private var _secondInputFrameBuffer: InputFrameBuffer?
     
     init(secondInput: CGImage) {
         _secondSource = secondInput
@@ -37,10 +37,10 @@ open class DualInputFilter: BaseFilter {
     
     override public func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         glActiveTexture(GLenum(GL_TEXTURE1))
-        if _firstInputFrameBuffer == nil {
-            _firstInputFrameBuffer = try ImageInputFrameBuffer(image: _secondSource)
+        if _secondInputFrameBuffer == nil {
+            _secondInputFrameBuffer = try ImageInputFrameBuffer(image: _secondSource)
         }
-        _firstInputFrameBuffer?.useAsInput()
+        _secondInputFrameBuffer?.useAsInput()
         
         glActiveTexture(GLenum(GL_TEXTURE0))
         ctx.setInput(input: inputFrameBuffer)

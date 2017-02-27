@@ -12,6 +12,8 @@ import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
 class TextureInputFrameBuffer: InputFrameBuffer {
+    var derivedTextCoor: [GLfloat]?
+
     
     private let _texture: GLuint
     private let _textureWidth: GLsizei
@@ -44,11 +46,15 @@ class TextureInputFrameBuffer: InputFrameBuffer {
     }
     
     var textCoor: [GLfloat] {
-        return [
-            0.0, 0.0,
-            0.0, 1.0,
-            1.0, 0.0,
-            1.0, 1.0
-        ]
+        if let textCoor = derivedTextCoor {
+            return textCoor
+        } else {
+            return [
+                0.0, 0.0,
+                0.0, 1.0,
+                1.0, 0.0,
+                1.0, 1.0
+            ]
+        }
     }
 }

@@ -19,3 +19,82 @@ public protocol InputFrameBuffer {
     var height: GLsizei {get}
     var textCoor: [GLfloat] {get}
 }
+
+enum Rotation {
+    case none
+    case ccw90
+    case ccw180
+    case ccw270
+}
+
+func textCoordinate(forRotation rotation: Rotation, flipHorizontally: Bool, flipVertically: Bool) -> [GLfloat] {
+    switch rotation {
+    case .none:
+        if flipHorizontally {
+            return [
+                1.0, 0.0,
+                1.0, 1.0,
+                0.0, 0.0,
+                0.0, 1.0
+            ]
+        } else {
+            return [
+                0.0, 0.0,
+                0.0, 1.0,
+                1.0, 0.0,
+                1.0, 1.0
+            ]
+        }
+        
+    case .ccw90:
+        if flipHorizontally {
+            return [
+                0.0, 0.0,
+                1.0, 0.0,
+                0.0, 1.0,
+                1.0, 1.0
+            ]
+        } else {
+            return [
+                0.0, 1.0,
+                1.0, 1.0,
+                0.0, 0.0,
+                1.0, 0.0
+            ]
+        }
+        
+    case .ccw180:
+        if flipHorizontally {
+            return [
+                0.0, 1.0,
+                0.0, 0.0,
+                1.0, 1.0,
+                1.0, 0.0
+            ]
+        } else {
+            return [
+                1.0, 1.0,
+                1.0, 0.0,
+                0.0, 1.0,
+                0.0, 0.0
+            ]
+        }
+        
+    case .ccw270:
+        if flipHorizontally {
+            return [
+                1.0, 1.0,
+                0.0, 1.0,
+                1.0, 0.0,
+                0.0, 0.0
+            ]
+        } else {
+            return [
+                1.0, 0.0,
+                0.0, 0.0,
+                1.0, 1.0,
+                0.0, 1.0
+            ]
+        }
+    }
+}
