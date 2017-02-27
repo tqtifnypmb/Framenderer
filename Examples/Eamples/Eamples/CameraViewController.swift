@@ -27,9 +27,10 @@ class CameraViewController: UIViewController {
         }
         let width = self.view.bounds.width
         let height = self.view.bounds.height
-        camera = try! VideoCamera(outputURL: url, width: 960, height: 540)
+        camera = try! VideoCamera(outputURL: url, width: Int32(width), height: Int32(height))
         
         preview = CameraPreviewView(frame: previewContainer.bounds)
+        preview.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         previewContainer.addSubview(preview)
         
         camera.previewView = self.preview
@@ -38,11 +39,11 @@ class CameraViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-//        let origin = UIImage(named: "lena")
-//        let blendingFilter = LinearBlendFilter(source: origin!.cgImage!, a: 0.5)
+        let origin = UIImage(named: "lena")
+        let blendingFilter = LinearBlendFilter(source: origin!.cgImage!, a: 0.5)
 //        let inverted = ColorInvertFilter()
 //        let hueAdjust = HueAdjustFilter()
-        camera.filters = [PassthroughFilter()]
+        camera.filters = [PassthroughFilter(), blendingFilter]
         camera.startRunning()
     }
 
