@@ -82,19 +82,24 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
     
     var textCoor: [GLfloat] {
         var rotation: Rotation = .none
+        var flipHorizontally = false
         
         switch UIDevice.current.orientation {
         case .landscapeRight:
             rotation = _isFont ? .ccw180 : .none
+            flipHorizontally = true
             
         case .portrait:
-            rotation = .ccw90
+            rotation = .ccw270
+            flipHorizontally = true
             
         case .landscapeLeft:
             rotation = _isFont ? .none : .ccw180
+            flipHorizontally = true
             
         case .portraitUpsideDown:
-            rotation = _isFont ? .ccw180 : .ccw90
+            rotation = _isFont ? .ccw180 : .none
+            flipHorizontally = true
             
         default:
             rotation = .none
@@ -102,36 +107,72 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
         
         switch rotation {
         case .none:
-            return [
-                0.0, 0.0,
-                0.0, 1.0,
-                1.0, 0.0,
-                1.0, 1.0
-            ]
+            if flipHorizontally {
+                return [
+                    1.0, 0.0,
+                    1.0, 1.0,
+                    0.0, 0.0,
+                    0.0, 1.0
+                ]
+            } else {
+                return [
+                    0.0, 0.0,
+                    0.0, 1.0,
+                    1.0, 0.0,
+                    1.0, 1.0
+                ]
+            }
             
         case .ccw90:
-            return [
-                1.0, 0.0,
-                0.0, 0.0,
-                1.0, 1.0,
-                0.0, 1.0
-            ]
+            if flipHorizontally {
+                return [
+                    0.0, 0.0,
+                    1.0, 0.0,
+                    0.0, 1.0,
+                    1.0, 1.0
+                ]
+            } else {
+                return [
+                    0.0, 1.0,
+                    1.0, 1.0,
+                    0.0, 0.0,
+                    1.0, 0.0
+                ]
+            }
             
         case .ccw180:
-            return [
-                1.0, 1.0,
-                1.0, 0.0,
-                0.0, 1.0,
-                0.0, 0.0
-            ]
+            if flipHorizontally {
+                return [
+                    0.0, 1.0,
+                    0.0, 0.0,
+                    1.0, 1.0,
+                    1.0, 0.0
+                ]
+            } else {
+                return [
+                    1.0, 1.0,
+                    1.0, 0.0,
+                    0.0, 1.0,
+                    0.0, 0.0
+                ]
+            }
             
         case .ccw270:
-            return [
-                0.0, 1.0,
-                1.0, 1.0,
-                0.0, 0.0,
-                1.0, 0.0
-            ]
+            if flipHorizontally {
+                return [
+                    1.0, 1.0,
+                    0.0, 1.0,
+                    1.0, 0.0,
+                    0.0, 0.0
+                ]
+            } else {
+                return [
+                    1.0, 0.0,
+                    0.0, 0.0,
+                    1.0, 1.0,
+                    0.0, 1.0
+                ]
+            }
         }
     }
     
