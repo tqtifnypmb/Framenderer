@@ -10,6 +10,7 @@
 		41011A431E5E6E2E006B54FD /* FrameWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41011A421E5E6E2E006B54FD /* FrameWriter.swift */; };
 		41012E0D1E58015500D39AA0 /* ComponentExchangeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41012E0C1E58015500D39AA0 /* ComponentExchangeFilter.swift */; };
 		41012E101E58066800D39AA0 /* RGBNBGRExchangeFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41012E0F1E58066800D39AA0 /* RGBNBGRExchangeFragmentShader.fsh */; };
+		4103B1561E65166800888EBF /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4103B1551E65166800888EBF /* Utility.swift */; };
 		412344E11E51EF4700B3FDEF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4123444E1E51EF4600B3FDEF /* Info.plist */; };
 		412344E21E51EF4700B3FDEF /* BaseCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344511E51EF4600B3FDEF /* BaseCamera.swift */; };
 		412344E31E51EF4700B3FDEF /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344521E51EF4600B3FDEF /* Camera.swift */; };
@@ -118,6 +119,7 @@
 		41011A421E5E6E2E006B54FD /* FrameWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameWriter.swift; sourceTree = "<group>"; };
 		41012E0C1E58015500D39AA0 /* ComponentExchangeFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentExchangeFilter.swift; sourceTree = "<group>"; };
 		41012E0F1E58066800D39AA0 /* RGBNBGRExchangeFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = RGBNBGRExchangeFragmentShader.fsh; sourceTree = "<group>"; };
+		4103B1551E65166800888EBF /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		412343241E51EEBA00B3FDEF /* SwiftyImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4123444E1E51EF4600B3FDEF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		412344511E51EF4600B3FDEF /* BaseCamera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCamera.swift; sourceTree = "<group>"; };
@@ -687,6 +689,7 @@
 				412344D91E51EF4700B3FDEF /* ProgramObjectsCacher.swift */,
 				412344DA1E51EF4700B3FDEF /* TextureCacher.swift */,
 				4149650D1E5FBED400CB7ADA /* PixelBufferPool.swift */,
+				4103B1551E65166800888EBF /* Utility.swift */,
 				412344D01E51EF4700B3FDEF /* FrameBuffer */,
 			);
 			path = GLObjects;
@@ -862,6 +865,7 @@
 				412345251E51EF4700B3FDEF /* ColorBiasFilter.swift in Sources */,
 				412344E41E51EF4700B3FDEF /* StillImageCamera.swift in Sources */,
 				412344EF1E51EF4700B3FDEF /* MotionBlurFilter.swift in Sources */,
+				4103B1561E65166800888EBF /* Utility.swift in Sources */,
 				412344FC1E51EF4700B3FDEF /* DarkenBlendFilter.swift in Sources */,
 				412345201E51EF4700B3FDEF /* DualInputFilter.swift in Sources */,
 				412344E31E51EF4700B3FDEF /* Camera.swift in Sources */,

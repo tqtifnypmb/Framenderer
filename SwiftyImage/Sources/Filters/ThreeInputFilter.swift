@@ -36,7 +36,7 @@ open class ThreeInputFilter: DualInputFilter {
         try super.apply(context: ctx)
     }
     
-    override public func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
+    override public func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, presentationTimeStamp time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         glActiveTexture(GLenum(GL_TEXTURE2))
         if _thirdInputFrameBuffer == nil {
             _thirdInputFrameBuffer = try ImageInputFrameBuffer(image: _thirdSource)

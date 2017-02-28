@@ -11,19 +11,21 @@ import CoreMedia
 
 class PixelBufferPool {
     
-    private static var _pool: CVPixelBufferPool?
-    private static var _width: GLsizei = 0
-    private static var _height: GLsizei = 0
+    private var _pools: [String: CVPixelBufferPool] = [:]
+
+    static var shared: PixelBufferPool! = {
+        return PixelBufferPool()
+    }()
     
-    static func pool(width: GLsizei, height: GLsizei) throws -> CVPixelBufferPool {
-        if _width == width && _height == height, let pool = _pool {
-            return pool
-        }
-        
+    private func cahcedPool(width: GLsizei, height: GLsizei) -> CVPixelBufferPool? {
+        let key = "\(width)_\(height)"
+        return _pools[key]
+    }
+    
+    private func createPool(width: GLsizei, height: GLsizei) throws -> CVPixelBufferPool {
         var attr: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: kCMPixelFormat_32BGRA,
                                    kCVPixelBufferWidthKey as String: Int(width),
                                    kCVPixelBufferHeightKey as String: Int(height),
-                                   //kCVPixelFormatOpenGLESCompatibility as String: true,
                                    kCVPixelBufferIOSurfacePropertiesKey as String: [:]]
         if #available(iOS 9, *) {
             attr[kCVPixelBufferOpenGLESTextureCacheCompatibilityKey as String] = true
@@ -54,15 +56,22 @@ class PixelBufferPool {
             }
         }
         
-        #if DEBUG
-            if _pool != nil {
-                print("[CVPixelBufferPool] Something bad happended")
-            }
-        #endif
+        let key = "\(width)_\(height)"
+        _pools[key] = pool
         
-        _width = width
-        _height = height
-        _pool = pool
-        return _pool!
+        return pool!
+    }
+    
+    func pool(width: GLsizei, height: GLsizei) throws -> CVPixelBufferPool {
+        if let pool = cahcedPool(width: width, height: height) {
+            return pool
+        } else {
+            return try createPool(width: width, height: height)
+        }
+    }
+    
+    func flush() {
+        _pools.forEach { CVPixelBufferPoolFlush($0 as! CVPixelBufferPool, [])}
+        _pools.removeAll()
     }
 }

@@ -36,7 +36,7 @@ class FrameWriter: BaseFilter {
         fatalError("FrameKeeper is not allowed to apply manually")
     }
     
-    override func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
+    override func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, presentationTimeStamp time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         ctx.setAsCurrent()
         
         if _program == nil {

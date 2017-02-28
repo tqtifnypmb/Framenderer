@@ -14,6 +14,8 @@ import CoreMedia
 open class BaseFilter: Filter {
     var _program: Program!
     
+    public var contentScaleMode: ContentScaleMode = .scaleToFill
+    
     public var name: String {
         fatalError("Called Virtual Function")
     }
@@ -90,7 +92,7 @@ open class BaseFilter: Filter {
         }
     }
     
-    public func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
+    public func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, presentationTimeStamp time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         ctx.setAsCurrent()
         
         ctx.setInput(input: inputFrameBuffer)

@@ -12,12 +12,14 @@ import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
 open class CameraPreviewView: UIView, PreviewView {
-    
+
     var _program: Program!
     
     override open class var layerClass: AnyClass {
         return CAEAGLLayer.self
     }
+
+    public var contentScaleMode: ContentScaleMode = .scaleToFill
     
     public var name: String {
         return "CameraPreviewView"
@@ -75,7 +77,7 @@ open class CameraPreviewView: UIView, PreviewView {
         glDeleteBuffers(1, &vbo)
     }
     
-    public func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
+    public func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, presentationTimeStamp time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         ctx.setAsCurrent()
         
         if _program == nil {

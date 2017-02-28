@@ -47,7 +47,7 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
             if let pb = pixelBuffer {
                 _renderTarget = pb
             } else {
-                let pool = try PixelBufferPool.pool(width: _textureWidth, height: _textureHeight)
+                let pool = try PixelBufferPool.shared.pool(width: _textureWidth, height: _textureHeight)
                 var pixelBuffer: CVPixelBuffer?
                 if kCVReturnSuccess != CVPixelBufferPoolCreatePixelBuffer(nil, pool, &pixelBuffer) {
                     throw DataError.pixelBuffer(errorDesc: "Can't create CVPixelBuffer from shared CVPixelBufferPool")

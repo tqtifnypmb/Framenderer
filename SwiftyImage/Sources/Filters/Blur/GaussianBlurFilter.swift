@@ -40,6 +40,8 @@ public class GaussianBlurFilter: Filter {
         _impl = implement
     }
     
+    public var contentScaleMode: ContentScaleMode = .scaleToFill
+    
     public var name: String {
         switch _impl {
         case .box:
@@ -54,23 +56,27 @@ public class GaussianBlurFilter: Filter {
         switch _impl {
         case .box:
             let blur = BoxGaussianBlurFilter(radius: _radius, pass: max(boxPass, 3))
+            blur.contentScaleMode = contentScaleMode
             try blur.apply(context: context)
             
         case .normal:
             let blur = NormalGaussianBlurFilter(radius: _radius, sigma: gaussianSigma)
+            blur.contentScaleMode = contentScaleMode
             try blur.apply(context: context)
         }
     }
     
-    public func applyToFrame(context: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
+    public func applyToFrame(context: Context, inputFrameBuffer: InputFrameBuffer, presentationTimeStamp time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         switch _impl {
         case .box:
             let blur = BoxGaussianBlurFilter(radius: _radius, pass: max(boxPass, 3))
-            try blur.applyToFrame(context: context, inputFrameBuffer: inputFrameBuffer, time: time, next: next)
+            blur.contentScaleMode = contentScaleMode
+            try blur.applyToFrame(context: context, inputFrameBuffer: inputFrameBuffer, presentationTimeStamp: time, next: next)
             
         case .normal:
             let blur = NormalGaussianBlurFilter(radius: _radius, sigma: gaussianSigma)
-            try blur.applyToFrame(context: context, inputFrameBuffer: inputFrameBuffer, time: time, next: next)
+            blur.contentScaleMode = contentScaleMode
+            try blur.applyToFrame(context: context, inputFrameBuffer: inputFrameBuffer, presentationTimeStamp: time, next: next)
         }
     }
 }
@@ -83,6 +89,8 @@ private class BoxGaussianBlurFilter: Filter {
     init(radius: Int, pass: Int) {
         _boxBlurSize = calculateBoxBlurSize(radius: radius, pass: pass)
     }
+    
+    var contentScaleMode: ContentScaleMode = .scaleToFill
     
     var name: String {
         return "BoxGaussianBlurFilter"
@@ -123,7 +131,7 @@ private class BoxGaussianBlurFilter: Filter {
         }
     }
     
-    func applyToFrame(context: Context, inputFrameBuffer:InputFrameBuffer, time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
+    func applyToFrame(context: Context, inputFrameBuffer:InputFrameBuffer, presentationTimeStamp time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         
     }
 }

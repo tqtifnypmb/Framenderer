@@ -18,8 +18,8 @@ let kSecondInputSampler = "secondInput"         // texture sampler name for seco
 let kThirdInputSampler = "thirdInput"           // texture sampler name for the third input of three input program
 let kTexelWidth = "texelWidth"                  // texture element width uniform name
 let kTexelHeight = "texelHeight"                // texture element height uniform name
-let kXOffset = "xOffset"
-let kYOffset = "yOffset"
+let kXOffset = "xOffset"                        // uniform name for horizontal offset
+let kYOffset = "yOffset"                        // uniform name for vertical offset
 
 // vertex data
 let kVertices: [GLfloat] = [
@@ -29,9 +29,16 @@ let kVertices: [GLfloat] = [
                                  1.0,  1.0,
                            ]
 
+public enum ContentScaleMode {
+    case scaleToFill
+    case aspectFit
+    case aspectFill
+}
+
 public protocol Filter {
     var name: String { get }
+    var contentScaleMode: ContentScaleMode { get set }
     
     func apply(context: Context) throws
-    func applyToFrame(context: Context, inputFrameBuffer: InputFrameBuffer, time: CMTime, next: @escaping (_ context: Context, _ inputFrameBuffer: InputFrameBuffer) throws -> Void) throws
+    func applyToFrame(context: Context, inputFrameBuffer: InputFrameBuffer, presentationTimeStamp: CMTime, next: @escaping (_ context: Context, _ inputFrameBuffer: InputFrameBuffer) throws -> Void) throws
 }

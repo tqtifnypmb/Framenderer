@@ -103,7 +103,7 @@ open class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDel
                     
                     if !currentFilters.isEmpty {
                         let filter = currentFilters.removeFirst()
-                        try filter.applyToFrame(context: ctx, inputFrameBuffer: input, time: time, next: continuation)
+                        try filter.applyToFrame(context: ctx, inputFrameBuffer: input, presentationTimeStamp: time, next: continuation)
                     } else {
                         ctx.reset()
                         strong_self._renderSemaphore.signal()
@@ -112,7 +112,7 @@ open class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDel
                 }
                 
                 let input = try SMSampleInputFrameBuffer(sampleBuffer: retainedBuffer!, isFont: strong_self._cameraPosition == .front)
-                try starter.applyToFrame(context: strong_self._ctx, inputFrameBuffer:input, time: time, next: continuation)
+                try starter.applyToFrame(context: strong_self._ctx, inputFrameBuffer:input, presentationTimeStamp: time, next: continuation)
             } catch {
                 fatalError(error.localizedDescription)
             }
