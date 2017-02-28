@@ -23,19 +23,19 @@ class ViewController: UIViewController {
         
         let context = CIContext()
         
-        let filter = CIFilter(name: "CIHueAdjust")!
+        let filter = CIFilter(name: "CIAdditionCompositing")!
         
         filter.setValue(CIImage(cgImage: origin!.cgImage!), forKey: kCIInputImageKey)
-        filter.setValue(2, forKey: kCIInputAngleKey)
-       //filter.setValue(CIImage(cgImage: origin!.cgImage!), forKey: kCIInputBackgroundImageKey)
+//        filter.setValue(2, forKey: kCIInputAngleKey)
+        filter.setValue(CIImage(cgImage: blend!.cgImage!), forKey: kCIInputBackgroundImageKey)
         let result = filter.outputImage!
         let cgImage = context.createCGImage(result, from: result.extent)
-        originImageView.image = origin//UIImage(cgImage: cgImage!)
+        originImageView.image = UIImage(cgImage: cgImage!)
         
         do {
             let canva = ImageCanvas(image: origin!.cgImage!)
-
-            canva.filters = [PassthroughFilter()]
+            let blend = LinearBlendFilter(source: blend!.cgImage!, a: 0.5)
+            canva.filters = [PassthroughFilter(), blend]
             try canva.process()
             
             let result = canva.processedImage()

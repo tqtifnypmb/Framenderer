@@ -25,9 +25,10 @@ class CameraViewController: UIViewController {
         if FileManager.default.fileExists(atPath: url.relativePath) {
             try! FileManager.default.removeItem(at: url)
         }
-        let width = self.view.bounds.width
-        let height = self.view.bounds.height
-        camera = try! VideoCamera(outputURL: url, width: Int32(width), height: Int32(height))
+//        let width = self.view.bounds.width
+//        let height = self.view.bounds.height
+//        camera = try! VideoCamera(outputURL: url, width: GLsizei(width), height: GLsizei(height), cameraPosition: .back)
+        camera = try! VideoCamera(outputURL: url, width: 1080, height: 1920, cameraPosition: .back)
         
         preview = CameraPreviewView(frame: previewContainer.bounds)
         preview.autoresizingMask = [.flexibleHeight, .flexibleWidth]
