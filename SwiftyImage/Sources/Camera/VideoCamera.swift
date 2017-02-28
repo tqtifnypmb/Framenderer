@@ -57,7 +57,7 @@ public class VideoCamera: BaseCamera {
                                           kCVPixelBufferIOSurfacePropertiesKey as String: [:]]
         
         let adaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: input, sourcePixelBufferAttributes: sourceAttrs)
-        _frameWriter = FrameWriter(writer: adaptor)
+        _frameWriter = FrameWriter(writer: adaptor, width: width, height: height)
         _outputWriter.add(input)
         
         super.init(captureSession: session, cameraPosition: cameraPosition)

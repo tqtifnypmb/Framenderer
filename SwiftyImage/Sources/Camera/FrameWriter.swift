@@ -13,10 +13,15 @@ import AVFoundation
 class FrameWriter: BaseFilter {
     
     private let _writer: AVAssetWriterInputPixelBufferAdaptor
+    private let _outputWidth: GLsizei
+    private let _outputHeight: GLsizei
     private var _timeStamp: CMTime?
     private var _presentationTime: CMTime = kCMTimeZero
-    init(writer: AVAssetWriterInputPixelBufferAdaptor) {
+    
+    init(writer: AVAssetWriterInputPixelBufferAdaptor, width: GLsizei, height: GLsizei) {
         _writer = writer
+        _outputWidth = width
+        _outputHeight = height
     }
     
     override func buildProgram() throws {
@@ -50,7 +55,7 @@ class FrameWriter: BaseFilter {
         if kCVReturnSuccess != CVPixelBufferPoolCreatePixelBuffer(nil, _writer.pixelBufferPool!, &pixelBuffer) {
             throw DataError.pixelBuffer(errorDesc: "Can't create CVPixelBuffer from shared CVPixelBufferPool")
         }
-        let outputFrameBuffer = try TextureOutputFrameBuffer(width: ctx.inputWidth, height: ctx.inputHeight, bitmapInfo: inputFrameBuffer.bitmapInfo, pixelBuffer: pixelBuffer)
+        let outputFrameBuffer = try TextureOutputFrameBuffer(width: _outputWidth, height: _outputHeight, bitmapInfo: inputFrameBuffer.bitmapInfo, pixelBuffer: pixelBuffer)
         ctx.setOutput(output: outputFrameBuffer)
         
         try super.feedDataAndDraw(context: ctx, program: _program)
