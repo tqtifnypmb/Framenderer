@@ -12,7 +12,7 @@ import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
 func isSupportFastTexture() -> Bool {
-    return TARGET_OS_IOS != 0 ? true : false
+    return TARGET_OS_SIMULATOR != 0 ? false : true
 }
 
 class TextureOutputFrameBuffer: OutputFrameBuffer {
