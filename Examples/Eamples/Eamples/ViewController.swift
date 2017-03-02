@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  SwiftyImage
+//  Framenderer
 //
 //  Created by tqtifnypmb on 08/12/2016.
 //  Copyright © 2016 tqitfnypmb. All rights reserved.
@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreImage
-import SwiftyImage
+import Framenderer
 
 class ViewController: UIViewController {
 

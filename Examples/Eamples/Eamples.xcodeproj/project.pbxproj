@@ -14,8 +14,8 @@
 		412343461E51EF0E00B3FDEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 412343441E51EF0E00B3FDEF /* LaunchScreen.storyboard */; };
 		412343511E51EF0E00B3FDEF /* EamplesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412343501E51EF0E00B3FDEF /* EamplesUITests.swift */; };
 		412345461E51EFA900B3FDEF /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412345451E51EFA900B3FDEF /* CameraViewController.swift */; };
-		417751A51E56CB2400EF1125 /* SwiftyImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 412645071E5312A500916542 /* SwiftyImage.framework */; };
-		417751A61E56CB2400EF1125 /* SwiftyImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 412645071E5312A500916542 /* SwiftyImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		415390AC1E6813880009667D /* Framenderer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 415390A91E6813190009667D /* Framenderer.framework */; };
+		415390AD1E6813880009667D /* Framenderer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 415390A91E6813190009667D /* Framenderer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,26 +26,26 @@
 			remoteGlobalIDString = 412343371E51EF0E00B3FDEF;
 			remoteInfo = Eamples;
 		};
-		412645061E5312A500916542 /* PBXContainerItemProxy */ = {
+		415390A81E6813190009667D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 412645021E5312A500916542 /* SwiftyImage.xcodeproj */;
+			containerPortal = 415390A41E6813190009667D /* Framenderer.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 412343241E51EEBA00B3FDEF;
-			remoteInfo = SwiftyImage;
+			remoteInfo = Framenderer;
 		};
-		412645081E5312AB00916542 /* PBXContainerItemProxy */ = {
+		415390AA1E6813250009667D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 412645021E5312A500916542 /* SwiftyImage.xcodeproj */;
+			containerPortal = 415390A41E6813190009667D /* Framenderer.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 412343231E51EEBA00B3FDEF;
-			remoteInfo = SwiftyImage;
+			remoteInfo = Framenderer;
 		};
-		417751A71E56CB2400EF1125 /* PBXContainerItemProxy */ = {
+		415390AE1E6813880009667D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 412645021E5312A500916542 /* SwiftyImage.xcodeproj */;
+			containerPortal = 415390A41E6813190009667D /* Framenderer.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 412343231E51EEBA00B3FDEF;
-			remoteInfo = SwiftyImage;
+			remoteInfo = Framenderer;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -56,7 +56,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				417751A61E56CB2400EF1125 /* SwiftyImage.framework in Embed Frameworks */,
+				415390AD1E6813880009667D /* Framenderer.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,7 +75,7 @@
 		412343501E51EF0E00B3FDEF /* EamplesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EamplesUITests.swift; sourceTree = "<group>"; };
 		412343521E51EF0E00B3FDEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		412345451E51EFA900B3FDEF /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
-		412645021E5312A500916542 /* SwiftyImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyImage.xcodeproj; path = ../../SwiftyImage/SwiftyImage.xcodeproj; sourceTree = "<group>"; };
+		415390A41E6813190009667D /* Framenderer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Framenderer.xcodeproj; path = ../../Framenderer/Framenderer.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				417751A51E56CB2400EF1125 /* SwiftyImage.framework in Frameworks */,
+				415390AC1E6813880009667D /* Framenderer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,7 +100,7 @@
 		4123432F1E51EF0E00B3FDEF = {
 			isa = PBXGroup;
 			children = (
-				412645021E5312A500916542 /* SwiftyImage.xcodeproj */,
+				415390A41E6813190009667D /* Framenderer.xcodeproj */,
 				4123433A1E51EF0E00B3FDEF /* Eamples */,
 				4123434F1E51EF0E00B3FDEF /* EamplesUITests */,
 				412343391E51EF0E00B3FDEF /* Products */,
@@ -139,10 +139,10 @@
 			path = EamplesUITests;
 			sourceTree = "<group>";
 		};
-		412645031E5312A500916542 /* Products */ = {
+		415390A51E6813190009667D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				412645071E5312A500916542 /* SwiftyImage.framework */,
+				415390A91E6813190009667D /* Framenderer.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -162,8 +162,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				412645091E5312AB00916542 /* PBXTargetDependency */,
-				417751A81E56CB2400EF1125 /* PBXTargetDependency */,
+				415390AB1E6813250009667D /* PBXTargetDependency */,
+				415390AF1E6813880009667D /* PBXTargetDependency */,
 			);
 			name = Eamples;
 			productName = Eamples;
@@ -223,8 +223,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 412645031E5312A500916542 /* Products */;
-					ProjectRef = 412645021E5312A500916542 /* SwiftyImage.xcodeproj */;
+					ProductGroup = 415390A51E6813190009667D /* Products */;
+					ProjectRef = 415390A41E6813190009667D /* Framenderer.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -236,11 +236,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		412645071E5312A500916542 /* SwiftyImage.framework */ = {
+		415390A91E6813190009667D /* Framenderer.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = SwiftyImage.framework;
-			remoteRef = 412645061E5312A500916542 /* PBXContainerItemProxy */;
+			path = Framenderer.framework;
+			remoteRef = 415390A81E6813190009667D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -292,15 +292,15 @@
 			target = 412343371E51EF0E00B3FDEF /* Eamples */;
 			targetProxy = 4123434D1E51EF0E00B3FDEF /* PBXContainerItemProxy */;
 		};
-		412645091E5312AB00916542 /* PBXTargetDependency */ = {
+		415390AB1E6813250009667D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = SwiftyImage;
-			targetProxy = 412645081E5312AB00916542 /* PBXContainerItemProxy */;
+			name = Framenderer;
+			targetProxy = 415390AA1E6813250009667D /* PBXContainerItemProxy */;
 		};
-		417751A81E56CB2400EF1125 /* PBXTargetDependency */ = {
+		415390AF1E6813880009667D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = SwiftyImage;
-			targetProxy = 417751A71E56CB2400EF1125 /* PBXContainerItemProxy */;
+			name = Framenderer;
+			targetProxy = 415390AE1E6813880009667D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -424,7 +424,7 @@
 				INFOPLIST_FILE = Eamples/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.swiftyImage.Eamples;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.Framenderer.Eamples;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -439,7 +439,7 @@
 				INFOPLIST_FILE = Eamples/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.swiftyImage.Eamples;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.Framenderer.Eamples;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
