@@ -9,9 +9,9 @@
 import PackageDescription
 
 let package = Package (
-    name: "SwiftyImage",
+    name: "Framenderer",
     targets: [
-        Target(name: "SwiftyImage", dependencies: [])
+        Target(name: "Framenderer", dependencies: [])
     ],
     
     dependencies: [],
