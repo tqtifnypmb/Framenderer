@@ -45,6 +45,6 @@ public class ZoomBlurFilter: BaseFilter {
     }
     
     override func buildProgram() throws {
-        _program = try Program.create(vertexSourcePath: "PassthroughVertexShader", fragmentSourcePath: "ZoomBlurFragmentShader")
+        _program = try Program.create(fragmentSourcePath: "ZoomBlurFragmentShader")
     }
 }

@@ -19,7 +19,7 @@ public class MotionBlurFilter: BaseFilter {
         a specified angle and distance while capturing the image.
      
         - parameter angle: the angle of the motion blur
-        - parameter length: the length of the motion blur effect.
+        - parameter distance: the length of the motion blur effect.
      */
     public init(angle: Double, distance: Double = 20) {
         _angle = angle
@@ -34,20 +34,23 @@ public class MotionBlurFilter: BaseFilter {
         return "MotionBlurFilter"
     }
 
-    override func setUniformAttributs(context: Context) {
-        super.setUniformAttributs(context: context)
+    override func setUniformAttributs(context ctx: Context) {
+        super.setUniformAttributs(context: ctx)
+      
+        let dx = cos(_angle * M_PI / 180)
+        let dy = sin(_angle * M_PI / 180)
         
-        let width = Double(context.inputWidth)
-        let height = Double(context.inputHeight)
-        let aspectRatio = width / height
-        let dx = _distance * cos(_angle * M_PI / 180) / (aspectRatio * height)
-        let dy = _distance * sin(_angle * M_PI / 180) / height
-        let samplerCount: Double = 7
-        _program.setUniform(name: kXOffset, value: GLfloat(dx / samplerCount))
-        _program.setUniform(name: kYOffset, value: GLfloat(dy / samplerCount))
+        let width = Double(ctx.inputWidth)
+        let height = Double(ctx.inputWidth)
+        
+        let unit = sqrt(pow(1 / width, 2) + pow(1 / height, 2))
+        let distance = unit * _distance
+        _program.setUniform(name: "distance", value: GLfloat(distance))
+        _program.setUniform(name: "direction", value: CGPoint(x: dx, y: dy))
+        _program.setUniform(name: "unit", value: Float(unit))
     }
     
     override func buildProgram() throws {
-        _program = try Program.create(vertexSourcePath: "MotionBlurVertexShader", fragmentSourcePath: "MotionBlurFragmentShader")
+        _program = try Program.create(fragmentSourcePath: "MotionBlurFragmentShader")
     }
 }
