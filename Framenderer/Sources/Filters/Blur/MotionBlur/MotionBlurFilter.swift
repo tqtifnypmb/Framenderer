@@ -19,16 +19,18 @@ public class MotionBlurFilter: BaseFilter {
         a specified angle and distance while capturing the image.
      
         - parameter angle: the angle of the motion blur
-        - parameter distance: the length of the motion blur effect.
+        - parameter radius: the length of the motion blur effect.
      */
-    public init(angle: Double, distance: Double = 20) {
+    public init(angle: Double, radius: Double = 20) {
+        precondition(radius >= 0.0)
+        
         _angle = angle
-        _distance = distance
+        _radius = radius
         super.init()
     }
     
     private let _angle: Double
-    private let _distance: Double
+    private let _radius: Double
     
     override public var name: String {
         return "MotionBlurFilter"
@@ -43,10 +45,12 @@ public class MotionBlurFilter: BaseFilter {
         let width = Double(ctx.inputWidth)
         let height = Double(ctx.inputWidth)
         
-        let unit = sqrt(pow(1 / width, 2) + pow(1 / height, 2))
-        let distance = unit * _distance
-        _program.setUniform(name: "distance", value: GLfloat(distance))
-        _program.setUniform(name: "direction", value: CGPoint(x: dx, y: dy))
+        let xUnit = dx / width
+        let yUnit = dy / height
+        let unit = sqrt(pow(1 / width / dx, 2) + pow(1 / height / dy, 2))
+        let radius = unit * _radius
+        _program.setUniform(name: "radius", value: GLfloat(radius))
+        _program.setUniform(name: "offset", value: CGPoint(x: xUnit, y: yUnit))
         _program.setUniform(name: "unit", value: Float(unit))
     }
     
