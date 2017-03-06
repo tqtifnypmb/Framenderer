@@ -34,8 +34,9 @@ class ViewController: UIViewController {
         
         do {
             let canva = ImageCanvas(image: origin!.cgImage!)
-            let blend = LinearBlendFilter(source: blend!.cgImage!, a: 0.5)
-            canva.filters = [PassthroughFilter(), blend]
+            let zoom = ZoomBlurFilter(center: CGPoint(x: 0.5, y: 0.5), radius: 10)
+            let motion = MotionBlurFilter(angle: 90, radius: 15)
+            canva.filters = [PassthroughFilter(), motion, zoom]
             try canva.process()
             
             let result = canva.processedImage()

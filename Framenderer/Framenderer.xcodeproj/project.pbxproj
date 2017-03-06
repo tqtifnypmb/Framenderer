@@ -80,7 +80,6 @@
 		415390B31E6814460009667D /* RGBNBGRExchangeFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41012E0F1E58066800D39AA0 /* RGBNBGRExchangeFragmentShader.fsh */; };
 		415390B41E6814460009667D /* MedianBlurFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344611E51EF4700B3FDEF /* MedianBlurFragmentShader.fsh */; };
 		415390B51E6814460009667D /* MotionBlurFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344641E51EF4700B3FDEF /* MotionBlurFragmentShader.fsh */; };
-		415390B61E6814460009667D /* MotionBlurVertexShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344651E51EF4700B3FDEF /* MotionBlurVertexShader.vsh */; };
 		415390B71E6814460009667D /* ZoomBlurFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344681E51EF4700B3FDEF /* ZoomBlurFragmentShader.fsh */; };
 		415390B81E6814460009667D /* AdditionBlendFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 4123446C1E51EF4700B3FDEF /* AdditionBlendFragmentShader.fsh */; };
 		415390B91E6814460009667D /* AlphaMaskBlendFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 4123446F1E51EF4700B3FDEF /* AlphaMaskBlendFragmentShader.fsh */; };
@@ -137,7 +136,6 @@
 		412344611E51EF4700B3FDEF /* MedianBlurFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MedianBlurFragmentShader.fsh; sourceTree = "<group>"; };
 		412344631E51EF4700B3FDEF /* MotionBlurFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionBlurFilter.swift; sourceTree = "<group>"; };
 		412344641E51EF4700B3FDEF /* MotionBlurFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MotionBlurFragmentShader.fsh; sourceTree = "<group>"; };
-		412344651E51EF4700B3FDEF /* MotionBlurVertexShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MotionBlurVertexShader.vsh; sourceTree = "<group>"; };
 		412344671E51EF4700B3FDEF /* ZoomBlurFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomBlurFilter.swift; sourceTree = "<group>"; };
 		412344681E51EF4700B3FDEF /* ZoomBlurFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ZoomBlurFragmentShader.fsh; sourceTree = "<group>"; };
 		4123446B1E51EF4700B3FDEF /* AdditionBlendFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionBlendFilter.swift; sourceTree = "<group>"; };
@@ -344,7 +342,6 @@
 			children = (
 				412344631E51EF4700B3FDEF /* MotionBlurFilter.swift */,
 				412344641E51EF4700B3FDEF /* MotionBlurFragmentShader.fsh */,
-				412344651E51EF4700B3FDEF /* MotionBlurVertexShader.vsh */,
 			);
 			path = MotionBlur;
 			sourceTree = "<group>";
@@ -808,7 +805,6 @@
 				415390B31E6814460009667D /* RGBNBGRExchangeFragmentShader.fsh in Resources */,
 				415390B41E6814460009667D /* MedianBlurFragmentShader.fsh in Resources */,
 				415390B51E6814460009667D /* MotionBlurFragmentShader.fsh in Resources */,
-				415390B61E6814460009667D /* MotionBlurVertexShader.vsh in Resources */,
 				415390B71E6814460009667D /* ZoomBlurFragmentShader.fsh in Resources */,
 				415390B81E6814460009667D /* AdditionBlendFragmentShader.fsh in Resources */,
 				415390B91E6814460009667D /* AlphaMaskBlendFragmentShader.fsh in Resources */,
