@@ -17,11 +17,10 @@ public class ZoomBlurFilter: BaseFilter {
         init a [Zoom blur](https://en.wikipedia.org/wiki/Zoom_burst) filter
      
         - parameter center: specifies the center of blur effect **[0 <= x <= 1, 0 <= y <= 1]**
-        - parameter size: specifies the size of blur effect
+        - parameter radius: specifies the radius of blur effect
      */
     public init(center: CGPoint, radius: CGFloat) {
-        precondition(center.x >= 0 && center.x <= 1)
-        precondition(center.y >= 0 && center.y <= 1)
+        precondition(CGRect(x: 0, y: 0, width: 1, height: 1).contains(center))
         
         _center = center
         _radius = radius
@@ -36,12 +35,13 @@ public class ZoomBlurFilter: BaseFilter {
     override func setUniformAttributs(context ctx: Context) {
         super.setUniformAttributs(context: ctx)
         
-        let texelWidth = 1 / GLfloat(ctx.inputWidth)
-        let texelHeight = 1 / GLfloat(ctx.inputHeight)
-        //_program.setUniform(name: kTexelWidth, value: texelWidth)
-       // _program.setUniform(name: kTexelHeight, value: texelHeight)
+        let width = Double(ctx.inputWidth)
+        let height = Double(ctx.inputWidth)
+        
+        _program.setUniform(name: "width", value: Float(width))
+        _program.setUniform(name: "height", value: Float(height))
         _program.setUniform(name: "center", value: _center)
-        _program.setUniform(name: "size", value: GLfloat(_radius))
+        _program.setUniform(name: "radius", value: GLfloat(_radius))
     }
     
     override func buildProgram() throws {
