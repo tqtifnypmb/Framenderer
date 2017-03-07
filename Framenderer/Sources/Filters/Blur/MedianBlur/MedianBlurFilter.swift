@@ -26,6 +26,6 @@ public class MedianBlurFilter: BaseFilter {
     }
     
     override func buildProgram() throws {
-        _program = try Program.create(vertexSourcePath: "3x3KernelVertexShader", fragmentSourcePath: "MedianBlurFragmentShader")
+        _program = try Program.create(vertexSourcePath: "MedianBlurVertexShader", fragmentSourcePath: "MedianBlurFragmentShader")
     }
 }
