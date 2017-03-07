@@ -1,64 +1,65 @@
 //
-//  BaseCamera.swift
+//  CaptureStream.swift
 //  Framenderer
 //
-//  Created by tqtifnypmb on 22/12/2016.
-//  Copyright © 2016 tqitfnypmb. All rights reserved.
+//  Created by tqtifnypmb on 07/03/2017.
+//  Copyright © 2017 tqtifnypmb. All rights reserved.
 //
 
 import Foundation
 import AVFoundation
 
-open class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDelegate {
+public typealias PreviewView = Filter
+
+open class CaptureStream: NSObject, Stream, AVCaptureVideoDataOutputSampleBufferDelegate {
     public var filters: [Filter] = []
-    public var previewView: PreviewView!
     
     var _ctx: Context!
     var _additionalFilter: Filter?
     
-    private let _captureSession: AVCaptureSession
-    private let _cameraFrameSerialQueue: DispatchQueue
+    public var previewView: PreviewView?
+    
+    private let _frameSerialQueue: DispatchQueue
     private let _cameraPosition: AVCaptureDevicePosition
     private let _renderSemaphore: DispatchSemaphore!
-    private var _isFullRangeYUV = true
-    
-    init(captureSession: AVCaptureSession, cameraPosition: AVCaptureDevicePosition) {
-        _captureSession = captureSession
-        _cameraPosition = cameraPosition
-        _cameraFrameSerialQueue = DispatchQueue(label: "com.github.SwityImage.CameraSerial")
+    private let _session: AVCaptureSession
+    public init(session: AVCaptureSession, positon: AVCaptureDevicePosition) {
+        _session = session
+        _cameraPosition = positon
+        _frameSerialQueue = DispatchQueue(label: "com.github.Framenderer.CameraSerial")
         _renderSemaphore = DispatchSemaphore(value: 1)
+        
+        super.init()
     }
     
-    public func startRunning() {
-        guard !_captureSession.isRunning else { return }
-        
-        precondition(previewView != nil)
+    public func start() {
+        guard !_session.isRunning else { return }
         
         _ctx = Context()
         _ctx.enableInputOutputToggle = false
         let output = AVCaptureVideoDataOutput()
         output.alwaysDiscardsLateVideoFrames = false
-        output.setSampleBufferDelegate(self, queue: _cameraFrameSerialQueue)
-//        
-//        for format in output.availableVideoCVPixelFormatTypes as! [NSNumber] {
-//            kCMPixelFormat_422YpCbCr8_yuvs
-//        }
+        output.setSampleBufferDelegate(self, queue: _frameSerialQueue)
+        //
+        //        for format in output.availableVideoCVPixelFormatTypes as! [NSNumber] {
+        //            kCMPixelFormat_422YpCbCr8_yuvs
+        //        }
         output.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable : kCVPixelFormatType_32BGRA]
         
-        assert(_captureSession.canAddOutput(output))
-        _captureSession.addOutput(output)
+        assert(_session.canAddOutput(output))
+        _session.addOutput(output)
         
         let input = cameraInput()
-        assert(_captureSession.canAddInput(input))
-        _captureSession.addInput(input)
+        assert(_session.canAddInput(input))
+        _session.addInput(input)
         
-        _captureSession.startRunning()
+        _session.startRunning()
     }
     
-    public func stopRunning() {
-        guard _captureSession.isRunning else { return }
+    public func stop() {
+        guard _session.isRunning else { return }
         
-        _captureSession.stopRunning()
+        _session.stopRunning()
     }
     
     func cameraInput() -> AVCaptureInput {
@@ -83,7 +84,7 @@ open class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDel
         
         _ctx.frameSerialQueue.async {[retainedBuffer = sampleBuffer, weak self] in
             guard let strong_self = self else { return }
-                        
+            
             do {
                 strong_self._ctx.setAsCurrent()
                 let time: CMTime = CMSampleBufferGetPresentationTimeStamp(retainedBuffer!)
@@ -92,7 +93,10 @@ open class BaseCamera: NSObject, Camera, AVCaptureVideoDataOutputSampleBufferDel
                 if let addition = strong_self._additionalFilter {
                     currentFilters.append(addition)
                 }
-                currentFilters.append(strong_self.previewView)
+                
+                if let preview = strong_self.previewView {
+                    currentFilters.append(preview)
+                }
                 
                 let starter = currentFilters.removeFirst()
                 
