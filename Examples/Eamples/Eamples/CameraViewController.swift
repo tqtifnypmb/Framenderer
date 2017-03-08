@@ -45,7 +45,7 @@ class CameraViewController: UIViewController {
 //        let inverted = ColorInvertFilter()
 //        let hueAdjust = HueAdjustFilter()
         camera.filters = [PassthroughFilter(), blendingFilter]
-        camera.startRunning()
+        camera.start()
     }
 
     @IBAction func start(_ sender: Any) {

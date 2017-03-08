@@ -16,6 +16,7 @@
 		412345461E51EFA900B3FDEF /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412345451E51EFA900B3FDEF /* CameraViewController.swift */; };
 		415390AC1E6813880009667D /* Framenderer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 415390A91E6813190009667D /* Framenderer.framework */; };
 		415390AD1E6813880009667D /* Framenderer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 415390A91E6813190009667D /* Framenderer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		41B4D8651E6F95BF00AB4B58 /* MovieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B4D8641E6F95BF00AB4B58 /* MovieViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		412343521E51EF0E00B3FDEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		412345451E51EFA900B3FDEF /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		415390A41E6813190009667D /* Framenderer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Framenderer.xcodeproj; path = ../../Framenderer/Framenderer.xcodeproj; sourceTree = "<group>"; };
+		41B4D8641E6F95BF00AB4B58 /* MovieViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 			children = (
 				4123433B1E51EF0E00B3FDEF /* AppDelegate.swift */,
 				4123433D1E51EF0E00B3FDEF /* ViewController.swift */,
+				41B4D8641E6F95BF00AB4B58 /* MovieViewController.swift */,
 				412345451E51EFA900B3FDEF /* CameraViewController.swift */,
 				4123433F1E51EF0E00B3FDEF /* Main.storyboard */,
 				412343421E51EF0E00B3FDEF /* Assets.xcassets */,
@@ -273,6 +276,7 @@
 				4123433E1E51EF0E00B3FDEF /* ViewController.swift in Sources */,
 				4123433C1E51EF0E00B3FDEF /* AppDelegate.swift in Sources */,
 				412345461E51EFA900B3FDEF /* CameraViewController.swift in Sources */,
+				41B4D8651E6F95BF00AB4B58 /* MovieViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
