@@ -19,10 +19,20 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
     private let _textureHeight: GLsizei
     private var _flipVertically = false
     private let _isFont: Bool
+    private let _guessRotation: Bool
     
     /// Create a input framebuffer object using samplebuffer as content
-    init(sampleBuffer: CMSampleBuffer, isFont: Bool) throws {
-        _isFont = isFont
+    convenience init(sampleBuffer: CMSampleBuffer, isFrontCamera: Bool) throws {
+        try self.init(sampleBuffer: sampleBuffer, isFront: isFrontCamera, guessRotation: true)
+    }
+    
+    convenience init(sampleBuffer: CMSampleBuffer) throws {
+        try self.init(sampleBuffer: sampleBuffer, isFront: false, guessRotation: false)
+    }
+    
+    init(sampleBuffer: CMSampleBuffer, isFront: Bool, guessRotation: Bool) throws {
+        _isFont = isFront
+        _guessRotation = guessRotation
         
         if let cv = CMSampleBufferGetImageBuffer(sampleBuffer) {
             CVPixelBufferLockBaseAddress(cv, .readOnly)
@@ -78,7 +88,16 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
         return _textureHeight
     }
     
-    var textCoor: [GLfloat] {        
+    var textCoor: [GLfloat] {
+        if !_guessRotation {
+            return [
+                0.0, 0.0,
+                0.0, 1.0,
+                1.0, 0.0,
+                1.0, 1.0
+            ]
+        }
+        
         var rotation: Rotation = .none
         var flipHorzontally = false
         
