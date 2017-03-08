@@ -11,28 +11,29 @@ import AVFoundation
 
 public typealias PreviewView = Filter
 
-open class CaptureStream: NSObject, Stream, AVCaptureVideoDataOutputSampleBufferDelegate {
-    public var filters: [Filter] = []
-    
-    var _ctx: Context!
-    var _additionalFilter: Filter?
-    
-    public var previewView: PreviewView?
+open class CaptureStream: BaseStream, AVCaptureVideoDataOutputSampleBufferDelegate {
+    public var previewView: PreviewView? {
+        set {
+            _previewView = newValue
+        }
+        
+        get {
+            return _previewView
+        }
+    }
     
     private let _frameSerialQueue: DispatchQueue
-    private let _cameraPosition: AVCaptureDevicePosition
-    private let _renderSemaphore: DispatchSemaphore!
     private let _session: AVCaptureSession
     public init(session: AVCaptureSession, positon: AVCaptureDevicePosition) {
         _session = session
-        _cameraPosition = positon
         _frameSerialQueue = DispatchQueue(label: "com.github.Framenderer.CameraSerial")
-        _renderSemaphore = DispatchSemaphore(value: 1)
         
         super.init()
+        _isFront = positon == .front
+        _guessRotation = true
     }
     
-    public func start() {
+    public override func start() {
         guard !_session.isRunning else { return }
         
         _ctx = Context()
@@ -56,7 +57,7 @@ open class CaptureStream: NSObject, Stream, AVCaptureVideoDataOutputSampleBuffer
         _session.startRunning()
     }
     
-    public func stop() {
+    public override func stop() {
         guard _session.isRunning else { return }
         
         _session.stopRunning()
@@ -64,8 +65,9 @@ open class CaptureStream: NSObject, Stream, AVCaptureVideoDataOutputSampleBuffer
     
     func cameraInput() -> AVCaptureInput {
         if let devices = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) as? [AVCaptureDevice] {
+            let position: AVCaptureDevicePosition = _isFront ? .front : .back
             for d in devices {
-                if d.position == _cameraPosition {
+                if d.position == position {
                     let input = try! AVCaptureDeviceInput(device: d)
                     return input
                 }
@@ -78,45 +80,9 @@ open class CaptureStream: NSObject, Stream, AVCaptureVideoDataOutputSampleBuffer
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
     public func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
-        if case .timedOut = _renderSemaphore.wait(timeout: DispatchTime.now()) {
-            return
-        }
-        
         _ctx.frameSerialQueue.async {[retainedBuffer = sampleBuffer, weak self] in
-            guard let strong_self = self else { return }
-            
             do {
-                strong_self._ctx.setAsCurrent()
-                let time: CMTime = CMSampleBufferGetPresentationTimeStamp(retainedBuffer!)
-                
-                var currentFilters = strong_self.filters
-                if let addition = strong_self._additionalFilter {
-                    currentFilters.append(addition)
-                }
-                
-                if let preview = strong_self.previewView {
-                    currentFilters.append(preview)
-                }
-                
-                let starter = currentFilters.removeFirst()
-                
-                // ref: http://wiki.haskell.org/Continuation
-                var continuation: ((Context, InputFrameBuffer) throws -> Void)!
-                continuation = {[weak self] ctx, input in
-                    guard let strong_self = self else { return }
-                    
-                    if !currentFilters.isEmpty {
-                        let filter = currentFilters.removeFirst()
-                        try filter.applyToFrame(context: ctx, inputFrameBuffer: input, presentationTimeStamp: time, next: continuation)
-                    } else {
-                        ctx.reset()
-                        strong_self._renderSemaphore.signal()
-                        continuation = nil      // break the reference-cycle
-                    }
-                }
-                
-                let input = try SMSampleInputFrameBuffer(sampleBuffer: retainedBuffer!, isFont: strong_self._cameraPosition == .front)
-                try starter.applyToFrame(context: strong_self._ctx, inputFrameBuffer:input, presentationTimeStamp: time, next: continuation)
+                try self?.feed(sampleBuffer: retainedBuffer!)
             } catch {
                 fatalError(error.localizedDescription)
             }

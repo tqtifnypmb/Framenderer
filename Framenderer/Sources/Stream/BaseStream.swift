@@ -9,12 +9,15 @@
 import Foundation
 import CoreMedia
 
-class BaseStream: NSObject, Stream {
+open class BaseStream: NSObject, Stream {
     public var filters: [Filter] = []
     
     var _ctx: Context!
     var _additionalFilter: Filter?
     var _previewView: PreviewView?
+    
+    var _isFront = false
+    var _guessRotation = false
     
     private let _frameSemaphore: DispatchSemaphore
     override init() {
@@ -23,10 +26,10 @@ class BaseStream: NSObject, Stream {
         super.init()
     }
     
-    func start() {}
-    func stop() {}
+    public func start() {}
+    public func stop() {}
     
-    func feed(sampleBuffer sm: CMSampleBuffer, isFont: Bool) throws {
+    func feed(sampleBuffer sm: CMSampleBuffer) throws {
         if case .timedOut = _frameSemaphore.wait(timeout: DispatchTime.now()) {
             return
         }
@@ -59,7 +62,7 @@ class BaseStream: NSObject, Stream {
             }
         }
         
-        let input = try SMSampleInputFrameBuffer(sampleBuffer: sm, isFont: isFont)
+        let input = try SMSampleInputFrameBuffer(sampleBuffer: sm, isFront: _isFront, guessRotation: _guessRotation)
         try starter.applyToFrame(context: _ctx, inputFrameBuffer:input, presentationTimeStamp: time, next: continuation)
     }
 }

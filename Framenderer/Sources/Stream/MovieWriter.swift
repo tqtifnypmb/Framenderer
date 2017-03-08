@@ -24,12 +24,14 @@ public class MovieWriter: FileStream {
         let width = GLsizei(videoTrack.naturalSize.width)
         let height = GLsizei(videoTrack.naturalSize.height)
         _frameWriter = try FrameWriter(destURL: destURL, type: type, width: width, height: height)
+        _frameWriter.respectFrameTimeStamp = true
         
         try super.init(srcURL: srcURL)
     }
     
     public override func start() {
         guard !_started else { return }
+        precondition(!filters.isEmpty)
         
         _started = true
         _frameWriter.startWriting()
@@ -39,13 +41,26 @@ public class MovieWriter: FileStream {
     }
     
     public override func stop() {
+        self.stop(completionHandler: nil)
+    }
+    
+    public func stop(completionHandler handler: ((Void) -> Void)?) {
         guard _started else { return }
         
         _started = false
         _ctx.frameSerialQueue.async { [weak self] in
-            self?._frameWriter.finishWriting {[weak self] in
-                self?._additionalFilter = nil
+            self?._additionalFilter = nil
+            self?._frameWriter.finishWriting {
+                handler?()
             }
+        }
+        
+        super.stop()
+    }
+    
+    override func eof() {
+        self.stop {
+            print("EOF!!")
         }
     }
 }

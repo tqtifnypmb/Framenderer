@@ -19,6 +19,8 @@ class FrameWriter: BaseFilter {
     private var _presentationTime: CMTime = kCMTimeZero
     private let _outputWriter: AVAssetWriter
     
+    var respectFrameTimeStamp = false
+    
     init(destURL: URL, width: GLsizei, height: GLsizei, type: String, outputSettings settings: [String: Any]?) throws {
         _outputWriter = try AVAssetWriter(url: destURL, fileType: type)
         let input = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: settings)
@@ -101,6 +103,10 @@ class FrameWriter: BaseFilter {
     }
     
     private func calculateTime(with time: CMTime) -> CMTime {
+        guard !respectFrameTimeStamp else {
+            return time
+        }
+        
         if let lastTime = _timeStamp {
             let duration = CMTimeSubtract(time, lastTime)
             _presentationTime = CMTimeAdd(_presentationTime, duration)
