@@ -31,6 +31,7 @@ open class ImageCanvas: NSObject, Canvas {
         }
         
         if isSupportFastTexture() {
+            //FIXME: - We should use gbra consistently
             let bgr_2_rgb = ComponentExchangeFilter(mode: .rgb_bgr_toggle)
             try bgr_2_rgb.apply(context: ctx)
         }
