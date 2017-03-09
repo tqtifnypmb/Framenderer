@@ -18,7 +18,7 @@ public class MovieWriter: FileStream {
         
         let asset = AVAsset(url: srcURL)
         guard let videoTrack = asset.tracks(withMediaType: AVMediaTypeVideo).first else {
-            fatalError("Input file doesn't contain video track")
+            throw DataError.fileType(errorDesc: "Input file doesn't contain video track")
         }
         
         let width = GLsizei(videoTrack.naturalSize.width)
@@ -49,18 +49,15 @@ public class MovieWriter: FileStream {
         
         _started = false
         _ctx.frameSerialQueue.async { [weak self] in
+            // stop writing ASAP
             self?._additionalFilter = nil
-            self?._frameWriter.finishWriting {
-                handler?()
-            }
+            self?._frameWriter.finishWriting(completionHandler: handler)
         }
         
         super.stop()
     }
     
     override func eof() {
-        self.stop {
-            print("EOF!!")
-        }
+        self.stop(completionHandler: nil)
     }
 }

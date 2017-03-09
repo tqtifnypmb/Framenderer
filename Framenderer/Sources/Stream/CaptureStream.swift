@@ -24,13 +24,16 @@ open class CaptureStream: BaseStream, AVCaptureVideoDataOutputSampleBufferDelega
     
     private let _frameSerialQueue: DispatchQueue
     private let _session: AVCaptureSession
+    
     public init(session: AVCaptureSession, positon: AVCaptureDevicePosition) {
         _session = session
         _frameSerialQueue = DispatchQueue(label: "com.github.Framenderer.CameraSerial")
         
         super.init()
+        
         _isFront = positon == .front
         _guessRotation = true
+        _allowDropFrameIfNeeded = true
     }
     
     public override func start() {
@@ -80,6 +83,8 @@ open class CaptureStream: BaseStream, AVCaptureVideoDataOutputSampleBufferDelega
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
     public func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+        guard self.canFeed() else { return }
+        
         _ctx.frameSerialQueue.async {[retainedBuffer = sampleBuffer, weak self] in
             do {
                 try self?.feed(sampleBuffer: retainedBuffer!)

@@ -27,16 +27,15 @@ open class FileStream: BaseStream {
         
         let width = Int(videoTracks.first!.naturalSize.width)
         let height = Int(videoTracks.first!.naturalSize.height)
-        let sourceAttrs: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
+        let outputAttrs: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
                                           kCVPixelBufferWidthKey as String: width,
                                           kCVPixelBufferHeightKey as String: height,
                                           kCVPixelBufferIOSurfacePropertiesKey as String: [:]]
-        let compOutput = AVAssetReaderVideoCompositionOutput(videoTracks: videoTracks, videoSettings: sourceAttrs)
-        compOutput.videoComposition = AVVideoComposition(propertiesOf: asset)
-        _output = compOutput
+        _output = AVAssetReaderTrackOutput(track: videoTracks.first!, outputSettings: outputAttrs)
         
         super.init()
         _guessRotation = false
+        _allowDropFrameIfNeeded = false
         
         assert(_reader.canAdd(_output))
         _reader.add(_output)
@@ -76,6 +75,8 @@ open class FileStream: BaseStream {
     func eof() {}
     
     private func didOutput(samepleBuffer sm: CMSampleBuffer) {
+        guard self.canFeed() else { return }
+        
         _ctx.frameSerialQueue.async {[retainedBuffer = sm, weak self] in
             do {
                 try self?.feed(sampleBuffer: retainedBuffer)

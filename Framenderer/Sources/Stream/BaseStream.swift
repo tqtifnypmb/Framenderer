@@ -19,21 +19,27 @@ open class BaseStream: NSObject, Stream {
     var _isFront = false
     var _guessRotation = false
     
-    private let _frameSemaphore: DispatchSemaphore
-    override init() {
-        _frameSemaphore = DispatchSemaphore(value: 1)
-        
-        super.init()
-    }
+    /// Allow to drop frames that can't be handled in time
+    var _allowDropFrameIfNeeded = true
+    
+    private let _frameSemaphore = DispatchSemaphore(value: 1)
     
     public func start() {}
     public func stop() {}
     
-    func feed(sampleBuffer sm: CMSampleBuffer) throws {
-        if case .timedOut = _frameSemaphore.wait(timeout: DispatchTime.now()) {
-            return
-        }
+    /// Always check this before calling `feed(:)`
+    func canFeed() -> Bool {
+        guard _allowDropFrameIfNeeded else { return true }
         
+        if case .timedOut = _frameSemaphore.wait(timeout: DispatchTime.now()) {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    /// Feed sample to filters-apply-cycle
+    func feed(sampleBuffer sm: CMSampleBuffer) throws {
         let time: CMTime = CMSampleBufferGetPresentationTimeStamp(sm)
         
         var currentFilters = filters
@@ -57,7 +63,10 @@ open class BaseStream: NSObject, Stream {
                 try filter.applyToFrame(context: ctx, inputFrameBuffer: input, presentationTimeStamp: time, next: continuation)
             } else {
                 ctx.reset()
-                strong_self._frameSemaphore.signal()
+                
+                if strong_self._allowDropFrameIfNeeded {
+                    strong_self._frameSemaphore.signal()
+                }
                 continuation = nil      // break the reference-cycle
             }
         }

@@ -19,10 +19,12 @@ class FrameWriter: BaseFilter {
     private var _presentationTime: CMTime = kCMTimeZero
     private let _outputWriter: AVAssetWriter
     
+    /// Use CMSamplebuffer's presentationTimeStamp as output timestamp
     var respectFrameTimeStamp = false
     
     init(destURL: URL, width: GLsizei, height: GLsizei, type: String, outputSettings settings: [String: Any]?) throws {
         _outputWriter = try AVAssetWriter(url: destURL, fileType: type)
+        
         let input = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: settings)
         input.expectsMediaDataInRealTime = true
         _outputWriter.add(input)
@@ -63,7 +65,7 @@ class FrameWriter: BaseFilter {
     }
     
     override public var name: String {
-        return "FrameKeeper"
+        return "FrameWriter"
     }
     
     override func apply(context: Context) throws {
