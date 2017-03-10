@@ -105,7 +105,7 @@ class FrameWriter: BaseFilter {
     }
     
     private func calculateTime(with time: CMTime) -> CMTime {
-        guard !respectFrameTimeStamp else {
+        if respectFrameTimeStamp {
             return time
         }
         

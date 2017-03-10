@@ -45,7 +45,10 @@ public class MovieWriter: FileStream {
     }
     
     public func stop(completionHandler handler: ((Void) -> Void)?) {
-        guard _started else { return }
+        guard _started else {
+            handler?()
+            return
+        }
         
         _started = false
         _ctx.frameSerialQueue.async { [weak self] in

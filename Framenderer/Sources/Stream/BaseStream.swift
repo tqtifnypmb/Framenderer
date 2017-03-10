@@ -29,7 +29,9 @@ open class BaseStream: NSObject, Stream {
     
     /// Always check this before calling `feed(:)`
     func canFeed() -> Bool {
-        guard _allowDropFrameIfNeeded else { return true }
+        if !_allowDropFrameIfNeeded {
+            return true
+        }
         
         if case .timedOut = _frameSemaphore.wait(timeout: DispatchTime.now()) {
             return false

@@ -24,14 +24,12 @@ open class FileStream: BaseStream {
         _reader.timeRange = CMTimeRangeMake(kCMTimeZero, asset.duration)
         
         let videoTracks = asset.tracks(withMediaType: AVMediaTypeVideo)
-        
-        let width = Int(videoTracks.first!.naturalSize.width)
-        let height = Int(videoTracks.first!.naturalSize.height)
         let outputAttrs: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
-                                          kCVPixelBufferWidthKey as String: width,
-                                          kCVPixelBufferHeightKey as String: height,
                                           kCVPixelBufferIOSurfacePropertiesKey as String: [:]]
-        _output = AVAssetReaderTrackOutput(track: videoTracks.first!, outputSettings: outputAttrs)
+        
+        let comp = AVAssetReaderVideoCompositionOutput(videoTracks: videoTracks, videoSettings: outputAttrs)
+        comp.videoComposition = AVVideoComposition(propertiesOf: asset)
+        _output = comp
         
         super.init()
         _guessRotation = false
