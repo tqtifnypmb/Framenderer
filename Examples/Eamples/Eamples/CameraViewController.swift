@@ -20,6 +20,13 @@ class CameraViewController: UIViewController {
         super.viewDidLoad()
         
         var url = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+        
+        let dest = url.appendingPathComponent("dest.mp4")
+        
+        if FileManager.default.fileExists(atPath: dest.relativePath) {
+            try! FileManager.default.removeItem(at: dest)
+        }
+        
         url.appendPathComponent("tmp.mp4")
         
         if FileManager.default.fileExists(atPath: url.relativePath) {
