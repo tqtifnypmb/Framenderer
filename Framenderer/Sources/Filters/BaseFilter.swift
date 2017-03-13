@@ -10,6 +10,7 @@ import Foundation
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 import CoreMedia
+import AVFoundation
 
 open class BaseFilter: Filter {
     var _program: Program!
@@ -101,5 +102,9 @@ open class BaseFilter: Filter {
         
         let input = ctx.outputFrameBuffer!.convertToInput(bitmapInfo: inputFrameBuffer.bitmapInfo)
         try next(ctx, input)
+    }
+    
+    public func applyToAudio(context: Context, sampleBuffer: CMSampleBuffer, audioCaptureOutput: AVCaptureAudioDataOutput, next: @escaping (Context, CMSampleBuffer, AVCaptureAudioDataOutput) throws -> Void) throws {
+        try next(context, sampleBuffer, audioCaptureOutput)
     }
 }

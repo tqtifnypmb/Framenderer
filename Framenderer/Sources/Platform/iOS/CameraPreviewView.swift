@@ -10,6 +10,7 @@ import UIKit
 import CoreMedia
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
+import AVFoundation
 
 open class CameraPreviewView: UIView, PreviewView {
 
@@ -103,5 +104,9 @@ open class CameraPreviewView: UIView, PreviewView {
         inputFrameBuffer.textCoorFlipVertically(flip: false)
         // Act like a passthrough filter
         try next(ctx, inputFrameBuffer)
+    }
+
+    public func applyToAudio(context: Context, sampleBuffer: CMSampleBuffer, audioCaptureOutput: AVCaptureAudioDataOutput, next: @escaping (Context, CMSampleBuffer, AVCaptureAudioDataOutput) throws -> Void) throws {
+        try next(context, sampleBuffer, audioCaptureOutput)
     }
 }

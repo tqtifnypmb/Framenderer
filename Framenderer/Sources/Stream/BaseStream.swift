@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreMedia
+import AVFoundation
 
 open class BaseStream: NSObject, Stream {
     public var filters: [Filter] = []
@@ -40,8 +41,39 @@ open class BaseStream: NSObject, Stream {
         }
     }
     
-    /// Feed sample to filters-apply-cycle
-    func feed(sampleBuffer sm: CMSampleBuffer) throws {
+    func feed(audioBuffer sm: CMSampleBuffer, audioCaptureOutput: AVCaptureAudioDataOutput) throws {
+        var currentFilters = filters
+        if let addition = _additionalFilter {
+            currentFilters.append(addition)
+        }
+        
+        if let preview = _previewView {
+            currentFilters.append(preview)
+        }
+        
+        let starter = currentFilters.removeFirst()
+        
+        // ref: http://wiki.haskell.org/Continuation
+        // Is Swift doing tail-recursion optimization ??
+        var continuation: ((Context, CMSampleBuffer, AVCaptureAudioDataOutput) throws -> Void)!
+        continuation = {[weak self] ctx, sm, output in
+            if self == nil {
+                return
+            }
+            
+            if !currentFilters.isEmpty {
+                let filter = currentFilters.removeFirst()
+                try filter.applyToAudio(context: ctx, sampleBuffer: sm, audioCaptureOutput: output, next: continuation)
+            } else {
+                continuation = nil
+            }
+        }
+        
+        try starter.applyToAudio(context: _ctx, sampleBuffer: sm, audioCaptureOutput: audioCaptureOutput, next: continuation)
+    }
+    
+    /// Feed video sample to filters-apply-cycle
+    func feed(videoBuffer sm: CMSampleBuffer) throws {
         let time: CMTime = CMSampleBufferGetPresentationTimeStamp(sm)
         
         var currentFilters = filters
@@ -56,6 +88,7 @@ open class BaseStream: NSObject, Stream {
         let starter = currentFilters.removeFirst()
         
         // ref: http://wiki.haskell.org/Continuation
+        // Is Swift doing tail-recursion optimization ??
         var continuation: ((Context, InputFrameBuffer) throws -> Void)!
         continuation = {[weak self] ctx, input in
             guard let strong_self = self else { return }

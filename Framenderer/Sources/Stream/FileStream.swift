@@ -77,7 +77,7 @@ open class FileStream: BaseStream {
         
         _ctx.frameSerialQueue.async {[retainedBuffer = sm, weak self] in
             do {
-                try self?.feed(sampleBuffer: retainedBuffer)
+                try self?.feed(videoBuffer: retainedBuffer)
             } catch {
                 fatalError(error.localizedDescription)
             }

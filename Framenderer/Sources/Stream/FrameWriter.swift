@@ -18,12 +18,17 @@ class FrameWriter: BaseFilter {
     private var _timeStamp: CMTime?
     private var _presentationTime: CMTime = kCMTimeZero
     private let _outputWriter: AVAssetWriter
+    private var _audioInput: AVAssetWriterInput!
+    private let _fileType: String
+    
+    private var _writeStarted = false
     
     /// Use CMSamplebuffer's presentationTimeStamp as output timestamp
     var respectFrameTimeStamp = false
     
     init(destURL: URL, width: GLsizei, height: GLsizei, type: String, outputSettings settings: [String: Any]?) throws {
         _outputWriter = try AVAssetWriter(url: destURL, fileType: type)
+        _fileType = type
         
         let input = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: settings)
         input.expectsMediaDataInRealTime = true
@@ -52,9 +57,11 @@ class FrameWriter: BaseFilter {
     func startWriting() {
         _outputWriter.startWriting()
         _outputWriter.startSession(atSourceTime: kCMTimeZero)
+        _writeStarted = true
     }
     
     func finishWriting(completionHandler handler: (() -> Void)?) {
+        _writeStarted = false
         _outputWriter.finishWriting {
             handler?()
         }
@@ -73,6 +80,11 @@ class FrameWriter: BaseFilter {
     }
     
     override func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, presentationTimeStamp time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
+        if !_writeStarted {
+            try next(ctx, inputFrameBuffer)
+            return
+        }
+        
         ctx.setAsCurrent()
         
         if _program == nil {
@@ -102,6 +114,26 @@ class FrameWriter: BaseFilter {
         }
         
         try next(ctx, inputFrameBuffer)
+    }
+    
+    override func applyToAudio(context: Context, sampleBuffer: CMSampleBuffer, audioCaptureOutput: AVCaptureAudioDataOutput, next: @escaping (Context, CMSampleBuffer, AVCaptureAudioDataOutput) throws -> Void) throws {
+        if _audioInput == nil {
+            let audioSettings = audioCaptureOutput.recommendedAudioSettingsForAssetWriter(withOutputFileType: _fileType)
+            _audioInput = AVAssetWriterInput(mediaType: AVMediaTypeAudio, outputSettings: audioSettings as! [String : Any]?)
+            _audioInput.expectsMediaDataInRealTime = true
+            
+            assert(_outputWriter.canAdd(_audioInput))
+            _outputWriter.add(_audioInput)
+        }
+        
+        if !_writeStarted {
+            try next(context, sampleBuffer, audioCaptureOutput)
+            return
+        }
+        
+        _audioInput.append(sampleBuffer)
+        
+        try next(context, sampleBuffer, audioCaptureOutput)
     }
     
     private func calculateTime(with time: CMTime) -> CMTime {

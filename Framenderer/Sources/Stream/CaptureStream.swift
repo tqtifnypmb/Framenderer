@@ -11,7 +11,7 @@ import AVFoundation
 
 public typealias PreviewView = Filter
 
-open class CaptureStream: BaseStream, AVCaptureVideoDataOutputSampleBufferDelegate {
+open class CaptureStream: BaseStream, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate {
     public var previewView: PreviewView? {
         set {
             _previewView = newValue
@@ -41,22 +41,31 @@ open class CaptureStream: BaseStream, AVCaptureVideoDataOutputSampleBufferDelega
         
         _ctx = Context()
         _ctx.enableInputOutputToggle = false
-        let output = AVCaptureVideoDataOutput()
-        output.alwaysDiscardsLateVideoFrames = false
-        output.setSampleBufferDelegate(self, queue: _frameSerialQueue)
+        let video = AVCaptureVideoDataOutput()
+        video.alwaysDiscardsLateVideoFrames = false
+        video.setSampleBufferDelegate(self, queue: _frameSerialQueue)
         //
         //        for format in output.availableVideoCVPixelFormatTypes as! [NSNumber] {
         //            kCMPixelFormat_422YpCbCr8_yuvs
         //        }
-        output.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable : kCVPixelFormatType_32BGRA]
+        video.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable : kCVPixelFormatType_32BGRA]
+        assert(_session.canAddOutput(video))
+        _session.addOutput(video)
         
-        assert(_session.canAddOutput(output))
-        _session.addOutput(output)
+        let audio = AVCaptureAudioDataOutput()
+        audio.setSampleBufferDelegate(self, queue: _frameSerialQueue)
+        assert(_session.canAddOutput(audio))
+        _session.addOutput(audio)
         
         let input = cameraInput()
         assert(_session.canAddInput(input))
         _session.addInput(input)
         
+        if let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeAudio) {
+            let input = try! AVCaptureDeviceInput(device: device)
+            assert(_session.canAddInput(input))
+            _session.addInput(input)
+        }
         _session.startRunning()
     }
     
@@ -79,17 +88,30 @@ open class CaptureStream: BaseStream, AVCaptureVideoDataOutputSampleBufferDelega
         
         fatalError("No available capture device")
     }
-    
-    // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
-    
+}
+
+// MARK: - AVCaptureVideoDataOutputSampleBufferDelegate & AVCaptureAudioDataOutpuSampleBufferDelegate
+
+extension CaptureStream {
     public func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
-        guard self.canFeed() else { return }
+        let isVideo = captureOutput is AVCaptureVideoDataOutput
         
-        _ctx.frameSerialQueue.async {[retainedBuffer = sampleBuffer, weak self] in
-            do {
-                try self?.feed(sampleBuffer: retainedBuffer!)
-            } catch {
-                fatalError(error.localizedDescription)
+        if isVideo {
+            guard self.canFeed() else { return }
+            _ctx.frameSerialQueue.async {[retainedBuffer = sampleBuffer, weak self] in
+                do {
+                    try self?.feed(videoBuffer: retainedBuffer!)
+                } catch {
+                    fatalError(error.localizedDescription)
+                }
+            }
+        } else {
+            _ctx.audioSerialQueue.async {[retainedBuffer = sampleBuffer, weak self] in
+                do {
+                    try self?.feed(audioBuffer: retainedBuffer!, audioCaptureOutput: captureOutput as! AVCaptureAudioDataOutput)
+                } catch {
+                    fatalError(error.localizedDescription)
+                }
             }
         }
     }

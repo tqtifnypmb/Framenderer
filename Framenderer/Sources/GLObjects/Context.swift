@@ -20,7 +20,11 @@ public class Context {
     var enableInputOutputToggle = true
     
     var frameSerialQueue: DispatchQueue = {
-        return DispatchQueue(label: "com.github.Framenderer.ContextSerial")
+        return DispatchQueue(label: "com.github.Framenderer.frameSerialQueue")
+    }()
+    
+    var audioSerialQueue: DispatchQueue = {
+        return DispatchQueue(label: "com.github.Framenderer.audioSerialQueue")
     }()
     
     init() {

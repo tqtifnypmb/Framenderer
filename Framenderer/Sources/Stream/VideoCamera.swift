@@ -50,6 +50,8 @@ public class VideoCamera: CaptureStream {
         guard !filters.isEmpty || previewView != nil else {
             fatalError("No filter specified")
         }
+        
+        _additionalFilter = _frameWriter
         super.start()
     }
     
@@ -58,7 +60,6 @@ public class VideoCamera: CaptureStream {
         _isRecording = true
         
         _frameWriter.startWriting()
-        _additionalFilter = _frameWriter
     }
     
     public func finishRecording(completionHandler handler: (() -> Void)?) {

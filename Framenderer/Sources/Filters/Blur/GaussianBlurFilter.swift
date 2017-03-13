@@ -10,6 +10,7 @@ import Foundation
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 import CoreMedia
+import AVFoundation
 
 public class GaussianBlurFilter: Filter {
     public enum Implement {
@@ -79,6 +80,18 @@ public class GaussianBlurFilter: Filter {
             try blur.applyToFrame(context: context, inputFrameBuffer: inputFrameBuffer, presentationTimeStamp: time, next: next)
         }
     }
+    
+    public func applyToAudio(context: Context, sampleBuffer: CMSampleBuffer, audioCaptureOutput: AVCaptureAudioDataOutput, next: @escaping (Context, CMSampleBuffer, AVCaptureAudioDataOutput) throws -> Void) throws {
+        switch _impl {
+        case .box:
+            let blur = BoxGaussianBlurFilter(radius: _radius, pass: max(boxPass, 3))
+            try blur.applyToAudio(context: context, sampleBuffer: sampleBuffer, audioCaptureOutput: audioCaptureOutput, next: next)
+            
+        case .normal:
+            let blur = NormalGaussianBlurFilter(radius: _radius, sigma: gaussianSigma)
+            try blur.applyToAudio(context: context, sampleBuffer: sampleBuffer, audioCaptureOutput: audioCaptureOutput, next: next)
+        }
+    }
 }
 
 // achieve gaussian blur by applying box blur multiply times
@@ -133,6 +146,10 @@ private class BoxGaussianBlurFilter: Filter {
     
     func applyToFrame(context: Context, inputFrameBuffer:InputFrameBuffer, presentationTimeStamp time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         
+    }
+    
+    func applyToAudio(context: Context, sampleBuffer: CMSampleBuffer, audioCaptureOutput: AVCaptureAudioDataOutput, next: @escaping (Context, CMSampleBuffer, AVCaptureAudioDataOutput) throws -> Void) throws {
+        try next(context, sampleBuffer, audioCaptureOutput)
     }
 }
 
