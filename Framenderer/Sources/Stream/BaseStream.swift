@@ -41,7 +41,7 @@ open class BaseStream: NSObject, Stream {
         }
     }
     
-    func feed(audioBuffer sm: CMSampleBuffer, audioCaptureOutput: AVCaptureAudioDataOutput) throws {
+    func feed(audioBuffer sm: CMSampleBuffer) throws {
         var currentFilters = filters
         if let addition = _additionalFilter {
             currentFilters.append(addition)
@@ -55,21 +55,21 @@ open class BaseStream: NSObject, Stream {
         
         // ref: http://wiki.haskell.org/Continuation
         // Is Swift doing tail-recursion optimization ??
-        var continuation: ((Context, CMSampleBuffer, AVCaptureAudioDataOutput) throws -> Void)!
-        continuation = {[weak self] ctx, sm, output in
+        var continuation: ((Context, CMSampleBuffer) throws -> Void)!
+        continuation = {[weak self] ctx, sm in
             if self == nil {
                 return
             }
             
             if !currentFilters.isEmpty {
                 let filter = currentFilters.removeFirst()
-                try filter.applyToAudio(context: ctx, sampleBuffer: sm, audioCaptureOutput: output, next: continuation)
+                try filter.applyToAudio(context: ctx, sampleBuffer: sm, next: continuation)
             } else {
                 continuation = nil
             }
         }
         
-        try starter.applyToAudio(context: _ctx, sampleBuffer: sm, audioCaptureOutput: audioCaptureOutput, next: continuation)
+        try starter.applyToAudio(context: _ctx, sampleBuffer: sm, next: continuation)
     }
     
     /// Feed video sample to filters-apply-cycle

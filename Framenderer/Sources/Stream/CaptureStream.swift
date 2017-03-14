@@ -57,6 +57,9 @@ open class CaptureStream: BaseStream, AVCaptureVideoDataOutputSampleBufferDelega
         assert(_session.canAddOutput(audio))
         _session.addOutput(audio)
         
+        _ctx.audioCaptureOutput = audio
+        _ctx.videoCaptureOutput = video
+        
         let input = cameraInput()
         assert(_session.canAddInput(input))
         _session.addInput(input)
@@ -108,7 +111,7 @@ extension CaptureStream {
         } else {
             _ctx.audioSerialQueue.async {[retainedBuffer = sampleBuffer, weak self] in
                 do {
-                    try self?.feed(audioBuffer: retainedBuffer!, audioCaptureOutput: captureOutput as! AVCaptureAudioDataOutput)
+                    try self?.feed(audioBuffer: retainedBuffer!)
                 } catch {
                     fatalError(error.localizedDescription)
                 }

@@ -43,5 +43,5 @@ public protocol Filter {
     func apply(context: Context) throws
     func applyToFrame(context: Context, inputFrameBuffer: InputFrameBuffer, presentationTimeStamp: CMTime, next: @escaping (_ context: Context, _ inputFrameBuffer: InputFrameBuffer) throws -> Void) throws
     
-    func applyToAudio(context: Context, sampleBuffer: CMSampleBuffer, audioCaptureOutput: AVCaptureAudioDataOutput, next: @escaping (_ context: Context, _ sampleBuffer: CMSampleBuffer, _ audioCaptureOutput: AVCaptureAudioDataOutput) throws -> Void) throws
+    func applyToAudio(context: Context, sampleBuffer: CMSampleBuffer, next: @escaping (_ context: Context, _ sampleBuffer: CMSampleBuffer) throws -> Void) throws
 }

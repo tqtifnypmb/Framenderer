@@ -104,7 +104,7 @@ open class BaseFilter: Filter {
         try next(ctx, input)
     }
     
-    public func applyToAudio(context: Context, sampleBuffer: CMSampleBuffer, audioCaptureOutput: AVCaptureAudioDataOutput, next: @escaping (Context, CMSampleBuffer, AVCaptureAudioDataOutput) throws -> Void) throws {
-        try next(context, sampleBuffer, audioCaptureOutput)
+    public func applyToAudio(context: Context, sampleBuffer: CMSampleBuffer, next: @escaping (Context, CMSampleBuffer) throws -> Void) throws {
+        try next(context, sampleBuffer)
     }
 }

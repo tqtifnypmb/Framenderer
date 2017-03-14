@@ -10,6 +10,7 @@ import CoreGraphics
 import Foundation
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
+import AVFoundation
 
 public class Context {
     private let _context: EAGLContext
@@ -96,4 +97,7 @@ public class Context {
     var eaglContext: EAGLContext {
         return _context
     }
+    
+    var audioCaptureOutput: AVCaptureOutput?
+    var videoCaptureOutput: AVCaptureOutput?
 }

@@ -116,10 +116,11 @@ class FrameWriter: BaseFilter {
         try next(ctx, inputFrameBuffer)
     }
     
-    override func applyToAudio(context: Context, sampleBuffer: CMSampleBuffer, audioCaptureOutput: AVCaptureAudioDataOutput, next: @escaping (Context, CMSampleBuffer, AVCaptureAudioDataOutput) throws -> Void) throws {
+    override func applyToAudio(context ctx: Context, sampleBuffer: CMSampleBuffer, next: @escaping (Context, CMSampleBuffer) throws -> Void) throws {
         if _audioInput == nil {
-            let audioSettings = audioCaptureOutput.recommendedAudioSettingsForAssetWriter(withOutputFileType: _fileType)
-            _audioInput = AVAssetWriterInput(mediaType: AVMediaTypeAudio, outputSettings: audioSettings as! [String : Any]?)
+            let output = ctx.audioCaptureOutput as? AVCaptureAudioDataOutput
+            let settings = output?.recommendedAudioSettingsForAssetWriter(withOutputFileType: _fileType) as? [String : Any]
+            _audioInput = AVAssetWriterInput(mediaType: AVMediaTypeAudio, outputSettings: settings)
             _audioInput.expectsMediaDataInRealTime = true
             
             assert(_outputWriter.canAdd(_audioInput))
@@ -127,13 +128,13 @@ class FrameWriter: BaseFilter {
         }
         
         if !_writeStarted {
-            try next(context, sampleBuffer, audioCaptureOutput)
+            try next(ctx, sampleBuffer)
             return
         }
         
         _audioInput.append(sampleBuffer)
         
-        try next(context, sampleBuffer, audioCaptureOutput)
+        try next(ctx, sampleBuffer)
     }
     
     private func calculateTime(with time: CMTime) -> CMTime {

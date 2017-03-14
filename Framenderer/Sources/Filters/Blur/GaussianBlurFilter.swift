@@ -81,15 +81,15 @@ public class GaussianBlurFilter: Filter {
         }
     }
     
-    public func applyToAudio(context: Context, sampleBuffer: CMSampleBuffer, audioCaptureOutput: AVCaptureAudioDataOutput, next: @escaping (Context, CMSampleBuffer, AVCaptureAudioDataOutput) throws -> Void) throws {
+    public func applyToAudio(context: Context, sampleBuffer: CMSampleBuffer, next: @escaping (Context, CMSampleBuffer) throws -> Void) throws {
         switch _impl {
         case .box:
             let blur = BoxGaussianBlurFilter(radius: _radius, pass: max(boxPass, 3))
-            try blur.applyToAudio(context: context, sampleBuffer: sampleBuffer, audioCaptureOutput: audioCaptureOutput, next: next)
+            try blur.applyToAudio(context: context, sampleBuffer: sampleBuffer, next: next)
             
         case .normal:
             let blur = NormalGaussianBlurFilter(radius: _radius, sigma: gaussianSigma)
-            try blur.applyToAudio(context: context, sampleBuffer: sampleBuffer, audioCaptureOutput: audioCaptureOutput, next: next)
+            try blur.applyToAudio(context: context, sampleBuffer: sampleBuffer, next: next)
         }
     }
 }
@@ -148,8 +148,8 @@ private class BoxGaussianBlurFilter: Filter {
         
     }
     
-    func applyToAudio(context: Context, sampleBuffer: CMSampleBuffer, audioCaptureOutput: AVCaptureAudioDataOutput, next: @escaping (Context, CMSampleBuffer, AVCaptureAudioDataOutput) throws -> Void) throws {
-        try next(context, sampleBuffer, audioCaptureOutput)
+    func applyToAudio(context: Context, sampleBuffer: CMSampleBuffer, next: @escaping (Context, CMSampleBuffer) throws -> Void) throws {
+        try next(context, sampleBuffer)
     }
 }
 
