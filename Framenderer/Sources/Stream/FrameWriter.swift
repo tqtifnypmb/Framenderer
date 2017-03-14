@@ -15,16 +15,11 @@ class FrameWriter: BaseFilter {
     private let _writer: AVAssetWriterInputPixelBufferAdaptor
     private let _outputWidth: GLsizei
     private let _outputHeight: GLsizei
-    private var _timeStamp: CMTime?
-    private var _presentationTime: CMTime = kCMTimeZero
     private let _outputWriter: AVAssetWriter
     private var _audioInput: AVAssetWriterInput!
     private let _fileType: String
     
     private var _writeStarted = false
-    
-    /// Use CMSamplebuffer's presentationTimeStamp as output timestamp
-    var respectFrameTimeStamp = false
     
     init(destURL: URL, width: GLsizei, height: GLsizei, type: String, outputSettings settings: [String: Any]?) throws {
         _outputWriter = try AVAssetWriter(url: destURL, fileType: type)
@@ -55,8 +50,6 @@ class FrameWriter: BaseFilter {
     }
     
     func startWriting() {
-        _outputWriter.startWriting()
-        _outputWriter.startSession(atSourceTime: kCMTimeZero)
         _writeStarted = true
     }
     
@@ -85,6 +78,11 @@ class FrameWriter: BaseFilter {
             return
         }
         
+        if _outputWriter.status == .unknown {
+            _outputWriter.startWriting()
+            _outputWriter.startSession(atSourceTime: time)
+        }
+        
         ctx.setAsCurrent()
         
         if _program == nil {
@@ -108,9 +106,8 @@ class FrameWriter: BaseFilter {
         
         try super.feedDataAndDraw(context: ctx, program: _program)
         
-        let timeStamp = calculateTime(with: time)
-        if !_writer.append(outputFrameBuffer._renderTarget, withPresentationTime: timeStamp) {
-            throw AVAssetError.assetWriter(errorDessc: "Can't append frame at time: \(timeStamp) to output")
+        if !_writer.append(outputFrameBuffer._renderTarget, withPresentationTime: time) {
+            throw AVAssetError.assetWriter(errorDessc: "Can't append frame at time: \(time) to output")
         }
         
         try next(ctx, inputFrameBuffer)
@@ -127,26 +124,15 @@ class FrameWriter: BaseFilter {
             _outputWriter.add(_audioInput)
         }
         
-        if !_writeStarted {
+        if !_writeStarted || _outputWriter.status == .unknown {
             try next(ctx, sampleBuffer)
             return
         }
         
-        _audioInput.append(sampleBuffer)
+        if !_audioInput.append(sampleBuffer) {
+            throw AVAssetError.assetWriter(errorDessc: "Can't append audio data")
+        }
         
         try next(ctx, sampleBuffer)
-    }
-    
-    private func calculateTime(with time: CMTime) -> CMTime {
-        if respectFrameTimeStamp {
-            return time
-        }
-        
-        if let lastTime = _timeStamp {
-            let duration = CMTimeSubtract(time, lastTime)
-            _presentationTime = CMTimeAdd(_presentationTime, duration)
-        }
-        _timeStamp = time
-        return _presentationTime
     }
 }

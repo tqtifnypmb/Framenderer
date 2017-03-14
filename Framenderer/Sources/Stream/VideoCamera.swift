@@ -41,7 +41,6 @@ public class VideoCamera: CaptureStream {
         session.commitConfiguration()
         
         _frameWriter = try FrameWriter(destURL: url, type: type, width: width, height: height)
-        _frameWriter.respectFrameTimeStamp = false
         
         super.init(session: session, positon: cameraPosition)
     }

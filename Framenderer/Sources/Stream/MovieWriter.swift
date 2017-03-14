@@ -24,7 +24,6 @@ public class MovieWriter: FileStream {
         let width = GLsizei(videoTrack.naturalSize.width)
         let height = GLsizei(videoTrack.naturalSize.height)
         _frameWriter = try FrameWriter(destURL: destURL, type: type, width: width, height: height)
-        _frameWriter.respectFrameTimeStamp = true
         
         try super.init(srcURL: srcURL)
     }
