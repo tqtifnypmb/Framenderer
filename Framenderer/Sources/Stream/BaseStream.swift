@@ -20,9 +20,6 @@ open class BaseStream: NSObject, Stream {
     var _isFront = false
     var _guessRotation = false
     
-    /// Allow to drop frames that can't be handled in time
-    var _allowDropFrameIfNeeded = true
-    
     private let _frameSemaphore = DispatchSemaphore(value: 1)
     
     public func start() {}
@@ -30,10 +27,6 @@ open class BaseStream: NSObject, Stream {
     
     /// Always check this before calling `feed(:)`
     func canFeed() -> Bool {
-        if !_allowDropFrameIfNeeded {
-            return true
-        }
-        
         if case .timedOut = _frameSemaphore.wait(timeout: DispatchTime.now()) {
             return false
         } else {
@@ -98,10 +91,7 @@ open class BaseStream: NSObject, Stream {
                 try filter.applyToFrame(context: ctx, inputFrameBuffer: input, presentationTimeStamp: time, next: continuation)
             } else {
                 ctx.reset()
-                
-                if strong_self._allowDropFrameIfNeeded {
-                    strong_self._frameSemaphore.signal()
-                }
+                strong_self._frameSemaphore.signal()
                 continuation = nil      // break the reference-cycle
             }
         }

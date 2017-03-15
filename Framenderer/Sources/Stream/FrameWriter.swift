@@ -17,8 +17,9 @@ class FrameWriter: BaseFilter {
     private let _outputHeight: GLsizei
     private let _outputWriter: AVAssetWriter
     private var _audioInput: AVAssetWriterInput!
+    private var _videoInput: AVAssetWriterInput!
     private let _fileType: String
-    
+    private var _audioSampleBufferQueue: [CMSampleBuffer] = []
     private var _writeStarted = false
     
     init(destURL: URL, width: GLsizei, height: GLsizei, type: String, outputSettings settings: [String: Any]?) throws {
@@ -55,9 +56,41 @@ class FrameWriter: BaseFilter {
     
     func finishWriting(completionHandler handler: (() -> Void)?) {
         _writeStarted = false
+        
+        if !_audioSampleBufferQueue.isEmpty {
+            _audioInput.requestMediaDataWhenReady(on: DispatchQueue.global(qos: .background), using: { [weak self] in
+                guard let strong_self = self else { return }
+                
+                if strong_self._audioSampleBufferQueue.isEmpty {
+                    strong_self._audioInput.markAsFinished()
+                    strong_self.doFinishWriting(completionHandler: handler)
+                } else {
+                    let toAppend = strong_self._audioSampleBufferQueue.removeFirst()
+                    strong_self._audioInput.append(toAppend)
+                }
+            })
+        } else {
+            doFinishWriting(completionHandler: handler)
+        }
+    }
+    
+    private func doFinishWriting(completionHandler handler: (() -> Void)?) {
         _outputWriter.finishWriting {
             handler?()
         }
+    }
+    
+    func prepareAudioInput(sampleBuffer sm: CMSampleBuffer) throws {
+        guard _audioInput == nil else { return }
+        
+        let desc = CMSampleBufferGetFormatDescription(sm)
+        _audioInput = AVAssetWriterInput(mediaType: AVMediaTypeAudio, outputSettings: nil, sourceFormatHint: desc)
+
+        if !_outputWriter.canAdd(_audioInput) {
+            throw AVAssetError.assetWriter(errorDessc: "Can't audio input")
+        }
+        
+        _outputWriter.add(_audioInput)
     }
     
     override func buildProgram() throws {
@@ -114,13 +147,17 @@ class FrameWriter: BaseFilter {
     }
     
     override func applyToAudio(context ctx: Context, sampleBuffer: CMSampleBuffer, next: @escaping (Context, CMSampleBuffer) throws -> Void) throws {
+        // Assumption: At least on buffer arrive before write start.
         if _audioInput == nil {
-            let output = ctx.audioCaptureOutput as? AVCaptureAudioDataOutput
-            let settings = output?.recommendedAudioSettingsForAssetWriter(withOutputFileType: _fileType) as? [String : Any]
+            let captureDataOutput = ctx.audioCaptureOutput as? AVCaptureAudioDataOutput
+            let settings = captureDataOutput?.recommendedAudioSettingsForAssetWriter(withOutputFileType: _fileType) as? [String : Any]
             _audioInput = AVAssetWriterInput(mediaType: AVMediaTypeAudio, outputSettings: settings)
             _audioInput.expectsMediaDataInRealTime = true
             
-            assert(_outputWriter.canAdd(_audioInput))
+            if !_outputWriter.canAdd(_audioInput) {
+                throw AVAssetError.assetWriter(errorDessc: "Can't audio input")
+            }
+            
             _outputWriter.add(_audioInput)
         }
         
@@ -129,8 +166,14 @@ class FrameWriter: BaseFilter {
             return
         }
         
-        if !_audioInput.append(sampleBuffer) {
-            throw AVAssetError.assetWriter(errorDessc: "Can't append audio data")
+        _audioSampleBufferQueue.append(sampleBuffer)
+        
+        if _audioInput.isReadyForMoreMediaData {
+            let toAppend = _audioSampleBufferQueue.removeFirst()
+            
+            if !_audioInput.append(toAppend) {
+                throw AVAssetError.assetWriter(errorDessc: "Can't append audio data")
+            }
         }
         
         try next(ctx, sampleBuffer)

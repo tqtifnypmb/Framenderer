@@ -33,7 +33,6 @@ open class CaptureStream: BaseStream, AVCaptureVideoDataOutputSampleBufferDelega
         
         _isFront = positon == .front
         _guessRotation = true
-        _allowDropFrameIfNeeded = true
     }
     
     public override func start() {
@@ -101,6 +100,7 @@ extension CaptureStream {
         
         if isVideo {
             guard self.canFeed() else { return }
+            
             _ctx.frameSerialQueue.async {[retainedBuffer = sampleBuffer, weak self] in
                 do {
                     try self?.feed(videoBuffer: retainedBuffer!)

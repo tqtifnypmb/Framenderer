@@ -24,20 +24,22 @@ open class FileStream: BaseStream {
         _reader = try AVAssetReader(asset: asset)
         _reader.timeRange = CMTimeRangeMake(kCMTimeZero, asset.duration)
         
-        let videoTracks = asset.tracks(withMediaType: AVMediaTypeVideo)
-        let outputAttrs: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
+        // always first track ?
+        let videoTrack = asset.tracks(withMediaType: AVMediaTypeVideo).first!
+        let decompressSetttings: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
                                           kCVPixelBufferIOSurfacePropertiesKey as String: [:]]
+        _video = AVAssetReaderTrackOutput(track: videoTrack, outputSettings: decompressSetttings)
         
-        let video = AVAssetReaderVideoCompositionOutput(videoTracks: videoTracks, videoSettings: outputAttrs)
-        video.videoComposition = AVVideoComposition(propertiesOf: asset)
-        _video = video
+//        let video = AVAssetReaderVideoCompositionOutput(videoTracks: videoTracks, videoSettings: outputAttrs)
+//        video.videoComposition = AVVideoComposition(propertiesOf: asset)
+//        _video = video
         
-        let audioTracks = asset.tracks(withMediaType: AVMediaTypeAudio)
-        _audio = AVAssetReaderAudioMixOutput(audioTracks: audioTracks, audioSettings: nil)
+        // always first track ?
+        let audioTrack = asset.tracks(withMediaType: AVMediaTypeAudio).first!
+        _audio = AVAssetReaderTrackOutput(track: audioTrack, outputSettings: nil)
         
         super.init()
         _guessRotation = false
-        _allowDropFrameIfNeeded = false
         
         assert(_reader.canAdd(_video))
         _reader.add(_video)
@@ -56,15 +58,41 @@ open class FileStream: BaseStream {
             fatalError("Can't read specified asset")
         }
         
+        var firstAudioSample = _audio.copyNextSampleBuffer()
+        let writer = self._additionalFilter as? FrameWriter
+        do {
+            try writer?.prepareAudioInput(sampleBuffer: firstAudioSample!)
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+        
+        _frameSerialQueue.async { [weak self] in
+            guard let strong_self = self else { return }
+            
+            while strong_self._reader.status == .reading {
+                if let sm = strong_self._video.copyNextSampleBuffer() {
+                    strong_self.didOutputVideo(sampleBuffer: sm)
+                } else {
+                    if strong_self._reader.status == .failed {
+                        fatalError(strong_self._reader.error!.localizedDescription)
+                    } else {
+                        break
+                    }
+                }
+            }
+        }
+        
+        _frameSerialQueue.async { [weak self] in
+            self?.didOutputAudio(sampleBuffer: firstAudioSample!)
+            firstAudioSample = nil
+        }
+        
         _frameSerialQueue.async { [weak self] in
             guard let strong_self = self else { return }
             
             while strong_self._reader.status == .reading {
                 if let sm = strong_self._audio.copyNextSampleBuffer() {
-                    
-                }
-                if let sm = strong_self._video.copyNextSampleBuffer() {
-                    strong_self.didOutputVideo(sampleBuffer: sm)
+                    strong_self.didOutputAudio(sampleBuffer: sm)
                 } else {
                     if strong_self._reader.status == .failed {
                         fatalError(strong_self._reader.error!.localizedDescription)
@@ -84,9 +112,11 @@ open class FileStream: BaseStream {
     
     private func didOutputAudio(sampleBuffer sm: CMSampleBuffer) {
         _ctx.audioSerialQueue.async {[weak self] in
-//            do {
-//                try self?.feed(audioBuffer: sm, audioCaptureOutput: <#T##AVCaptureAudioDataOutput#>)
-//            }
+            do {
+                try self?.feed(audioBuffer: sm)
+            } catch {
+                fatalError(error.localizedDescription)
+            }
         }
     }
     
