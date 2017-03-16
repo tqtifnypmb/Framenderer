@@ -38,7 +38,6 @@ public enum ContentScaleMode {
 
 public protocol Filter {
     var name: String { get }
-    var contentScaleMode: ContentScaleMode { get set }
     
     func apply(context: Context) throws
     func applyToFrame(context: Context, inputFrameBuffer: InputFrameBuffer, presentationTimeStamp: CMTime, next: @escaping (_ context: Context, _ inputFrameBuffer: InputFrameBuffer) throws -> Void) throws

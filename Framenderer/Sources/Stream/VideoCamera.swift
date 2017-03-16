@@ -50,7 +50,7 @@ public class VideoCamera: CaptureStream {
             fatalError("No filter specified")
         }
         
-        _additionalFilter = _frameWriter
+        _appendingFilters.append(_frameWriter)
         super.start()
     }
     
@@ -66,7 +66,9 @@ public class VideoCamera: CaptureStream {
         _isRecording = false
         
         // stop writing ASAP
-        _additionalFilter = nil
+        if let idx = _appendingFilters.index(where: { $0 is FrameWriter }) {
+            _appendingFilters.remove(at: idx)
+        }
         
         // stop when current filters-application-cycle finished
         _ctx.frameSerialQueue.async { [weak self] in

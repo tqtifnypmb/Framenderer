@@ -62,7 +62,6 @@ public class GaussianBlurFilter: Filter {
             
         case .normal:
             let blur = NormalGaussianBlurFilter(radius: _radius, sigma: gaussianSigma)
-            blur.contentScaleMode = contentScaleMode
             try blur.apply(context: context)
         }
     }
@@ -76,7 +75,6 @@ public class GaussianBlurFilter: Filter {
             
         case .normal:
             let blur = NormalGaussianBlurFilter(radius: _radius, sigma: gaussianSigma)
-            blur.contentScaleMode = contentScaleMode
             try blur.applyToFrame(context: context, inputFrameBuffer: inputFrameBuffer, presentationTimeStamp: time, next: next)
         }
     }

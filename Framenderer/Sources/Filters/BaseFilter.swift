@@ -15,8 +15,6 @@ import AVFoundation
 open class BaseFilter: Filter {
     var _program: Program!
     
-    public var contentScaleMode: ContentScaleMode = .scaleToFill
-    
     public var name: String {
         fatalError("Called Virtual Function")
     }

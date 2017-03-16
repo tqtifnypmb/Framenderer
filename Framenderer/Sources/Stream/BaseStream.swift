@@ -14,7 +14,9 @@ open class BaseStream: NSObject, Stream {
     public var filters: [Filter] = []
     
     var _ctx: Context!
-    var _additionalFilter: Filter?
+    var _appendingFilters: [Filter] = []
+    var _prependingFilters: [Filter] = []
+
     var _previewView: PreviewView?
     
     var _isFront = false
@@ -35,9 +37,16 @@ open class BaseStream: NSObject, Stream {
     }
     
     func feed(audioBuffer sm: CMSampleBuffer) throws {
-        var currentFilters = filters
-        if let addition = _additionalFilter {
-            currentFilters.append(addition)
+        var currentFilters: [Filter] = []
+        
+        for prepending in _prependingFilters {
+            currentFilters.append(prepending)
+        }
+        
+        currentFilters.append(contentsOf: filters)
+        
+        for appending in _appendingFilters {
+            currentFilters.append(appending)
         }
         
         if let preview = _previewView {
@@ -69,9 +78,16 @@ open class BaseStream: NSObject, Stream {
     func feed(videoBuffer sm: CMSampleBuffer) throws {
         let time: CMTime = CMSampleBufferGetPresentationTimeStamp(sm)
         
-        var currentFilters = filters
-        if let addition = _additionalFilter {
-            currentFilters.append(addition)
+        var currentFilters: [Filter] = []
+        
+        for prepending in _prependingFilters {
+            currentFilters.append(prepending)
+        }
+        
+        currentFilters.append(contentsOf: filters)
+        
+        for appending in _appendingFilters {
+            currentFilters.append(appending)
         }
         
         if let preview = _previewView {

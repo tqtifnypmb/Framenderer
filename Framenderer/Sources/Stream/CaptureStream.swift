@@ -24,6 +24,7 @@ open class CaptureStream: BaseStream, AVCaptureVideoDataOutputSampleBufferDelega
     
     private let _frameSerialQueue: DispatchQueue
     private let _session: AVCaptureSession
+    private var _yuv_brga_filter: Filter?
     
     public init(session: AVCaptureSession, positon: AVCaptureDevicePosition) {
         _session = session
@@ -43,11 +44,20 @@ open class CaptureStream: BaseStream, AVCaptureVideoDataOutputSampleBufferDelega
         let video = AVCaptureVideoDataOutput()
         video.alwaysDiscardsLateVideoFrames = false
         video.setSampleBufferDelegate(self, queue: _frameSerialQueue)
-        //
-        //        for format in output.availableVideoCVPixelFormatTypes as! [NSNumber] {
-        //            kCMPixelFormat_422YpCbCr8_yuvs
-        //        }
-        video.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable : kCVPixelFormatType_32BGRA]
+        
+        var formatType = kCVPixelFormatType_32BGRA
+        for format in video.availableVideoCVPixelFormatTypes as! [NSNumber] {
+            if NSNumber(value: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) == format {
+                formatType = kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
+            }
+        }
+        
+        if formatType == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange {
+            _yuv_brga_filter = I420ToBGRAFilter()
+            _prependingFilters.append(_yuv_brga_filter!)
+        }
+        
+        video.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable : formatType]
         assert(_session.canAddOutput(video))
         _session.addOutput(video)
         
@@ -90,6 +100,10 @@ open class CaptureStream: BaseStream, AVCaptureVideoDataOutputSampleBufferDelega
         
         fatalError("No available capture device")
     }
+    
+    fileprivate var isUsingYUV: Bool {
+        return _yuv_brga_filter != nil
+    }
 }
 
 // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate & AVCaptureAudioDataOutpuSampleBufferDelegate
@@ -103,7 +117,13 @@ extension CaptureStream {
             
             _ctx.frameSerialQueue.async {[retainedBuffer = sampleBuffer, weak self] in
                 do {
-                    try self?.feed(videoBuffer: retainedBuffer!)
+                    if let yuv = self?.isUsingYUV, yuv {
+                        let cv = CMSampleBufferGetImageBuffer(sampleBuffer)! as CVPixelBuffer
+                        print(CVPixelBufferGetPlaneCount(cv))
+                        try self?.feed(videoBuffer: retainedBuffer!)
+                    } else {
+                        try self?.feed(videoBuffer: retainedBuffer!)
+                    }
                 } catch {
                     fatalError(error.localizedDescription)
                 }

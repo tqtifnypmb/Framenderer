@@ -52,6 +52,10 @@ class ImageInputFrameBuffer: InputFrameBuffer {
         }
     }
     
+    private func imageToTexture(image: CGImage) -> (name: GLuint, width: GLsizei, height: GLsizei) {
+        return (0, 0, 0)
+    }
+    
     func useAsInput() {
         glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
     }

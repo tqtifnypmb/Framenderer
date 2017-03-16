@@ -14,9 +14,13 @@ import CoreMedia
 
 open class DualInputFilter: BaseFilter {
     
-    private let _secondSource: CGImage
+    private var _secondSource: CGImage?
     private var _secondInputFrameBuffer: InputFrameBuffer?
     
+    override init() {}
+    
+    /// create a dual-input fileter with second input
+    /// bind to `secondInput`
     init(secondInput: CGImage) {
         _secondSource = secondInput
     }
@@ -28,7 +32,7 @@ open class DualInputFilter: BaseFilter {
     
     override public func apply(context ctx: Context) throws {
         glActiveTexture(GLenum(GL_TEXTURE1))
-        let blendingInput = try ImageInputFrameBuffer(image: _secondSource)
+        let blendingInput = try ImageInputFrameBuffer(image: _secondSource!)
         blendingInput.useAsInput()
         
         glActiveTexture(GLenum(GL_TEXTURE0))
@@ -36,10 +40,13 @@ open class DualInputFilter: BaseFilter {
     }
     
     override public func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, presentationTimeStamp time: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
-        glActiveTexture(GLenum(GL_TEXTURE1))
-        if _secondInputFrameBuffer == nil {
-            _secondInputFrameBuffer = try ImageInputFrameBuffer(image: _secondSource)
+        if let boundSource = _secondSource {
+            _secondInputFrameBuffer = try ImageInputFrameBuffer(image: boundSource)
+        } else if _secondInputFrameBuffer == nil {
+            _secondInputFrameBuffer = inputFrameBuffer
+            return  // wait for next frame
         }
+        glActiveTexture(GLenum(GL_TEXTURE1))
         _secondInputFrameBuffer?.useAsInput()
         
         glActiveTexture(GLenum(GL_TEXTURE0))
@@ -47,6 +54,11 @@ open class DualInputFilter: BaseFilter {
         try super.apply(context: ctx)
         
         let result = ctx.outputFrameBuffer!.convertToInput(bitmapInfo: inputFrameBuffer.bitmapInfo)
+        
+        if _secondSource == nil {
+            _secondInputFrameBuffer = nil
+        }
+    
         try next(ctx, result)
     }
 }

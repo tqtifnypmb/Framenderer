@@ -34,7 +34,7 @@ public class MovieWriter: FileStream {
         
         _started = true
         _frameWriter.startWriting()
-        _additionalFilter = _frameWriter
+        _appendingFilters.append(_frameWriter)
         
         super.start()
     }
@@ -52,7 +52,9 @@ public class MovieWriter: FileStream {
         _started = false
         _ctx.frameSerialQueue.async { [weak self] in
             // stop writing ASAP
-            self?._additionalFilter = nil
+            if let idx = self?._appendingFilters.index(where: { $0 is FrameWriter }) {
+                self?._appendingFilters.remove(at: idx)
+            }
             self?._frameWriter.finishWriting(completionHandler: handler)
         }
         

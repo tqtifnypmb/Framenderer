@@ -12,6 +12,7 @@ import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
 func isSupportFastTexture() -> Bool {
+    return false
     return TARGET_OS_SIMULATOR != 0 ? false : true
 }
 

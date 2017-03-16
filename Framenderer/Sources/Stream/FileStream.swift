@@ -59,7 +59,7 @@ open class FileStream: BaseStream {
         }
         
         var firstAudioSample = _audio.copyNextSampleBuffer()
-        let writer = self._additionalFilter as? FrameWriter
+        let writer = self._appendingFilters.filter({ $0 is FrameWriter }).first as? FrameWriter
         do {
             try writer?.prepareAudioInput(sampleBuffer: firstAudioSample!)
         } catch {

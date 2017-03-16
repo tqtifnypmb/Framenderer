@@ -26,14 +26,14 @@ open class ImageCanvas: NSObject, Canvas {
         let inputFrameBuffer = try ImageInputFrameBuffer(image: _origin)
         ctx.setInput(input: inputFrameBuffer)
         
-        for filter in filters {
-            try filter.apply(context: ctx)
-        }
-        
         if isSupportFastTexture() {
             //FIXME: - We should use gbra consistently
             let bgr_2_rgb = ComponentExchangeFilter(mode: .rgb_bgr_toggle)
             try bgr_2_rgb.apply(context: ctx)
+        }
+        
+        for filter in filters {
+            try filter.apply(context: ctx)
         }
         
         _result = ctx.processedImage()
