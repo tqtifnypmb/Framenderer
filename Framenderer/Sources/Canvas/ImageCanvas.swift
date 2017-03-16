@@ -20,6 +20,7 @@ open class ImageCanvas: NSObject, Canvas {
     
     public func process() throws {
         precondition(!filters.isEmpty)
+        precondition(!Thread.current.isMainThread)
         
         let ctx = Context()
         ctx.setAsCurrent()
