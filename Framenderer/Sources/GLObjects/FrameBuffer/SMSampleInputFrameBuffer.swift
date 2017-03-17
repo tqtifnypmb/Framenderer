@@ -128,6 +128,10 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
         }
     }
     
+    var format: GLenum {
+        return GLenum(GL_BGRA)
+    }
+    
     deinit {
         if _texture != 0 {
             glDeleteTextures(1, &_texture)

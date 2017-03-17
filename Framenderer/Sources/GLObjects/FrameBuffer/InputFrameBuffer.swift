@@ -15,10 +15,11 @@ public protocol InputFrameBuffer {
     func useAsInput()
     func textCoorFlipVertically(flip: Bool)
     
-    var bitmapInfo: CGBitmapInfo {get}
-    var width: GLsizei {get}
-    var height: GLsizei {get}
-    var textCoor: [GLfloat] {get}
+    var bitmapInfo: CGBitmapInfo { get }
+    var width: GLsizei { get }
+    var height: GLsizei { get }
+    var textCoor: [GLfloat] { get }
+    var format: GLenum { get }
 }
 
 enum Rotation {

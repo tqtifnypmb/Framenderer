@@ -12,7 +12,6 @@ import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
 func isSupportFastTexture() -> Bool {
-    return false
     return TARGET_OS_SIMULATOR != 0 ? false : true
 }
 
@@ -24,11 +23,11 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
     private var _texture: GLuint = 0
     private let _textureWidth: GLsizei
     private let _textureHeight: GLsizei
+    private var _format: GLenum
     private var _bitmapInfo: CGBitmapInfo!
-    
     private var _frameBuffer: GLuint = 0
     
-    init(width: GLsizei, height: GLsizei, bitmapInfo: CGBitmapInfo, pixelBuffer: CVPixelBuffer? = nil) throws {
+    init(width: GLsizei, height: GLsizei, bitmapInfo: CGBitmapInfo, format: GLenum, pixelBuffer: CVPixelBuffer? = nil) throws {
         let maxTextureSize = GLsizei(Limits.max_texture_size)
         if width < maxTextureSize && height < maxTextureSize {
             _textureWidth = width
@@ -42,6 +41,7 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
                 _textureHeight = GLsizei(Double(maxTextureSize) * (Double(height) / Double(width)))
             }
         }
+        _format = format
         _bitmapInfo = bitmapInfo
         
         if isSupportFastTexture() {
@@ -58,7 +58,7 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
             
             TextureCacher.shared.setup(context: EAGLContext.current())
             
-            let cvTexture = try TextureCacher.shared.createTexture(fromPixelBufer: _renderTarget, target: GLenum(GL_TEXTURE_2D), format: GLenum(GL_BGRA))
+            let cvTexture = try TextureCacher.shared.createTexture(fromPixelBufer: _renderTarget, target: GLenum(GL_TEXTURE_2D), format: _format)
             assert(CVOpenGLESTextureGetTarget(cvTexture) == GLenum(GL_TEXTURE_2D))
             
             _texture = CVOpenGLESTextureGetName(cvTexture)
@@ -199,7 +199,7 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
         
         glBindTexture(GLenum(GL_TEXTURE_2D), 0)
         
-        let input = TextureInputFrameBuffer(texture: _texture, width: _textureWidth, height: _textureHeight, bitmapInfo: _bitmapInfo)
+        let input = TextureInputFrameBuffer(texture: _texture, width: _textureWidth, height: _textureHeight, format: _format, bitmapInfo: _bitmapInfo)
         input.originalOutputFrameBuffer = self
         
         if _frameBuffer != 0 {

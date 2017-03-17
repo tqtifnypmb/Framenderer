@@ -15,16 +15,18 @@ class TextureInputFrameBuffer: InputFrameBuffer {
     private let _texture: GLuint
     private let _textureWidth: GLsizei
     private let _textureHeight: GLsizei
+    private let _format: GLenum
     private var _bitmapInfo: CGBitmapInfo!
     private var _flipVertically = false
     
     var originalOutputFrameBuffer: OutputFrameBuffer!
     
-    init(texture: GLuint, width: GLsizei, height: GLsizei, bitmapInfo: CGBitmapInfo) {
+    init(texture: GLuint, width: GLsizei, height: GLsizei, format: GLenum, bitmapInfo: CGBitmapInfo) {
         _texture = texture
         _textureWidth = width
         _textureHeight = height
         _bitmapInfo = bitmapInfo
+        _format = format
     }
     
     func useAsInput() {
@@ -60,5 +62,9 @@ class TextureInputFrameBuffer: InputFrameBuffer {
         } else {
             return coor
         }
+    }
+    
+    var format: GLenum {
+        return _format
     }
 }

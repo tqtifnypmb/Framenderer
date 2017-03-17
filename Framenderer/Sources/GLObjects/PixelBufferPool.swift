@@ -70,7 +70,7 @@ class PixelBufferPool {
         }
     }
     
-    func flush() {
+    func drain() {
         _pools.forEach { CVPixelBufferPoolFlush($0 as! CVPixelBufferPool, [])}
         _pools.removeAll()
     }

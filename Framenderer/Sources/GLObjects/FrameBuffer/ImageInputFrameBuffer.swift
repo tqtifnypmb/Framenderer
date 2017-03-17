@@ -9,19 +9,19 @@
 import GLKit
 import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
+import CoreGraphics
 
 class ImageInputFrameBuffer: InputFrameBuffer {
 
     private var _texture: GLuint = 0
-    private let _textureWidth: GLsizei
-    private let _textureHeight: GLsizei
+    private var _textureWidth: GLsizei = 0
+    private var _textureHeight: GLsizei = 0
     private var _flipVertically = false
     
     /// Create a input framebuffer object using `texture` as content
     ///
     /// **Note**: Texture format is RGB32
     init(image: CGImage) throws {
-        
         let textureInfo = try GLKTextureLoader.texture(with: image, options: nil)
         _texture = textureInfo.name
         _textureWidth = GLsizei(textureInfo.width)
@@ -50,10 +50,6 @@ class ImageInputFrameBuffer: InputFrameBuffer {
         default:
             print("None")
         }
-    }
-    
-    private func imageToTexture(image: CGImage) -> (name: GLuint, width: GLsizei, height: GLsizei) {
-        return (0, 0, 0)
     }
     
     func useAsInput() {
@@ -89,6 +85,10 @@ class ImageInputFrameBuffer: InputFrameBuffer {
         } else {
             return coor
         }
+    }
+    
+    var format: GLenum {
+        return GLenum(GL_RGBA)
     }
     
     deinit {

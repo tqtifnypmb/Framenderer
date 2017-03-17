@@ -82,6 +82,10 @@ public class Context {
         return _input!.height
     }
     
+    var inputFormat: GLenum {
+        return _input!.format
+    }
+    
     var inputBitmapInfo: CGBitmapInfo {
         return _input!.bitmapInfo
     }
