@@ -27,7 +27,7 @@ public class I420ToBGRAFilter: DualInputFilter {
     
     override func setUniformAttributs(context: Context) {
         super.setUniformAttributs(context: context)
-        
+ 
         _program.setUniform(name: "transform", mat3x3: _bt709)
     }
     

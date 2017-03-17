@@ -46,11 +46,11 @@ open class CaptureStream: BaseStream, AVCaptureVideoDataOutputSampleBufferDelega
         video.setSampleBufferDelegate(self, queue: _frameSerialQueue)
         
         var formatType = kCVPixelFormatType_32BGRA
-        for format in video.availableVideoCVPixelFormatTypes as! [NSNumber] {
-            if NSNumber(value: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) == format {
-                formatType = kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
-            }
-        }
+//        for format in video.availableVideoCVPixelFormatTypes as! [NSNumber] {
+//            if NSNumber(value: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) == format {
+//                formatType = kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
+//            }
+//        }
         
         if formatType == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange {
             _yuv_brga_filter = I420ToBGRAFilter()
