@@ -24,10 +24,9 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
     private let _textureWidth: GLsizei
     private let _textureHeight: GLsizei
     private var _format: GLenum
-    private var _bitmapInfo: CGBitmapInfo!
     private var _frameBuffer: GLuint = 0
     
-    init(width: GLsizei, height: GLsizei, bitmapInfo: CGBitmapInfo, format: GLenum, pixelBuffer: CVPixelBuffer? = nil) throws {
+    init(width: GLsizei, height: GLsizei, format: GLenum, pixelBuffer: CVPixelBuffer? = nil) throws {
         let maxTextureSize = GLsizei(Limits.max_texture_size)
         if width < maxTextureSize && height < maxTextureSize {
             _textureWidth = width
@@ -42,7 +41,6 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
             }
         }
         _format = format
-        _bitmapInfo = bitmapInfo
         
         if isSupportFastTexture() {
             if let pb = pixelBuffer {
@@ -55,9 +53,7 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
                 }
                 _renderTarget = pixelBuffer
             }
-            
-            TextureCacher.shared.setup(context: EAGLContext.current())
-            
+                        
             let cvTexture = try TextureCacher.shared.createTexture(fromPixelBufer: _renderTarget, target: GLenum(GL_TEXTURE_2D), format: _format)
             assert(CVOpenGLESTextureGetTarget(cvTexture) == GLenum(GL_TEXTURE_2D))
             
@@ -110,7 +106,7 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
                          _textureWidth,
                          _textureHeight,
                          0,
-                         GLenum(GL_RGBA),
+                         GLenum(GL_BGRA),
                          GLenum(GL_UNSIGNED_BYTE),
                          nil)
         }
@@ -151,7 +147,7 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
                                   bitsPerPixel: 32,
                                   bytesPerRow: CVPixelBufferGetBytesPerRow(_renderTarget),
                                   space: CGColorSpaceCreateDeviceRGB(),
-                                  bitmapInfo: _bitmapInfo,
+                                  bitmapInfo: CGBitmapInfo.init(rawValue: CGImageAlphaInfo.last.rawValue),
                                   provider: imageDataProvider,
                                   decode: nil,
                                   shouldInterpolate: true,
@@ -184,7 +180,7 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
                                   bitsPerPixel: 32,
                                   bytesPerRow: Int(_textureWidth) * 4,
                                   space: CGColorSpaceCreateDeviceRGB(),
-                                  bitmapInfo: _bitmapInfo,
+                                  bitmapInfo: CGBitmapInfo.init(rawValue: CGImageAlphaInfo.none.rawValue), // FIXME: GLKTextureLoader sucks??
                                   provider: imageDataProvider,
                                   decode: nil,
                                   shouldInterpolate: true,
@@ -194,12 +190,12 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
         }
     }
     
-    func convertToInput(bitmapInfo: CGBitmapInfo) -> InputFrameBuffer {
+    func convertToInput() -> InputFrameBuffer {
         glFlush()
         
         glBindTexture(GLenum(GL_TEXTURE_2D), 0)
         
-        let input = TextureInputFrameBuffer(texture: _texture, width: _textureWidth, height: _textureHeight, format: _format, bitmapInfo: _bitmapInfo)
+        let input = TextureInputFrameBuffer(texture: _texture, width: _textureWidth, height: _textureHeight, format: _format)
         input.originalOutputFrameBuffer = self
         
         if _frameBuffer != 0 {

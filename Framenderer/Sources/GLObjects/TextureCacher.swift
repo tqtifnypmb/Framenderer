@@ -35,22 +35,25 @@ class TextureCacher {
     }
     
     func createTexture(fromPixelBufer pb: CVPixelBuffer, target: GLenum, format: GLenum) throws -> CVOpenGLESTexture {
-        var texture: CVOpenGLESTexture?
-        
         let width = CVPixelBufferGetWidth(pb)
         let height = CVPixelBufferGetHeight(pb)
+        return try createTexture(fromPixelBuffer: pb, target: target, internalFormat:GL_RGBA, format: format, width: GLsizei(width), height: GLsizei(height), planarIndex: 0)
+    }
+    
+    func createTexture(fromPixelBuffer pb: CVPixelBuffer, target: GLenum, internalFormat: GLint, format: GLenum, width: GLsizei, height: GLsizei, planarIndex: Int) throws -> CVOpenGLESTexture {
+        var texture: CVOpenGLESTexture?
         
         if CVOpenGLESTextureCacheCreateTextureFromImage(CFAllocatorGetDefault()!.takeRetainedValue(),
                                                         _cacher,
                                                         pb,
                                                         nil,
                                                         target,
-                                                        GL_RGBA,
-                                                        GLsizei(width),
-                                                        GLsizei(height),
+                                                        internalFormat,
+                                                        width,
+                                                        height,
                                                         format,
                                                         GLenum(GL_UNSIGNED_BYTE),
-                                                        0,
+                                                        planarIndex,
                                                         &texture) == kCVReturnSuccess {
             return texture!
         } else {

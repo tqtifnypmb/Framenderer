@@ -60,10 +60,6 @@ class ImageInputFrameBuffer: InputFrameBuffer {
         _flipVertically = flip
     }
     
-    var bitmapInfo: CGBitmapInfo {
-        return CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue)
-    }
-    
     var width: GLsizei {
         return _textureWidth
     }

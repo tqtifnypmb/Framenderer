@@ -35,6 +35,8 @@ public class Context {
     func setAsCurrent() {
         if _context != EAGLContext.current() {
             EAGLContext.setCurrent(_context)
+            
+            TextureCacher.shared.setup(context: _context)
         }
     }
     
@@ -64,7 +66,7 @@ public class Context {
     
     func toggleInputOutputIfNeeded() {
         if enableInputOutputToggle && _output != nil && _input != nil {
-            let input = _output?.convertToInput(bitmapInfo: _input!.bitmapInfo)
+            let input = _output?.convertToInput()
             _input = input
         }
     }
@@ -84,10 +86,6 @@ public class Context {
     
     var inputFormat: GLenum {
         return _input!.format
-    }
-    
-    var inputBitmapInfo: CGBitmapInfo {
-        return _input!.bitmapInfo
     }
     
     var outputFrameBuffer: OutputFrameBuffer? {

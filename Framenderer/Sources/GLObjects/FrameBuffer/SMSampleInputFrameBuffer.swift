@@ -37,22 +37,11 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
         if let cv = CMSampleBufferGetImageBuffer(sampleBuffer) {
             CVPixelBufferLockBaseAddress(cv, .readOnly)
             
+            let texture = try TextureCacher.shared.createTexture(fromPixelBufer: cv, target: GLenum(GL_TEXTURE_2D), format: GLenum(GL_BGRA))
+            _texture = CVOpenGLESTextureGetName(texture)
             let bpr = CVPixelBufferGetBytesPerRow(cv)
             let width = bpr / 4
             let height = CVPixelBufferGetHeight(cv)
-            
-            let format = isSupportFastTexture() ? GLenum(GL_BGRA) : GLenum(GL_RGBA)
-            glGenTextures(1, &_texture)
-            glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
-            glTexImage2D(GLenum(GL_TEXTURE_2D),
-                         0,
-                         GL_RGBA,
-                         GLsizei(width),
-                         GLsizei(height),
-                         0,
-                         format,
-                         GLenum(GL_UNSIGNED_BYTE),
-                         CVPixelBufferGetBaseAddress(cv)!)
             
             CVPixelBufferUnlockBaseAddress(cv, .readOnly)
             
@@ -63,6 +52,8 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
             glTexParameteri(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_MIN_FILTER), GL_LINEAR)
             glTexParameteri(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_WRAP_S), GL_CLAMP_TO_EDGE)
             glTexParameteri(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_WRAP_T), GL_CLAMP_TO_EDGE)
+            
+            glBindTexture(GLenum(GL_TEXTURE_2D), 0)
         } else {
             throw DataError.sample(errorDesc: "CMSampleBuffer doesn't contain image data")
         }
@@ -130,12 +121,5 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
     
     var format: GLenum {
         return GLenum(GL_BGRA)
-    }
-    
-    deinit {
-        if _texture != 0 {
-            glDeleteTextures(1, &_texture)
-            _texture = 0
-        }
     }
 }

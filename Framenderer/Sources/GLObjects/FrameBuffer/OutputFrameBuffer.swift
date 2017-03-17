@@ -11,5 +11,5 @@ import CoreGraphics
 protocol OutputFrameBuffer {
     func useAsOutput() throws
     func convertToImage() -> CGImage?
-    func convertToInput(bitmapInfo: CGBitmapInfo) -> InputFrameBuffer
+    func convertToInput() -> InputFrameBuffer
 }
