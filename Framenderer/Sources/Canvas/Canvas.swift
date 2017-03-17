@@ -17,10 +17,10 @@ public protocol Canvas {
      
         - parameter onCompletion: Callback whick will be called when process finish
      */
-    func processAsync(onCompletion: @escaping (_ isFinished: Bool, _ error: Error?) -> Void)
+    func processAsync(onCompletion: @escaping (_ resultImage: CGImage?, _ error: Error?) -> Void)
     
     /** Process synchrounously. Block the calling thread while processing.
         **Note**: Don't call this in main thread
      */
-    func process() throws
+    func process() throws -> CGImage?
 }

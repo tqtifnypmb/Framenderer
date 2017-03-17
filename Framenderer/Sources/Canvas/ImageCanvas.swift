@@ -10,7 +10,6 @@ import UIKit
 
 open class ImageCanvas: NSObject, Canvas {
     private let _origin: CGImage
-    private var _result: CGImage?
     
     public var filters: [Filter] = []
     
@@ -18,7 +17,7 @@ open class ImageCanvas: NSObject, Canvas {
         _origin = image
     }
     
-    public func process() throws {
+    public func process() throws -> CGImage? {
         precondition(!filters.isEmpty)
         precondition(!Thread.current.isMainThread)
         
@@ -37,26 +36,23 @@ open class ImageCanvas: NSObject, Canvas {
             try filter.apply(context: ctx)
         }
         
-        _result = ctx.processedImage()
+        let ret = ctx.processedImage()
         filters.removeAll()
+        
+        return ret
     }
     
-    public func processAsync(onCompletion: @escaping (_ isFinished: Bool, _ error: Error?) -> Void) {
+    public func processAsync(onCompletion: @escaping (_ resultImage: CGImage?, _ error: Error?) -> Void) {
         precondition(!filters.isEmpty)
         
         DispatchQueue.global(qos: .background).async {
             do {
-                try self.process()
-                onCompletion(true, nil)
+                let img = try self.process()
+                onCompletion(img, nil)
             } catch {
-                self._result = nil
                 self.filters.removeAll()
-                onCompletion(false, error)
+                onCompletion(nil, error)
             }
         }
-    }
-    
-    public func processedImage() -> CGImage {
-        return _result!
     }
 }
