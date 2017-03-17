@@ -35,7 +35,7 @@ public class ColorBiasFilter: BaseFilter {
     override func setUniformAttributs(context: Context) {
         super.setUniformAttributs(context: context)
         
-        _program.setUniform(name: "bias", value: [_red, _green, _blue, _alpha])
+        _program.setUniform(name: "bias", color: [_red, _green, _blue, _alpha])
     }
     
     override public var name: String {

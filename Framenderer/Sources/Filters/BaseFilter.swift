@@ -83,7 +83,7 @@ open class BaseFilter: Filter {
                 ctx.setCurrent(program: _program)
             }
             
-            let outputFrameBuffer = try TextureOutputFrameBuffer(width: ctx.inputWidth, height: ctx.inputHeight, bitmapInfo: ctx.inputBitmapInfo, format: ctx.inputFormat)
+            let outputFrameBuffer = try TextureOutputFrameBuffer(width: ctx.inputWidth, height: ctx.inputHeight, format: ctx.inputFormat)
             ctx.setOutput(output: outputFrameBuffer)
             try feedDataAndDraw(context: ctx, program: _program)
         } catch {
@@ -98,7 +98,7 @@ open class BaseFilter: Filter {
         
         try apply(context: ctx)
         
-        let input = ctx.outputFrameBuffer!.convertToInput(bitmapInfo: inputFrameBuffer.bitmapInfo)
+        let input = ctx.outputFrameBuffer!.convertToInput()
         try next(ctx, input)
     }
     

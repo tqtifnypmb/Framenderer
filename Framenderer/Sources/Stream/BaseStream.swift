@@ -35,7 +35,7 @@ open class BaseStream: NSObject, Stream {
             return true
         }
     }
-    
+
     func feed(audioBuffer sm: CMSampleBuffer) throws {
         var currentFilters: [Filter] = []
         
@@ -74,10 +74,7 @@ open class BaseStream: NSObject, Stream {
         try starter.applyToAudio(context: _ctx, sampleBuffer: sm, next: continuation)
     }
     
-    /// Feed video sample to filters-apply-cycle
-    func feed(videoBuffer sm: CMSampleBuffer) throws {
-        let time: CMTime = CMSampleBufferGetPresentationTimeStamp(sm)
-        
+    private func videoFrameFilterCycle(time: CMTime) -> (starter: Filter, continuation: ((Context, InputFrameBuffer) throws -> Void)) {
         var currentFilters: [Filter] = []
         
         for prepending in _prependingFilters {
@@ -111,8 +108,32 @@ open class BaseStream: NSObject, Stream {
                 continuation = nil      // break the reference-cycle
             }
         }
+        return (starter, continuation)
+    }
+    
+    /// Feed video sample to filters-apply-cycle
+    func feed(videoBuffer sm: CMSampleBuffer) throws {
+        _ctx.setAsCurrent()
+        
+        let time: CMTime = CMSampleBufferGetPresentationTimeStamp(sm)
+        let cycle = videoFrameFilterCycle(time: time)
         
         let input = try SMSampleInputFrameBuffer(sampleBuffer: sm, isFront: _isFront, guessRotation: _guessRotation)
-        try starter.applyToFrame(context: _ctx, inputFrameBuffer:input, presentationTimeStamp: time, next: continuation)
+        try cycle.starter.applyToFrame(context: _ctx, inputFrameBuffer:input, presentationTimeStamp: time, next: cycle.continuation)
+    }
+    
+    func feed(yuvFrame sm: CMSampleBuffer) throws {
+        _ctx.setAsCurrent()
+        
+        let time: CMTime = CMSampleBufferGetPresentationTimeStamp(sm)
+        let cycle = videoFrameFilterCycle(time: time)
+        
+        let y_planar = try YUVInputFrameBuffer(sampleBuffer: sm, planarIndex: 0, isFrontCamera: _isFront)
+        let uv_planar = try YUVInputFrameBuffer(sampleBuffer: sm, planarIndex: 1, isFrontCamera: _isFront)
+        
+        try cycle.starter.applyToFrame(context: _ctx, inputFrameBuffer: uv_planar, presentationTimeStamp: time, next: cycle.continuation)
+        
+        // Y-planar must come later, since Y-planar have the same dimension as output texture.
+        try cycle.starter.applyToFrame(context: _ctx, inputFrameBuffer: y_planar, presentationTimeStamp: time, next: cycle.continuation)
     }
 }

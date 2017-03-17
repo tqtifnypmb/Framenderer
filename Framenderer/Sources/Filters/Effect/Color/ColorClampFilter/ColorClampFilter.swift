@@ -26,8 +26,8 @@ public class ColorClampFilter: BaseFilter {
     
     override func setUniformAttributs(context: Context) {
         super.setUniformAttributs(context: context)
-        _program.setUniform(name: "minColor", value: _min.components!.map{ return GLfloat($0) })
-        _program.setUniform(name: "maxColor", value: _max.components!.map{ return GLfloat($0) })
+        _program.setUniform(name: "minColor", color: _min.components!.map{ return GLfloat($0) })
+        _program.setUniform(name: "maxColor", color: _max.components!.map{ return GLfloat($0) })
     }
     
     override public var name: String {

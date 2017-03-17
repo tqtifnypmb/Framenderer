@@ -100,13 +100,23 @@ class Program {
         }
     }
     
-    func setUniform(name: String, value: [GLfloat]) {
+    func setUniform(name: String, color value: [GLfloat]) {
         precondition(value.count == 4)
         
         name.withGLcharString { name in
             let loc = glGetUniformLocation(_program, name)
             assert(loc != -1)
             glUniform4f(loc, value[0], value[1], value[2], value[3])
+        }
+    }
+    
+    func setUniform(name: String, mat3x3 value: [GLfloat]) {
+        precondition(value.count == 9)
+        
+        name.withGLcharString { name in
+            let loc = glGetUniformLocation(_program, name)
+            assert(loc != -1)
+            glUniformMatrix3fv(loc, 1, GLboolean(GL_FALSE), value)
         }
     }
     

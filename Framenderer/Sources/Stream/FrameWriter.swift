@@ -134,7 +134,7 @@ class FrameWriter: BaseFilter {
         if kCVReturnSuccess != CVPixelBufferPoolCreatePixelBuffer(nil, _writer.pixelBufferPool!, &pixelBuffer) {
             throw DataError.pixelBuffer(errorDesc: "Can't create CVPixelBuffer from shared CVPixelBufferPool")
         }
-        let outputFrameBuffer = try TextureOutputFrameBuffer(width: _outputWidth, height: _outputHeight, bitmapInfo: inputFrameBuffer.bitmapInfo, format: inputFrameBuffer.format, pixelBuffer: pixelBuffer)
+        let outputFrameBuffer = try TextureOutputFrameBuffer(width: _outputWidth, height: _outputHeight, format: inputFrameBuffer.format, pixelBuffer: pixelBuffer)
         ctx.setOutput(output: outputFrameBuffer)
         
         try super.feedDataAndDraw(context: ctx, program: _program)

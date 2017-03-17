@@ -48,10 +48,10 @@ class CameraViewController: UIViewController {
         super.viewDidAppear(animated)
         
         let origin = UIImage(named: "lena")
-        let blendingFilter = LinearBlendFilter(source: origin!.cgImage!, a: 0.5)
+//        let blendingFilter = LinearBlendFilter(source: origin!.cgImage!, a: 0.0)
 //        let inverted = ColorInvertFilter()
 //        let hueAdjust = HueAdjustFilter()
-        camera.filters = [PassthroughFilter(), blendingFilter]
+        camera.filters = [PassthroughFilter()]
         camera.start()
     }
 

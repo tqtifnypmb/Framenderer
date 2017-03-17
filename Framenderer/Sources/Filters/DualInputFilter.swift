@@ -53,7 +53,7 @@ open class DualInputFilter: BaseFilter {
         ctx.setInput(input: inputFrameBuffer)
         try super.apply(context: ctx)
         
-        let result = ctx.outputFrameBuffer!.convertToInput(bitmapInfo: inputFrameBuffer.bitmapInfo)
+        let result = ctx.outputFrameBuffer!.convertToInput()
         
         if _secondSource == nil {
             _secondInputFrameBuffer = nil

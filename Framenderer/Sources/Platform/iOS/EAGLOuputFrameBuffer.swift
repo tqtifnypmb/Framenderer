@@ -82,7 +82,7 @@ class EAGLOutputFrameBuffer: OutputFrameBuffer {
         return nil
     }
     
-    func convertToInput(bitmapInfo: CGBitmapInfo) -> InputFrameBuffer {
+    func convertToInput() -> InputFrameBuffer {
         fatalError()
     }
 }

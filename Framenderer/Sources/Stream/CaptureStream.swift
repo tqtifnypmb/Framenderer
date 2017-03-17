@@ -54,7 +54,7 @@ open class CaptureStream: BaseStream, AVCaptureVideoDataOutputSampleBufferDelega
         
         if formatType == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange {
             _yuv_brga_filter = I420ToBGRAFilter()
-            _prependingFilters.append(_yuv_brga_filter!)
+            _prependingFilters.insert(_yuv_brga_filter!, at: 0)
         }
         
         video.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable : formatType]
@@ -119,8 +119,9 @@ extension CaptureStream {
                 do {
                     if let yuv = self?.isUsingYUV, yuv {
                         let cv = CMSampleBufferGetImageBuffer(sampleBuffer)! as CVPixelBuffer
-                        print(CVPixelBufferGetPlaneCount(cv))
-                        try self?.feed(videoBuffer: retainedBuffer!)
+                        precondition(CVPixelBufferGetPlaneCount(cv) == 2)
+                        
+                        try self?.feed(yuvFrame: retainedBuffer!)
                     } else {
                         try self?.feed(videoBuffer: retainedBuffer!)
                     }
