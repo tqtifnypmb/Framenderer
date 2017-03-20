@@ -7,3 +7,16 @@
 //
 
 import Foundation
+
+public class RGBToGrayScale: BaseFilter {
+    
+    override public init() {}
+    
+    override public var name: String {
+        return "RGBToGrayScale"
+    }
+    
+    override func buildProgram() throws {
+        _program = try Program.create(fragmentSourcePath: "RGBToGrayScaleFragmentShader")
+    }
+}

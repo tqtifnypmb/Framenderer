@@ -13,8 +13,9 @@ void main() {
     vec4 top = texture(secondInput, fTextCoor);
     vec4 bottom = texture(firstInput, fTextCoor);
     
-    float brightness_top = top.a * (top.r + top.g + top.b);
-    float brightness_bottom = bottom.a * (bottom.r + bottom.g + bottom.b);
+    // ref: http://www.poynton.com/notes/colour_and_gamma/ColorFAQ.html#RTFToC9
+    float brightness_top = top.a * (0.2126 * top.r + 0.7152 * top.g + 0.0722 * top.b);
+    float brightness_bottom = bottom.a * (0.2126 * bottom.r + 0.7152 * bottom.g + 0.0722 * bottom.b);
     vec3 tmp;
     if (brightness_top > brightness_bottom) {
         tmp = top.rgb - bottom.rgb;

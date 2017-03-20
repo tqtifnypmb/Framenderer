@@ -12,6 +12,9 @@ import OpenGLES.ES3.gl
 import OpenGLES.ES3.glext
 
 public class PassthroughFilter: BaseFilter {
+    
+    override public init() {}
+    
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "PassthroughFragmentShader")
     }

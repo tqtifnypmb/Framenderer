@@ -32,6 +32,6 @@ public class I420ToBGRAFilter: DualInputFilter {
     }
     
     override public func apply(context: Context) throws {
-        fatalError()
+        fatalError("\(name) can only be used in Frame Stream")
     }
 }

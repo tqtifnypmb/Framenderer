@@ -19,12 +19,8 @@ open class TwoPassFilter: BaseFilter {
         _program2.bind(attributes: attr)
     }
     
-    func setUniformAttributs2(context ctx: Context) {
+    func setUniformAttributs2(context: Context) {
          _program2.setUniform(name: kFirstInputSampler, value: GLint(1))
-        
-        let texelHeight = 1 / GLfloat(ctx.inputHeight)
-        _program2.setUniform(name: kTexelWidth, value: GLfloat(0))
-        _program2.setUniform(name: kTexelHeight, value: texelHeight)
     }
     
     deinit {
@@ -32,14 +28,6 @@ open class TwoPassFilter: BaseFilter {
             ProgramObjectsCacher.shared.release(program: _program2)
             _program2 = nil
         }
-    }
-    
-    override func setUniformAttributs(context ctx: Context) {
-        super.setUniformAttributs(context: ctx)
-        
-        let texelWidth = 1 / GLfloat(ctx.inputWidth)
-        _program.setUniform(name: kTexelWidth, value: texelWidth)
-        _program.setUniform(name: kTexelHeight, value: GLfloat(0))
     }
 
     override public func apply(context ctx: Context) throws {
@@ -73,13 +61,13 @@ func buildSeparableKernelVertexSource(radius: Int) -> String {
     var src = "#version 300 es                         \n"
             + "in vec4 vPosition;                      \n"
             + "in vec2 vTextCoor;                      \n"
-            + "uniform highp float texelWidth;         \n"
-            + "uniform highp float texelHeight;        \n"
+            + "uniform highp float xOffset;            \n"
+            + "uniform highp float yOffset;            \n"
             + "out highp vec2 fTextCoor[\(kernelSize)];\n"
         
             + "void main() {                           \n"
             + "    gl_Position = vPosition;            \n"
-            + "    vec2 step = vec2(texelWidth, texelHeight); \n"
+            + "    vec2 step = vec2(xOffset, yOffset); \n"
             + "    vec2 textCoor[\(kernelSize)];       \n"
             + "    textCoor[0] = vTextCoor;            \n"
     

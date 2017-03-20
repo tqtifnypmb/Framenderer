@@ -19,7 +19,7 @@ open class BaseFilter: Filter {
         fatalError("Called Virtual Function")
     }
     
-    public init() {}
+    init() {}
     
     func bindAttributes(context: Context) {
         let attr = [kVertexPositionAttribute, kTextureCoorAttribute]

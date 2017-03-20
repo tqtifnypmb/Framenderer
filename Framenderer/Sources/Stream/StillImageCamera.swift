@@ -12,7 +12,7 @@ import AVFoundation
 public class StillImageCamera: CaptureStream {
    
     private let _photoOutput: AVCaptureOutput
-    var _onComplete: ((_ error: Error?, _ image: CGImage?) -> Void)?
+    var _onComplete: ((_ image: CGImage?, _ error: Error?) -> Void)?
     
     public init(cameraPosition: AVCaptureDevicePosition = .back) {
         let session = AVCaptureSession()
@@ -31,7 +31,7 @@ public class StillImageCamera: CaptureStream {
         super.init(session: session, positon: cameraPosition)
     }
     
-    public func takePhoto(onComplete:@escaping (_ error: Error?, _ image: CGImage?) -> Void) {
+    public func takePhoto(onComplete:@escaping (_ image: CGImage?, _ error: Error?) -> Void) {
         if #available(iOS 10, *) {
             _onComplete = onComplete
             
@@ -42,7 +42,7 @@ public class StillImageCamera: CaptureStream {
             let output = _photoOutput as! AVCaptureStillImageOutput
             output.captureStillImageAsynchronously(from: _photoOutput.connections.first as? AVCaptureConnection, completionHandler: {[weak self] sampleBufer, error in
                 if let error = error {
-                    onComplete(error, nil)
+                    onComplete(nil, error)
                 } else {
                     guard let strong_self = self else { return }
                     strong_self.stop()
@@ -50,9 +50,9 @@ public class StillImageCamera: CaptureStream {
                     strong_self._ctx.frameSerialQueue.sync {
                         do {
                             let result = try strong_self.applyFilters(toSampleBuffer: sampleBufer!)!
-                            onComplete(nil, result)
+                            onComplete(result, nil)
                         } catch {
-                            onComplete(error, nil)
+                            onComplete(nil, error)
                         }
                     }
                 }
@@ -90,7 +90,7 @@ public class StillImageCamera: CaptureStream {
 extension StillImageCamera: AVCapturePhotoCaptureDelegate {
     public func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
         if let error = error {
-            _onComplete?(error, nil)
+            _onComplete?(nil, error)
             _onComplete = nil
         } else {
             DispatchQueue.global(qos: .background).async {[weak self] in
@@ -100,9 +100,9 @@ extension StillImageCamera: AVCapturePhotoCaptureDelegate {
                 strong_self._ctx.frameSerialQueue.sync {
                     do {
                         let result = try strong_self.applyFilters(toSampleBuffer: photoSampleBuffer!)
-                        strong_self._onComplete?(nil, result)
+                        strong_self._onComplete?(result, nil)
                     } catch {
-                        strong_self._onComplete?(error, nil)
+                        strong_self._onComplete?(nil, error)
                     }
                     strong_self._onComplete = nil
                 }

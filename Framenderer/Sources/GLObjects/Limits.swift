@@ -27,4 +27,12 @@ struct Limits {
         glGetIntegerv(GLenum(GL_MAX_TEXTURE_SIZE), &max)
         return Int(max)
     }()
+    
+    static var max_uniform_array_size: Int = {
+        precondition(EAGLContext.current() != nil)
+        
+        var max: GLint = 0
+        glGetIntegerv(GLenum(GL_MAX_VERTEX_UNIFORM_VECTORS), &max)
+        return Int(max)
+    }()
 }

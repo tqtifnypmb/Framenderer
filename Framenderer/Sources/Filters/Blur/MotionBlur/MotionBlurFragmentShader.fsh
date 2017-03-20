@@ -1,6 +1,6 @@
 #version 300 es
 
-precision mediump float;
+precision highp float;
 
 in vec2 fTextCoor;
 
@@ -23,6 +23,6 @@ void main() {
         acc += pColor * factor;
         sum += factor;
     }
-   
+    
     color = acc / sum;
 }

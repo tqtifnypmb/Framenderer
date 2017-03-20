@@ -45,17 +45,17 @@ open class CaptureStream: BaseStream, AVCaptureVideoDataOutputSampleBufferDelega
         video.alwaysDiscardsLateVideoFrames = false
         video.setSampleBufferDelegate(self, queue: _frameSerialQueue)
         
-        var formatType = kCVPixelFormatType_32BGRA
+        let formatType = kCVPixelFormatType_32BGRA
 //        for format in video.availableVideoCVPixelFormatTypes as! [NSNumber] {
 //            if NSNumber(value: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) == format {
 //                formatType = kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
 //            }
 //        }
-        
-        if formatType == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange {
-            _yuv_brga_filter = I420ToBGRAFilter()
-            _prependingFilters.insert(_yuv_brga_filter!, at: 0)
-        }
+//        
+//        if formatType == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange {
+//            _yuv_brga_filter = I420ToBGRAFilter()
+//            _prependingFilters.insert(_yuv_brga_filter!, at: 0)
+//        }
         
         video.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable : formatType]
         assert(_session.canAddOutput(video))

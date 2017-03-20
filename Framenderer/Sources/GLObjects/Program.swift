@@ -43,6 +43,11 @@ class Program {
         return try Program.create(vertexSourcePath: "PassthroughVertexShader", fragmentSourcePath: fPath)
     }
     
+    class func create(fragmentSource fSrc: String) throws -> Program {
+        let vSrc = try! String(contentsOfFile: Bundle(for: Program.self).path(forResource: "PassthroughVertexShader", ofType: "vsh")!)
+        return try ProgramObjectsCacher.shared.program(vertexShaderSrc: vSrc, fragmentShaderSrc: fSrc)
+    }
+    
     func use() {
         glUseProgram(_program)
         glDisable(GLenum(GL_DEPTH_TEST))
@@ -74,6 +79,10 @@ class Program {
             assert(loc != -1)
             glUniform1i(loc, value)
         }
+    }
+    
+    func setUniform(name: String, value: Int) {
+        self.setUniform(name: name, value: GLint(value))
     }
     
     func setUniform(name: String, value: GLfloat) {
@@ -117,6 +126,16 @@ class Program {
             let loc = glGetUniformLocation(_program, name)
             assert(loc != -1)
             glUniformMatrix3fv(loc, 1, GLboolean(GL_FALSE), value)
+        }
+    }
+    
+    func setUniform(name: String, kernel value: [GLfloat]) {
+        precondition(value.count < Limits.max_uniform_array_size)
+        
+        name.withGLcharString { name in
+            let loc = glGetUniformLocation(_program, name)
+            assert(loc != -1)
+            glUniform1fv(loc, GLsizei(value.count), value)
         }
     }
     

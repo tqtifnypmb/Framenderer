@@ -35,7 +35,7 @@ public class BoxBlurFilter: TwoPassFilter {
     private func buildFragmentSource() -> String {
         let validRadius = min(_radius, (Limits.max_varying_components - 1) / 2)
         let kernelSize = validRadius * 2 + 1
-        let weight = 1.0 / GLfloat(kernelSize)
+        let weight = 1.0 / pow(GLfloat(kernelSize), 2.0)
         
         var src = "#version 300 es                         \n"
                 + "precision highp float;                  \n"
@@ -52,6 +52,22 @@ public class BoxBlurFilter: TwoPassFilter {
         src += "color = acc;                               \n"
         src += "}                                          \n"
         return src
+    }
+    
+    override func setUniformAttributs(context ctx: Context) {
+        super.setUniformAttributs(context: ctx)
+        
+        let texelWidth = 1 / GLfloat(ctx.inputWidth)
+        _program.setUniform(name: kXOffset, value: texelWidth)
+        _program.setUniform(name: kYOffset, value: GLfloat(0))
+    }
+    
+    override func setUniformAttributs2(context ctx: Context) {
+        super.setUniformAttributs2(context: ctx)
+        
+        let texelHeight = 1 / GLfloat(ctx.inputHeight)
+        _program2.setUniform(name: kXOffset, value: GLfloat(0))
+        _program2.setUniform(name: kYOffset, value: texelHeight)
     }
     
     override func buildProgram() throws {

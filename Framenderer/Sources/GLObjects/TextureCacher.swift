@@ -25,11 +25,13 @@ class TextureCacher {
         guard _cacher == nil else { return }
         
         var cacher: CVOpenGLESTextureCache?
-        assert(CVOpenGLESTextureCacheCreate(CFAllocatorGetDefault()!.takeRetainedValue(),
+        if CVOpenGLESTextureCacheCreate(CFAllocatorGetDefault()!.takeRetainedValue(),
                                             nil,
                                             context,
                                             nil,
-                                            &cacher) == kCVReturnSuccess)
+                                            &cacher) != kCVReturnSuccess {
+            fatalError("Can't create texture cache")
+        }
         
         _cacher = cacher
     }
