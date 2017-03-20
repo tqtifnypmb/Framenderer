@@ -41,14 +41,6 @@
 		4123451C1E51EF4700B3FDEF /* SoftLightBlendFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344A91E51EF4700B3FDEF /* SoftLightBlendFilter.swift */; };
 		4123451E1E51EF4700B3FDEF /* SubtrachBlendFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344AC1E51EF4700B3FDEF /* SubtrachBlendFilter.swift */; };
 		412345201E51EF4700B3FDEF /* DualInputFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344AE1E51EF4700B3FDEF /* DualInputFilter.swift */; };
-		412345211E51EF4700B3FDEF /* ColorClampFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344B21E51EF4700B3FDEF /* ColorClampFilter.swift */; };
-		412345231E51EF4700B3FDEF /* ColorInvertFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344B51E51EF4700B3FDEF /* ColorInvertFilter.swift */; };
-		412345251E51EF4700B3FDEF /* ColorBiasFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344B81E51EF4700B3FDEF /* ColorBiasFilter.swift */; };
-		412345271E51EF4700B3FDEF /* ExplosureAdjustFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344BB1E51EF4700B3FDEF /* ExplosureAdjustFilter.swift */; };
-		412345291E51EF4700B3FDEF /* GammaAdjustFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344BE1E51EF4700B3FDEF /* GammaAdjustFilter.swift */; };
-		4123452B1E51EF4700B3FDEF /* HueAdjustFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344C11E51EF4700B3FDEF /* HueAdjustFilter.swift */; };
-		4123452D1E51EF4700B3FDEF /* MaximumComponentFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344C41E51EF4700B3FDEF /* MaximumComponentFilter.swift */; };
-		4123452F1E51EF4700B3FDEF /* MinimumComponentFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344C71E51EF4700B3FDEF /* MinimumComponentFilter.swift */; };
 		412345311E51EF4700B3FDEF /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344C91E51EF4700B3FDEF /* Filter.swift */; };
 		412345341E51EF4700B3FDEF /* ThreeInputFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344CC1E51EF4700B3FDEF /* ThreeInputFilter.swift */; };
 		412345351E51EF4700B3FDEF /* TwoPassFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412344CD1E51EF4700B3FDEF /* TwoPassFilter.swift */; };
@@ -98,14 +90,6 @@
 		415390CB1E6814460009667D /* ScreenBlendFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344A71E51EF4700B3FDEF /* ScreenBlendFragmentShader.fsh */; };
 		415390CC1E6814460009667D /* SoftLightBlendFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344AA1E51EF4700B3FDEF /* SoftLightBlendFragmentShader.fsh */; };
 		415390CD1E6814460009667D /* SubtractBlendFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344AD1E51EF4700B3FDEF /* SubtractBlendFragmentShader.fsh */; };
-		415390CE1E6814460009667D /* ColorClampFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344B31E51EF4700B3FDEF /* ColorClampFragmentShader.fsh */; };
-		415390CF1E6814460009667D /* ColorInvertFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344B61E51EF4700B3FDEF /* ColorInvertFragmentShader.fsh */; };
-		415390D01E6814460009667D /* ColorBiasFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344B91E51EF4700B3FDEF /* ColorBiasFragmentShader.fsh */; };
-		415390D11E6814460009667D /* ExplosureAdjustFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344BC1E51EF4700B3FDEF /* ExplosureAdjustFragmentShader.fsh */; };
-		415390D21E6814460009667D /* GammaAdjustFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344BF1E51EF4700B3FDEF /* GammaAdjustFragmentShader.fsh */; };
-		415390D31E6814460009667D /* HueAdjustFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344C21E51EF4700B3FDEF /* HueAdjustFragmentShader.fsh */; };
-		415390D41E6814460009667D /* MaximumComponentFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344C51E51EF4700B3FDEF /* MaximumComponentFragmentShader.fsh */; };
-		415390D51E6814460009667D /* MinimumComponentFragment.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344C81E51EF4700B3FDEF /* MinimumComponentFragment.fsh */; };
 		416BECAE1E6E515200ABD732 /* CaptureStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416BECA81E6E515200ABD732 /* CaptureStream.swift */; };
 		416BECAF1E6E515200ABD732 /* FileStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416BECA91E6E515200ABD732 /* FileStream.swift */; };
 		416BECB01E6E515200ABD732 /* FrameWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416BECAA1E6E515200ABD732 /* FrameWriter.swift */; };
@@ -116,7 +100,29 @@
 		416BECB71E6E5E8400ABD732 /* MovieWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416BECB61E6E5E8400ABD732 /* MovieWriter.swift */; };
 		416BECBF1E6E6D7D00ABD732 /* MedianBlurVertexShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 416BECBE1E6E6D7D00ABD732 /* MedianBlurVertexShader.vsh */; };
 		416BECC11E6E6D9300ABD732 /* BoxBlurFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416BECC01E6E6D9300ABD732 /* BoxBlurFilter.swift */; };
+		41848DA21E7F9AC700CB7830 /* AdaptiveThresholdFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41848DA11E7F9AC700CB7830 /* AdaptiveThresholdFilter.swift */; };
+		41848DA41E7F9ADB00CB7830 /* ThresholdFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41848DA31E7F9ADB00CB7830 /* ThresholdFilter.swift */; };
 		41ADE9DF1E7B9963006FCF6D /* YUVInputFrameBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41ADE9DE1E7B9963006FCF6D /* YUVInputFrameBuffer.swift */; };
+		41D0970F1E7F7AEE00686133 /* ColorClampFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D096F81E7F7AEE00686133 /* ColorClampFilter.swift */; };
+		41D097101E7F7AEE00686133 /* ColorClampFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41D096F91E7F7AEE00686133 /* ColorClampFragmentShader.fsh */; };
+		41D097111E7F7AEE00686133 /* ColorInvertFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D096FB1E7F7AEE00686133 /* ColorInvertFilter.swift */; };
+		41D097121E7F7AEE00686133 /* ColorInvertFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41D096FC1E7F7AEE00686133 /* ColorInvertFragmentShader.fsh */; };
+		41D097131E7F7AEE00686133 /* ColorBiasFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D096FE1E7F7AEE00686133 /* ColorBiasFilter.swift */; };
+		41D097141E7F7AEE00686133 /* ColorBiasFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41D096FF1E7F7AEE00686133 /* ColorBiasFragmentShader.fsh */; };
+		41D097151E7F7AEE00686133 /* ExplosureAdjustFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D097011E7F7AEE00686133 /* ExplosureAdjustFilter.swift */; };
+		41D097161E7F7AEE00686133 /* ExplosureAdjustFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41D097021E7F7AEE00686133 /* ExplosureAdjustFragmentShader.fsh */; };
+		41D097171E7F7AEE00686133 /* GammaAdjustFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D097041E7F7AEE00686133 /* GammaAdjustFilter.swift */; };
+		41D097181E7F7AEE00686133 /* GammaAdjustFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41D097051E7F7AEE00686133 /* GammaAdjustFragmentShader.fsh */; };
+		41D097191E7F7AEE00686133 /* HueAdjustFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D097071E7F7AEE00686133 /* HueAdjustFilter.swift */; };
+		41D0971A1E7F7AEE00686133 /* HueAdjustFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41D097081E7F7AEE00686133 /* HueAdjustFragmentShader.fsh */; };
+		41D0971B1E7F7AEE00686133 /* MaximumComponentFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D0970A1E7F7AEE00686133 /* MaximumComponentFilter.swift */; };
+		41D0971C1E7F7AEE00686133 /* MaximumComponentFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41D0970B1E7F7AEE00686133 /* MaximumComponentFragmentShader.fsh */; };
+		41D0971D1E7F7AEE00686133 /* MinimumComponentFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D0970D1E7F7AEE00686133 /* MinimumComponentFilter.swift */; };
+		41D0971E1E7F7AEE00686133 /* MinimumComponentFragment.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41D0970E1E7F7AEE00686133 /* MinimumComponentFragment.fsh */; };
+		41D097201E7F7FDE00686133 /* Utility+Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D0971F1E7F7FDE00686133 /* Utility+Blur.swift */; };
+		41D097251E7F84D400686133 /* ThresholdFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41D097241E7F84D400686133 /* ThresholdFragmentShader.fsh */; };
+		41D097281E7F939F00686133 /* RGBToGrayScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D097271E7F939F00686133 /* RGBToGrayScale.swift */; };
+		41D0972A1E7F93E800686133 /* RGBToGrayScaleFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41D097291E7F93E800686133 /* RGBToGrayScaleFragmentShader.fsh */; };
 		41F1E5281E5D81C700C836DA /* PassthroughFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F1E5271E5D81C700C836DA /* PassthroughFilter.swift */; };
 /* End PBXBuildFile section */
 
@@ -182,22 +188,6 @@
 		412344AC1E51EF4700B3FDEF /* SubtrachBlendFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubtrachBlendFilter.swift; sourceTree = "<group>"; };
 		412344AD1E51EF4700B3FDEF /* SubtractBlendFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SubtractBlendFragmentShader.fsh; sourceTree = "<group>"; };
 		412344AE1E51EF4700B3FDEF /* DualInputFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DualInputFilter.swift; sourceTree = "<group>"; };
-		412344B21E51EF4700B3FDEF /* ColorClampFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorClampFilter.swift; sourceTree = "<group>"; };
-		412344B31E51EF4700B3FDEF /* ColorClampFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ColorClampFragmentShader.fsh; sourceTree = "<group>"; };
-		412344B51E51EF4700B3FDEF /* ColorInvertFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorInvertFilter.swift; sourceTree = "<group>"; };
-		412344B61E51EF4700B3FDEF /* ColorInvertFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ColorInvertFragmentShader.fsh; sourceTree = "<group>"; };
-		412344B81E51EF4700B3FDEF /* ColorBiasFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorBiasFilter.swift; sourceTree = "<group>"; };
-		412344B91E51EF4700B3FDEF /* ColorBiasFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ColorBiasFragmentShader.fsh; sourceTree = "<group>"; };
-		412344BB1E51EF4700B3FDEF /* ExplosureAdjustFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExplosureAdjustFilter.swift; sourceTree = "<group>"; };
-		412344BC1E51EF4700B3FDEF /* ExplosureAdjustFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ExplosureAdjustFragmentShader.fsh; sourceTree = "<group>"; };
-		412344BE1E51EF4700B3FDEF /* GammaAdjustFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GammaAdjustFilter.swift; sourceTree = "<group>"; };
-		412344BF1E51EF4700B3FDEF /* GammaAdjustFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GammaAdjustFragmentShader.fsh; sourceTree = "<group>"; };
-		412344C11E51EF4700B3FDEF /* HueAdjustFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HueAdjustFilter.swift; sourceTree = "<group>"; };
-		412344C21E51EF4700B3FDEF /* HueAdjustFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = HueAdjustFragmentShader.fsh; sourceTree = "<group>"; };
-		412344C41E51EF4700B3FDEF /* MaximumComponentFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaximumComponentFilter.swift; sourceTree = "<group>"; };
-		412344C51E51EF4700B3FDEF /* MaximumComponentFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MaximumComponentFragmentShader.fsh; sourceTree = "<group>"; };
-		412344C71E51EF4700B3FDEF /* MinimumComponentFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinimumComponentFilter.swift; sourceTree = "<group>"; };
-		412344C81E51EF4700B3FDEF /* MinimumComponentFragment.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MinimumComponentFragment.fsh; sourceTree = "<group>"; };
 		412344C91E51EF4700B3FDEF /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		412344CA1E51EF4700B3FDEF /* PassthroughVertexShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = PassthroughVertexShader.vsh; sourceTree = "<group>"; };
 		412344CB1E51EF4700B3FDEF /* PassthroughFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = PassthroughFragmentShader.fsh; sourceTree = "<group>"; };
@@ -231,7 +221,29 @@
 		416BECB61E6E5E8400ABD732 /* MovieWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieWriter.swift; sourceTree = "<group>"; };
 		416BECBE1E6E6D7D00ABD732 /* MedianBlurVertexShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MedianBlurVertexShader.vsh; sourceTree = "<group>"; };
 		416BECC01E6E6D9300ABD732 /* BoxBlurFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoxBlurFilter.swift; sourceTree = "<group>"; };
+		41848DA11E7F9AC700CB7830 /* AdaptiveThresholdFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdaptiveThresholdFilter.swift; sourceTree = "<group>"; };
+		41848DA31E7F9ADB00CB7830 /* ThresholdFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThresholdFilter.swift; sourceTree = "<group>"; };
 		41ADE9DE1E7B9963006FCF6D /* YUVInputFrameBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YUVInputFrameBuffer.swift; sourceTree = "<group>"; };
+		41D096F81E7F7AEE00686133 /* ColorClampFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorClampFilter.swift; sourceTree = "<group>"; };
+		41D096F91E7F7AEE00686133 /* ColorClampFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ColorClampFragmentShader.fsh; sourceTree = "<group>"; };
+		41D096FB1E7F7AEE00686133 /* ColorInvertFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorInvertFilter.swift; sourceTree = "<group>"; };
+		41D096FC1E7F7AEE00686133 /* ColorInvertFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ColorInvertFragmentShader.fsh; sourceTree = "<group>"; };
+		41D096FE1E7F7AEE00686133 /* ColorBiasFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorBiasFilter.swift; sourceTree = "<group>"; };
+		41D096FF1E7F7AEE00686133 /* ColorBiasFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ColorBiasFragmentShader.fsh; sourceTree = "<group>"; };
+		41D097011E7F7AEE00686133 /* ExplosureAdjustFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExplosureAdjustFilter.swift; sourceTree = "<group>"; };
+		41D097021E7F7AEE00686133 /* ExplosureAdjustFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ExplosureAdjustFragmentShader.fsh; sourceTree = "<group>"; };
+		41D097041E7F7AEE00686133 /* GammaAdjustFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GammaAdjustFilter.swift; sourceTree = "<group>"; };
+		41D097051E7F7AEE00686133 /* GammaAdjustFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GammaAdjustFragmentShader.fsh; sourceTree = "<group>"; };
+		41D097071E7F7AEE00686133 /* HueAdjustFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HueAdjustFilter.swift; sourceTree = "<group>"; };
+		41D097081E7F7AEE00686133 /* HueAdjustFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = HueAdjustFragmentShader.fsh; sourceTree = "<group>"; };
+		41D0970A1E7F7AEE00686133 /* MaximumComponentFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaximumComponentFilter.swift; sourceTree = "<group>"; };
+		41D0970B1E7F7AEE00686133 /* MaximumComponentFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MaximumComponentFragmentShader.fsh; sourceTree = "<group>"; };
+		41D0970D1E7F7AEE00686133 /* MinimumComponentFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinimumComponentFilter.swift; sourceTree = "<group>"; };
+		41D0970E1E7F7AEE00686133 /* MinimumComponentFragment.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MinimumComponentFragment.fsh; sourceTree = "<group>"; };
+		41D0971F1E7F7FDE00686133 /* Utility+Blur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Utility+Blur.swift"; sourceTree = "<group>"; };
+		41D097241E7F84D400686133 /* ThresholdFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ThresholdFragmentShader.fsh; sourceTree = "<group>"; };
+		41D097271E7F939F00686133 /* RGBToGrayScale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGBToGrayScale.swift; sourceTree = "<group>"; };
+		41D097291E7F93E800686133 /* RGBToGrayScaleFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = RGBToGrayScaleFragmentShader.fsh; sourceTree = "<group>"; };
 		41F1E5271E5D81C700C836DA /* PassthroughFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughFilter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -252,6 +264,7 @@
 				41012E0C1E58015500D39AA0 /* ComponentExchangeFilter.swift */,
 				41012E0F1E58066800D39AA0 /* RGBNBGRExchangeFragmentShader.fsh */,
 				414A58931E7A365B00416858 /* I420ToBGRAFilter */,
+				41D097261E7F939300686133 /* RGBToGrayScale */,
 			);
 			path = Convert;
 			sourceTree = "<group>";
@@ -321,6 +334,8 @@
 			children = (
 				4123445E1E51EF4700B3FDEF /* GaussianBlurFilter.swift */,
 				416BECC01E6E6D9300ABD732 /* BoxBlurFilter.swift */,
+				41D0971F1E7F7FDE00686133 /* Utility+Blur.swift */,
+				41D096F61E7F7AB500686133 /* BilateralBlur */,
 				4123445F1E51EF4700B3FDEF /* MedianBlur */,
 				412344621E51EF4700B3FDEF /* MotionBlur */,
 				412344661E51EF4700B3FDEF /* ZoomBlur */,
@@ -594,88 +609,18 @@
 		412344B01E51EF4700B3FDEF /* Color */ = {
 			isa = PBXGroup;
 			children = (
-				412344B11E51EF4700B3FDEF /* ColorClampFilter */,
-				412344B41E51EF4700B3FDEF /* ColorInvertFilter */,
-				412344B71E51EF4700B3FDEF /* ColorMatrixFilter */,
-				412344BA1E51EF4700B3FDEF /* ExplosureAdjustFilter */,
-				412344BD1E51EF4700B3FDEF /* GammaAdjustFilter */,
-				412344C01E51EF4700B3FDEF /* HueAdjust */,
-				412344C31E51EF4700B3FDEF /* MaximumComponentFilter */,
-				412344C61E51EF4700B3FDEF /* MinimumComponentFilter */,
+				41D096F71E7F7AEE00686133 /* ColorClamp */,
+				41D096FA1E7F7AEE00686133 /* ColorInvert */,
+				41D096FD1E7F7AEE00686133 /* ColorMatrix */,
+				41D097001E7F7AEE00686133 /* ExplosureAdjust */,
+				41D097031E7F7AEE00686133 /* GammaAdjust */,
+				41D097061E7F7AEE00686133 /* HueAdjust */,
+				41D097091E7F7AEE00686133 /* MaximumComponent */,
+				41D0970C1E7F7AEE00686133 /* MinimumComponent */,
+				41D097211E7F833C00686133 /* Threshold */,
+				41D0972B1E7F945D00686133 /* AdaptiveThreshold */,
 			);
 			path = Color;
-			sourceTree = "<group>";
-		};
-		412344B11E51EF4700B3FDEF /* ColorClampFilter */ = {
-			isa = PBXGroup;
-			children = (
-				412344B21E51EF4700B3FDEF /* ColorClampFilter.swift */,
-				412344B31E51EF4700B3FDEF /* ColorClampFragmentShader.fsh */,
-			);
-			path = ColorClampFilter;
-			sourceTree = "<group>";
-		};
-		412344B41E51EF4700B3FDEF /* ColorInvertFilter */ = {
-			isa = PBXGroup;
-			children = (
-				412344B51E51EF4700B3FDEF /* ColorInvertFilter.swift */,
-				412344B61E51EF4700B3FDEF /* ColorInvertFragmentShader.fsh */,
-			);
-			path = ColorInvertFilter;
-			sourceTree = "<group>";
-		};
-		412344B71E51EF4700B3FDEF /* ColorMatrixFilter */ = {
-			isa = PBXGroup;
-			children = (
-				412344B81E51EF4700B3FDEF /* ColorBiasFilter.swift */,
-				412344B91E51EF4700B3FDEF /* ColorBiasFragmentShader.fsh */,
-			);
-			path = ColorMatrixFilter;
-			sourceTree = "<group>";
-		};
-		412344BA1E51EF4700B3FDEF /* ExplosureAdjustFilter */ = {
-			isa = PBXGroup;
-			children = (
-				412344BB1E51EF4700B3FDEF /* ExplosureAdjustFilter.swift */,
-				412344BC1E51EF4700B3FDEF /* ExplosureAdjustFragmentShader.fsh */,
-			);
-			path = ExplosureAdjustFilter;
-			sourceTree = "<group>";
-		};
-		412344BD1E51EF4700B3FDEF /* GammaAdjustFilter */ = {
-			isa = PBXGroup;
-			children = (
-				412344BE1E51EF4700B3FDEF /* GammaAdjustFilter.swift */,
-				412344BF1E51EF4700B3FDEF /* GammaAdjustFragmentShader.fsh */,
-			);
-			path = GammaAdjustFilter;
-			sourceTree = "<group>";
-		};
-		412344C01E51EF4700B3FDEF /* HueAdjust */ = {
-			isa = PBXGroup;
-			children = (
-				412344C11E51EF4700B3FDEF /* HueAdjustFilter.swift */,
-				412344C21E51EF4700B3FDEF /* HueAdjustFragmentShader.fsh */,
-			);
-			path = HueAdjust;
-			sourceTree = "<group>";
-		};
-		412344C31E51EF4700B3FDEF /* MaximumComponentFilter */ = {
-			isa = PBXGroup;
-			children = (
-				412344C41E51EF4700B3FDEF /* MaximumComponentFilter.swift */,
-				412344C51E51EF4700B3FDEF /* MaximumComponentFragmentShader.fsh */,
-			);
-			path = MaximumComponentFilter;
-			sourceTree = "<group>";
-		};
-		412344C61E51EF4700B3FDEF /* MinimumComponentFilter */ = {
-			isa = PBXGroup;
-			children = (
-				412344C71E51EF4700B3FDEF /* MinimumComponentFilter.swift */,
-				412344C81E51EF4700B3FDEF /* MinimumComponentFragment.fsh */,
-			);
-			path = MinimumComponentFilter;
 			sourceTree = "<group>";
 		};
 		412344CE1E51EF4700B3FDEF /* GLObjects */ = {
@@ -746,6 +691,111 @@
 				416BECB61E6E5E8400ABD732 /* MovieWriter.swift */,
 			);
 			path = Stream;
+			sourceTree = "<group>";
+		};
+		41D096F61E7F7AB500686133 /* BilateralBlur */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = BilateralBlur;
+			sourceTree = "<group>";
+		};
+		41D096F71E7F7AEE00686133 /* ColorClamp */ = {
+			isa = PBXGroup;
+			children = (
+				41D096F81E7F7AEE00686133 /* ColorClampFilter.swift */,
+				41D096F91E7F7AEE00686133 /* ColorClampFragmentShader.fsh */,
+			);
+			path = ColorClamp;
+			sourceTree = "<group>";
+		};
+		41D096FA1E7F7AEE00686133 /* ColorInvert */ = {
+			isa = PBXGroup;
+			children = (
+				41D096FB1E7F7AEE00686133 /* ColorInvertFilter.swift */,
+				41D096FC1E7F7AEE00686133 /* ColorInvertFragmentShader.fsh */,
+			);
+			path = ColorInvert;
+			sourceTree = "<group>";
+		};
+		41D096FD1E7F7AEE00686133 /* ColorMatrix */ = {
+			isa = PBXGroup;
+			children = (
+				41D096FE1E7F7AEE00686133 /* ColorBiasFilter.swift */,
+				41D096FF1E7F7AEE00686133 /* ColorBiasFragmentShader.fsh */,
+			);
+			path = ColorMatrix;
+			sourceTree = "<group>";
+		};
+		41D097001E7F7AEE00686133 /* ExplosureAdjust */ = {
+			isa = PBXGroup;
+			children = (
+				41D097011E7F7AEE00686133 /* ExplosureAdjustFilter.swift */,
+				41D097021E7F7AEE00686133 /* ExplosureAdjustFragmentShader.fsh */,
+			);
+			path = ExplosureAdjust;
+			sourceTree = "<group>";
+		};
+		41D097031E7F7AEE00686133 /* GammaAdjust */ = {
+			isa = PBXGroup;
+			children = (
+				41D097041E7F7AEE00686133 /* GammaAdjustFilter.swift */,
+				41D097051E7F7AEE00686133 /* GammaAdjustFragmentShader.fsh */,
+			);
+			path = GammaAdjust;
+			sourceTree = "<group>";
+		};
+		41D097061E7F7AEE00686133 /* HueAdjust */ = {
+			isa = PBXGroup;
+			children = (
+				41D097071E7F7AEE00686133 /* HueAdjustFilter.swift */,
+				41D097081E7F7AEE00686133 /* HueAdjustFragmentShader.fsh */,
+			);
+			path = HueAdjust;
+			sourceTree = "<group>";
+		};
+		41D097091E7F7AEE00686133 /* MaximumComponent */ = {
+			isa = PBXGroup;
+			children = (
+				41D0970A1E7F7AEE00686133 /* MaximumComponentFilter.swift */,
+				41D0970B1E7F7AEE00686133 /* MaximumComponentFragmentShader.fsh */,
+			);
+			path = MaximumComponent;
+			sourceTree = "<group>";
+		};
+		41D0970C1E7F7AEE00686133 /* MinimumComponent */ = {
+			isa = PBXGroup;
+			children = (
+				41D0970D1E7F7AEE00686133 /* MinimumComponentFilter.swift */,
+				41D0970E1E7F7AEE00686133 /* MinimumComponentFragment.fsh */,
+			);
+			path = MinimumComponent;
+			sourceTree = "<group>";
+		};
+		41D097211E7F833C00686133 /* Threshold */ = {
+			isa = PBXGroup;
+			children = (
+				41848DA31E7F9ADB00CB7830 /* ThresholdFilter.swift */,
+				41D097241E7F84D400686133 /* ThresholdFragmentShader.fsh */,
+			);
+			path = Threshold;
+			sourceTree = "<group>";
+		};
+		41D097261E7F939300686133 /* RGBToGrayScale */ = {
+			isa = PBXGroup;
+			children = (
+				41D097271E7F939F00686133 /* RGBToGrayScale.swift */,
+				41D097291E7F93E800686133 /* RGBToGrayScaleFragmentShader.fsh */,
+			);
+			path = RGBToGrayScale;
+			sourceTree = "<group>";
+		};
+		41D0972B1E7F945D00686133 /* AdaptiveThreshold */ = {
+			isa = PBXGroup;
+			children = (
+				41848DA11E7F9AC700CB7830 /* AdaptiveThresholdFilter.swift */,
+			);
+			path = AdaptiveThreshold;
 			sourceTree = "<group>";
 		};
 		41F1E5261E5D818300C836DA /* Test */ = {
@@ -827,12 +877,17 @@
 			files = (
 				415390B11E6814460009667D /* PassthroughVertexShader.vsh in Resources */,
 				415390B21E6814460009667D /* PassthroughFragmentShader.fsh in Resources */,
+				41D097101E7F7AEE00686133 /* ColorClampFragmentShader.fsh in Resources */,
+				41D0971C1E7F7AEE00686133 /* MaximumComponentFragmentShader.fsh in Resources */,
 				415390B31E6814460009667D /* RGBNBGRExchangeFragmentShader.fsh in Resources */,
 				414A58971E7A427C00416858 /* I420ToBGRAFragmentShader.fsh in Resources */,
 				415390B41E6814460009667D /* MedianBlurFragmentShader.fsh in Resources */,
+				41D097161E7F7AEE00686133 /* ExplosureAdjustFragmentShader.fsh in Resources */,
 				415390B51E6814460009667D /* MotionBlurFragmentShader.fsh in Resources */,
 				415390B71E6814460009667D /* ZoomBlurFragmentShader.fsh in Resources */,
+				41D0971E1E7F7AEE00686133 /* MinimumComponentFragment.fsh in Resources */,
 				415390B81E6814460009667D /* AdditionBlendFragmentShader.fsh in Resources */,
+				41D097141E7F7AEE00686133 /* ColorBiasFragmentShader.fsh in Resources */,
 				415390B91E6814460009667D /* AlphaMaskBlendFragmentShader.fsh in Resources */,
 				415390BA1E6814460009667D /* ColorBurnBlendFragmentShader.fsh in Resources */,
 				415390BB1E6814460009667D /* ColorDodgeBlendFragmentShader.fsh in Resources */,
@@ -846,24 +901,21 @@
 				415390C21E6814460009667D /* LinearBlendFragmentShader.fsh in Resources */,
 				415390C31E6814460009667D /* LinearBurnBlendFragmentShader.fsh in Resources */,
 				415390C41E6814460009667D /* LuminosityBlendFragmentShader.fsh in Resources */,
+				41D097251E7F84D400686133 /* ThresholdFragmentShader.fsh in Resources */,
+				41D097121E7F7AEE00686133 /* ColorInvertFragmentShader.fsh in Resources */,
+				41D097181E7F7AEE00686133 /* GammaAdjustFragmentShader.fsh in Resources */,
 				415390C51E6814460009667D /* MaskBlendFragmentShader.fsh in Resources */,
 				415390C61E6814460009667D /* MaximumBlendFragmentShader.fsh in Resources */,
 				415390C71E6814460009667D /* MinimumBlendFragmentShader.fsh in Resources */,
 				415390C81E6814460009667D /* MultiplyBlendFragmentShader.fsh in Resources */,
 				415390C91E6814460009667D /* OverlayBlendFragmentShader.fsh in Resources */,
+				41D0972A1E7F93E800686133 /* RGBToGrayScaleFragmentShader.fsh in Resources */,
 				415390CA1E6814460009667D /* SaturationBlendFragmentShader.fsh in Resources */,
 				415390CB1E6814460009667D /* ScreenBlendFragmentShader.fsh in Resources */,
 				415390CC1E6814460009667D /* SoftLightBlendFragmentShader.fsh in Resources */,
 				415390CD1E6814460009667D /* SubtractBlendFragmentShader.fsh in Resources */,
-				415390CE1E6814460009667D /* ColorClampFragmentShader.fsh in Resources */,
-				415390CF1E6814460009667D /* ColorInvertFragmentShader.fsh in Resources */,
-				415390D01E6814460009667D /* ColorBiasFragmentShader.fsh in Resources */,
-				415390D11E6814460009667D /* ExplosureAdjustFragmentShader.fsh in Resources */,
-				415390D21E6814460009667D /* GammaAdjustFragmentShader.fsh in Resources */,
-				415390D31E6814460009667D /* HueAdjustFragmentShader.fsh in Resources */,
-				415390D41E6814460009667D /* MaximumComponentFragmentShader.fsh in Resources */,
-				415390D51E6814460009667D /* MinimumComponentFragment.fsh in Resources */,
 				412344E11E51EF4700B3FDEF /* Info.plist in Resources */,
+				41D0971A1E7F7AEE00686133 /* HueAdjustFragmentShader.fsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -875,17 +927,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				4123453F1E51EF4700B3FDEF /* ProgramObjectsCacher.swift in Sources */,
+				41848DA21E7F9AC700CB7830 /* AdaptiveThresholdFilter.swift in Sources */,
 				412345081E51EF4700B3FDEF /* LinearBlendFilter.swift in Sources */,
 				41012E0D1E58015500D39AA0 /* ComponentExchangeFilter.swift in Sources */,
+				41D0970F1E7F7AEE00686133 /* ColorClampFilter.swift in Sources */,
 				412345061E51EF4700B3FDEF /* LightenBlendFilter.swift in Sources */,
 				416BECB11E6E515200ABD732 /* StillImageCamera.swift in Sources */,
 				412344F41E51EF4700B3FDEF /* AdditionBlendFilter.swift in Sources */,
-				4123452F1E51EF4700B3FDEF /* MinimumComponentFilter.swift in Sources */,
 				412345001E51EF4700B3FDEF /* DivideBlendFilter.swift in Sources */,
-				412345211E51EF4700B3FDEF /* ColorClampFilter.swift in Sources */,
-				412345271E51EF4700B3FDEF /* ExplosureAdjustFilter.swift in Sources */,
+				41D0971B1E7F7AEE00686133 /* MaximumComponentFilter.swift in Sources */,
 				4123453A1E51EF4700B3FDEF /* SMSampleInputFrameBuffer.swift in Sources */,
-				412345251E51EF4700B3FDEF /* ColorBiasFilter.swift in Sources */,
 				412344EF1E51EF4700B3FDEF /* MotionBlurFilter.swift in Sources */,
 				416BECAE1E6E515200ABD732 /* CaptureStream.swift in Sources */,
 				4103B1561E65166800888EBF /* Utility.swift in Sources */,
@@ -896,50 +947,55 @@
 				412345431E51EF4700B3FDEF /* String+Helper.swift in Sources */,
 				416BECB01E6E515200ABD732 /* FrameWriter.swift in Sources */,
 				412345311E51EF4700B3FDEF /* Filter.swift in Sources */,
-				412345231E51EF4700B3FDEF /* ColorInvertFilter.swift in Sources */,
 				416BECB31E6E515200ABD732 /* VideoCamera.swift in Sources */,
 				412345411E51EF4700B3FDEF /* CameraPreviewView.swift in Sources */,
 				412345181E51EF4700B3FDEF /* SaturationBlendFilter.swift in Sources */,
+				41848DA41E7F9ADB00CB7830 /* ThresholdFilter.swift in Sources */,
 				412344F81E51EF4700B3FDEF /* ColorBurnBlendFilter.swift in Sources */,
 				412345121E51EF4700B3FDEF /* MinimumBlendFilter.swift in Sources */,
-				4123452B1E51EF4700B3FDEF /* HueAdjustFilter.swift in Sources */,
 				412345101E51EF4700B3FDEF /* MaximumBlendFilter.swift in Sources */,
 				4123453D1E51EF4700B3FDEF /* Limits.swift in Sources */,
 				412345391E51EF4700B3FDEF /* OutputFrameBuffer.swift in Sources */,
 				4123453B1E51EF4700B3FDEF /* TextureInputFrameBuffer.swift in Sources */,
 				4123451E1E51EF4700B3FDEF /* SubtrachBlendFilter.swift in Sources */,
-				412345291E51EF4700B3FDEF /* GammaAdjustFilter.swift in Sources */,
 				41F1E5281E5D81C700C836DA /* PassthroughFilter.swift in Sources */,
+				41D097171E7F7AEE00686133 /* GammaAdjustFilter.swift in Sources */,
 				412345381E51EF4700B3FDEF /* InputFrameBuffer.swift in Sources */,
 				412344E61E51EF4700B3FDEF /* Canvas.swift in Sources */,
 				4123453E1E51EF4700B3FDEF /* Program.swift in Sources */,
 				4123451C1E51EF4700B3FDEF /* SoftLightBlendFilter.swift in Sources */,
+				41D097111E7F7AEE00686133 /* ColorInvertFilter.swift in Sources */,
 				412345341E51EF4700B3FDEF /* ThreeInputFilter.swift in Sources */,
-				4123452D1E51EF4700B3FDEF /* MaximumComponentFilter.swift in Sources */,
 				412345401E51EF4700B3FDEF /* TextureCacher.swift in Sources */,
 				412345141E51EF4700B3FDEF /* MultiplyBlendFilter.swift in Sources */,
 				4149650E1E5FBED400CB7ADA /* PixelBufferPool.swift in Sources */,
+				41D097191E7F7AEE00686133 /* HueAdjustFilter.swift in Sources */,
 				414A58951E7A366A00416858 /* I420ToBGRAFilter.swift in Sources */,
 				412345021E51EF4700B3FDEF /* HardLightBlendFilter.swift in Sources */,
 				412344F61E51EF4700B3FDEF /* AlphaMaskBlendFilter.swift in Sources */,
 				412344FE1E51EF4700B3FDEF /* DifferenceBlendFilter.swift in Sources */,
 				412344F21E51EF4700B3FDEF /* ZoomBlurFilter.swift in Sources */,
+				41D0971D1E7F7AEE00686133 /* MinimumComponentFilter.swift in Sources */,
 				416BECB51E6E5CC600ABD732 /* BaseStream.swift in Sources */,
 				4123450E1E51EF4700B3FDEF /* MaskBlendFilter.swift in Sources */,
 				416BECB71E6E5E8400ABD732 /* MovieWriter.swift in Sources */,
+				41D097151E7F7AEE00686133 /* ExplosureAdjustFilter.swift in Sources */,
 				412344EA1E51EF4700B3FDEF /* BaseFilter.swift in Sources */,
 				4123450A1E51EF4700B3FDEF /* LinearBurnBlendFilter.swift in Sources */,
 				416BECC11E6E6D9300ABD732 /* BoxBlurFilter.swift in Sources */,
 				412344E71E51EF4700B3FDEF /* ImageCanvas.swift in Sources */,
 				412345041E51EF4700B3FDEF /* HueBlendFilter.swift in Sources */,
+				41D097201E7F7FDE00686133 /* Utility+Blur.swift in Sources */,
 				416BECAF1E6E515200ABD732 /* FileStream.swift in Sources */,
 				416BECB21E6E515200ABD732 /* Stream.swift in Sources */,
 				4123450C1E51EF4700B3FDEF /* LuminosityBlendFilter.swift in Sources */,
 				412345161E51EF4700B3FDEF /* OverlayBlendFilter.swift in Sources */,
 				412345421E51EF4700B3FDEF /* EAGLOuputFrameBuffer.swift in Sources */,
 				412344E81E51EF4700B3FDEF /* Errors.swift in Sources */,
+				41D097281E7F939F00686133 /* RGBToGrayScale.swift in Sources */,
 				412344ED1E51EF4700B3FDEF /* MedianBlurFilter.swift in Sources */,
 				4123451A1E51EF4700B3FDEF /* ScreenBlendFilter.swift in Sources */,
+				41D097131E7F7AEE00686133 /* ColorBiasFilter.swift in Sources */,
 				41ADE9DF1E7B9963006FCF6D /* YUVInputFrameBuffer.swift in Sources */,
 				412345361E51EF4700B3FDEF /* Context.swift in Sources */,
 				412344EC1E51EF4700B3FDEF /* GaussianBlurFilter.swift in Sources */,
