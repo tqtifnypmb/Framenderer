@@ -8,7 +8,7 @@
 
 import Foundation
 
-func buildGaussianKernel(radius: Int, sigma: Double) -> [Double] {
+func buildTwoPassGaussianKernel(radius: Int, sigma: Double) -> [Double] {
     var ret: [Double] = []
     var sumOfWeight: Double = 0
     
@@ -48,4 +48,25 @@ func buildGaussianFragmentShaderSource(radius: Int, kernel: [Double]) -> String 
     src += "color = acc;                               \n"
     src += "}                                          \n"
     return src
+}
+
+func buildGaussianKernel(radius: Int, sigma: Double) -> [Double] {
+    let kernelSize = Int(pow(Double(radius * 2 + 1), 2.0))
+    let center = radius * (2 * radius + 1) + radius
+    
+    var ret: [Double] = []
+    var sumOfWeight: Double = 0
+    
+    let twoSigmaSquare = 2 * pow(sigma, 2)
+    let constant = 1 / sqrt(twoSigmaSquare * M_PI)
+    for i in 0 ..< kernelSize {
+        let weight = constant * exp(-Double(abs(i - center)) / twoSigmaSquare)
+        ret.append(weight)
+        
+        sumOfWeight += weight
+    }
+    
+    // normalize
+    sumOfWeight = 1.0 / sumOfWeight
+    return ret.map { $0 * sumOfWeight }
 }
