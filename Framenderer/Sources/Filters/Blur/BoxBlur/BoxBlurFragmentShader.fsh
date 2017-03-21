@@ -11,8 +11,6 @@ uniform highp float yOffset;
 
 out vec4 color;
 
-#define M_PI 3.1415926535897932384626433832795
-
 void main() {
     vec4 acc = vec4(0.0);
     

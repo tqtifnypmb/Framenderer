@@ -52,23 +52,23 @@ void main() {
     float brightness = 0.2126 * center.r + 0.7152 * center.g + 0.0722 * center.b;
     
     switch (type) {
-    case 0:         // binary
+        case 0:         // binary
             brightness = brightness < threshold ? 0.0 : max;
             break;
         
-    case 1:         // binary inverse
+        case 1:         // binary inverse
             brightness = brightness < threshold ? max : 0.0;
             break;
-        
-    case 2:         // truncate
+    
+        case 2:         // truncate
             brightness = brightness < threshold ? brightness : threshold;
             break;
         
-    case 3:         // to_zero
+        case 3:         // to_zero
             brightness = brightness < threshold ? 0.0 : brightness;
             break;
         
-    case 4:         // to_zero_inverse
+        case 4:         // to_zero_inverse
             brightness = brightness < threshold ? brightness : 0.0;
             break;
     }
