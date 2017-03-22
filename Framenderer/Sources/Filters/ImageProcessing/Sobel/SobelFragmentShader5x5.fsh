@@ -21,7 +21,7 @@ void main() {
         for (float col = -radius; col <= radius; col += 1.0) {
             vec4 tmp = texture(firstInput, fTextCoor + vec2(row * xOffset, col * yOffset));
             
-            float intensity = 0.2126 * tmp.r + 0.7152 * tmp.g + 0.0722 * tmp.b;
+            float intensity = tmp.r + tmp.g + tmp.b;
             
             int cIndex = int(col + radius);
             int rIndex = int(row + radius);
@@ -31,7 +31,7 @@ void main() {
         }
     }
     
-    float brightness = sqrt(pow(gx, 2.0) + pow(gy, 2.0));
+    float brightness = sqrt(pow(gx / 240.0, 2.0) + pow(gy / 240.0, 2.0));
     vec3 rgb = clamp(vec3(brightness), vec3(0.0), vec3(1.0));
     color = vec4(rgb, 1.0);
 }
