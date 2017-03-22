@@ -128,6 +128,9 @@
 		41D097281E7F939F00686133 /* RGBToGrayScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D097271E7F939F00686133 /* RGBToGrayScale.swift */; };
 		41D0972A1E7F93E800686133 /* RGBToGrayScaleFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41D097291E7F93E800686133 /* RGBToGrayScaleFragmentShader.fsh */; };
 		41F1E5281E5D81C700C836DA /* PassthroughFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F1E5271E5D81C700C836DA /* PassthroughFilter.swift */; };
+		41FC10191E82193200BB98DE /* SobelFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FC10181E82193200BB98DE /* SobelFilter.swift */; };
+		41FC101B1E821D4700BB98DE /* SobelFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41FC101A1E821D4700BB98DE /* SobelFragmentShader.fsh */; };
+		41FC101D1E824A9200BB98DE /* SobelFragmentShader5x5.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41FC101C1E824A9200BB98DE /* SobelFragmentShader5x5.fsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -253,6 +256,9 @@
 		41D097271E7F939F00686133 /* RGBToGrayScale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGBToGrayScale.swift; sourceTree = "<group>"; };
 		41D097291E7F93E800686133 /* RGBToGrayScaleFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = RGBToGrayScaleFragmentShader.fsh; sourceTree = "<group>"; };
 		41F1E5271E5D81C700C836DA /* PassthroughFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughFilter.swift; sourceTree = "<group>"; };
+		41FC10181E82193200BB98DE /* SobelFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SobelFilter.swift; sourceTree = "<group>"; };
+		41FC101A1E821D4700BB98DE /* SobelFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SobelFragmentShader.fsh; sourceTree = "<group>"; };
+		41FC101C1E824A9200BB98DE /* SobelFragmentShader5x5.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SobelFragmentShader5x5.fsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -762,6 +768,7 @@
 			children = (
 				414108B31E80DE0E006A0A6E /* AdaptiveThreshold */,
 				414108B61E80DE0E006A0A6E /* Threshold */,
+				41FC10171E82191200BB98DE /* Sobel */,
 			);
 			path = ImageProcessing;
 			sourceTree = "<group>";
@@ -832,6 +839,16 @@
 				41F1E5271E5D81C700C836DA /* PassthroughFilter.swift */,
 			);
 			path = Test;
+			sourceTree = "<group>";
+		};
+		41FC10171E82191200BB98DE /* Sobel */ = {
+			isa = PBXGroup;
+			children = (
+				41FC10181E82193200BB98DE /* SobelFilter.swift */,
+				41FC101A1E821D4700BB98DE /* SobelFragmentShader.fsh */,
+				41FC101C1E824A9200BB98DE /* SobelFragmentShader5x5.fsh */,
+			);
+			path = Sobel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -908,6 +925,7 @@
 				415390B21E6814460009667D /* PassthroughFragmentShader.fsh in Resources */,
 				4141087D1E80DAE3006A0A6E /* BoxBlurFragmentShader.fsh in Resources */,
 				415390B31E6814460009667D /* RGBNBGRExchangeFragmentShader.fsh in Resources */,
+				41FC101D1E824A9200BB98DE /* SobelFragmentShader5x5.fsh in Resources */,
 				414108AB1E80DE03006A0A6E /* GammaAdjustFragmentShader.fsh in Resources */,
 				414A58971E7A427C00416858 /* I420ToBGRAFragmentShader.fsh in Resources */,
 				415390B41E6814460009667D /* MedianBlurFragmentShader.fsh in Resources */,
@@ -943,6 +961,7 @@
 				41D0972A1E7F93E800686133 /* RGBToGrayScaleFragmentShader.fsh in Resources */,
 				414108A31E80DE03006A0A6E /* ColorClampFragmentShader.fsh in Resources */,
 				415390CA1E6814460009667D /* SaturationBlendFragmentShader.fsh in Resources */,
+				41FC101B1E821D4700BB98DE /* SobelFragmentShader.fsh in Resources */,
 				415390CB1E6814460009667D /* ScreenBlendFragmentShader.fsh in Resources */,
 				415390CC1E6814460009667D /* SoftLightBlendFragmentShader.fsh in Resources */,
 				415390CD1E6814460009667D /* SubtractBlendFragmentShader.fsh in Resources */,
@@ -985,6 +1004,7 @@
 				414108BB1E80DE0E006A0A6E /* ThresholdFilter.swift in Sources */,
 				412344F81E51EF4700B3FDEF /* ColorBurnBlendFilter.swift in Sources */,
 				412345121E51EF4700B3FDEF /* MinimumBlendFilter.swift in Sources */,
+				41FC10191E82193200BB98DE /* SobelFilter.swift in Sources */,
 				412345101E51EF4700B3FDEF /* MaximumBlendFilter.swift in Sources */,
 				414108B01E80DE03006A0A6E /* MinimumComponentFilter.swift in Sources */,
 				4123453D1E51EF4700B3FDEF /* Limits.swift in Sources */,

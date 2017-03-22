@@ -18,8 +18,8 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let origin = UIImage(named: "aero1")
-        let blend = UIImage(named: "lena")
+        let origin = UIImage(named: "fruits")
+//        let blend = UIImage(named: "lena")
 //        
 //        let context = CIContext()
 //        
@@ -35,9 +35,10 @@ class ViewController: UIViewController {
         originImageView.image = origin
         
         let canva = ImageCanvas(image: origin!.cgImage!)
-        let zoom = ZoomBlurFilter(center: CGPoint(x: 0.5, y: 0.5), radius: 10)
+//        let zoom = ZoomBlurFilter(center: CGPoint(x: 0.5, y: 0.5), radius: 10)
         
-        canva.filters = [PassthroughFilter(), LinearBlendFilter(source: blend!.cgImage!, a: 0.5)]
+        
+        canva.filters = [SobelFilter(radius: 1)]
         canva.processAsync {[weak self] result, error in
             if let error = error {
                 print(glGetError())

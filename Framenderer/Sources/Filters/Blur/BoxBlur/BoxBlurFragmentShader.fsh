@@ -16,8 +16,8 @@ void main() {
     
     float weight = 1.0 / (radius * 2.0 + 1.0);
     
-    for (float row = 0.0; row <= 2.0 * radius; row += 1.0) {
-        vec4 tmp = texture(firstInput, fTextCoor + vec2((row - radius) * xOffset, (row - radius) * yOffset));
+    for (float row = -radius; row <= radius; row += 1.0) {
+        vec4 tmp = texture(firstInput, fTextCoor + vec2(row * xOffset, row * yOffset));
         acc += tmp * weight;
     }
     

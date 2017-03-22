@@ -35,7 +35,12 @@ open class TwoPassFilter: BaseFilter {
         
         do {
             glActiveTexture(GLenum(GL_TEXTURE1))
+            
+            // enable input/output toggle, in case disbaled by frame stream
+            let old = ctx.enableInputOutputToggle
+            ctx.enableInputOutputToggle = true
             ctx.toggleInputOutputIfNeeded()
+            ctx.enableInputOutputToggle = old
             
             if !_isProgram2Setup {
                 _isProgram2Setup = true
@@ -53,29 +58,4 @@ open class TwoPassFilter: BaseFilter {
             throw FilterError.filterError(name: self.name, error: error.localizedDescription)
         }
     }
-}
-
-func buildSeparableKernelVertexSource(radius: Int) -> String {
-    let kernelSize = radius * 2 + 1
-    
-    var src = "#version 300 es                         \n"
-            + "in vec4 vPosition;                      \n"
-            + "in vec2 vTextCoor;                      \n"
-            + "uniform highp float xOffset;            \n"
-            + "uniform highp float yOffset;            \n"
-            + "out highp vec2 fTextCoor[\(kernelSize)];\n"
-        
-            + "void main() {                           \n"
-            + "    gl_Position = vPosition;            \n"
-            + "    vec2 step = vec2(xOffset, yOffset); \n"
-            + "    vec2 textCoor[\(kernelSize)];       \n"
-            + "    textCoor[0] = vTextCoor;            \n"
-    
-    for i in 0 ..< radius {
-        src += "textCoor[\(i * 2 + 1)] = vTextCoor - \(i + 1).0 * step; \n"
-        src += "textCoor[\(i * 2 + 2)] = vTextCoor + \(i + 1).0 * step; \n"
-    }
-    src += "fTextCoor = textCoor;                      \n"
-    src += "}                                          \n"
-    return src
 }

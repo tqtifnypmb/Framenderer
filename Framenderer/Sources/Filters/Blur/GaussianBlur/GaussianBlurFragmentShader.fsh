@@ -22,11 +22,11 @@ void main() {
     
     float weightSum = 0.0;
     
-    for (float row = 0.0; row <= 2.0 * radius; row += 1.0) {
-        float spaceDistance = abs(row - radius);
+    for (float row = -radius; row <=  radius; row += 1.0) {
+        float spaceDistance = abs(row);
         float spaceWeight = constant2 * exp(-spaceDistance / constant1);
         
-        vec4 tmp = texture(firstInput, fTextCoor + vec2((row - radius) * xOffset, (row - radius) * yOffset));
+        vec4 tmp = texture(firstInput, fTextCoor + vec2(row * xOffset, row * yOffset));
         
         float w = spaceWeight;
         weightSum += w;

@@ -12,7 +12,7 @@ Frame Stream is based on [Continuation](https://wiki.haskell.org/Continuation) n
 - When every single frame flies from its source, the set of filters installed at that time will be captured and applied in a stand-alone environment. So there's no need to synchronize between user and Framenderer.
 - By capturing all the filters that will be applied to the flying frame, Framenederer can make sure filters are applied in order, without bookkeeping and synchronization overhead. This not only leads to neat design of framework structure but also makes filter much more easier to write.
 
-          Frames ---> Continuation --> Continuatoin --> ...
+          Frames ---> Continuation --> Continuation --> ...
                          |
                          |
     ------------------------------------------------

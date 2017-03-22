@@ -27,22 +27,20 @@ void main() {
 
     float weightSum = 0.0;
 
-    for (float row = 0.0; row <= 2.0 * radius; row += 1.0) {
-        for (float col = 0.0; col <= 2.0 * radius; col += 1.0) {
-            float spaceDistance = length(vec2(row - radius , col - radius));
-            float spaceWeight = spaceCons2 * exp(-spaceDistance / spaceCons1);
-            
-            vec4 tmp = texture(firstInput, fTextCoor + vec2((row - radius) * xOffset, (col - radius) * yOffset));
-            
-            float colorDistance = distance(tmp, colorCenter);
-            float colorWeight = colorCons2 * exp(-colorDistance / colorCons1);
-            
-            float w = spaceWeight * (1.0 - colorWeight);
-            weightSum += w;
-            acc += tmp * w;
-        }
+    for (float row = -radius; row <=  radius; row += 1.0) {
+        float spaceDistance = abs(row);
+        float spaceWeight = spaceCons2 * exp(-spaceDistance / spaceCons1);
+        
+        vec4 tmp = texture(firstInput, fTextCoor + vec2(row * xOffset, row * yOffset));
+        
+        float colorDistance = distance(tmp, colorCenter);
+        float colorWeight = colorCons2 * exp(-colorDistance / colorCons1);
+        
+        float w = spaceWeight * (1.0 - colorWeight);
+        weightSum += w;
+        acc += tmp * w;
     }
-    
+        
     acc = acc / weightSum;
     color = clamp(acc, vec4(0.0), vec4(1.0));
 }
