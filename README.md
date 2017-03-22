@@ -15,12 +15,12 @@ Frame Stream is based on [Continuation](https://wiki.haskell.org/Continuation) n
           Frames ---> Continuation --> Continuatoin --> ...
                          |
                          |
-    ------------------------------------------------
-    |Timestamp                                      |
-    |Frame ----      --- Frame --     ---- Frame... |
-    |          \    /            \   /              |
-    |          Filter            Filter        ...  |
-    ------------------------------------------------
+              ------------------------------------------------
+              |Timestamp                                      |
+              |Frame ----      --- Frame --     ---- Frame... |
+              |          \    /            \   /              |
+              |          Filter            Filter        ...  |
+              ------------------------------------------------
 
 ##### Filter
 Filters are a processing unit. They're responsible for almost all the processing tasks in Framenderer. 
