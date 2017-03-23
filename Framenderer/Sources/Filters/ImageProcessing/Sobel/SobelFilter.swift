@@ -31,15 +31,15 @@ fileprivate let sobel_5x5_y: [GLfloat] = [-5, -4, 0, 4, 5,
                                           -5, -4, 0, 4, 5]
 
 public class SobelFilter: BaseFilter {
-    override public var name: String {
-        return "SobelFilter"
-    }
-    
     private let _radius: Int
     public init(radius: Int = 1) {
         precondition(radius == 1 || radius == 2)
         
         _radius = max(1, radius)
+    }
+    
+    override public var name: String {
+        return "SobelFilter"
     }
     
     override func setUniformAttributs(context ctx: Context) {
