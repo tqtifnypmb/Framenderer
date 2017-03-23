@@ -9,7 +9,7 @@
 import Foundation
 import CoreMedia
 
-public class Morphology: Filter {
+public class MorphologyFilter: Filter {
     
     public enum Operation {
         case open
@@ -30,16 +30,15 @@ public class Morphology: Filter {
         case .gradient:
             _imp = GradientFilter(radius: radius)
             
-        case .tophat:
-            fatalError()
-            
         case .blackhat:
-            fatalError()
+            fallthrough
+        case .tophat:
+            _imp = TopBlackHatFilter(radius: radius, operation: operation)
         }
     }
     
     public var name: String {
-        return "Morphology"
+        return "MorphologyFilter"
     }
     
     public func apply(context: Context) throws {

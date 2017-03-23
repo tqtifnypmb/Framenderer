@@ -1,5 +1,5 @@
 //
-//  OpenCloseFilter.swift
+//  TopHatFilter.swift
 //  Framenderer
 //
 //  Created by tqtifnypmb on 23/03/2017.
@@ -8,24 +8,26 @@
 
 import Foundation
 
-class OpenCloseFilter: TwoPassFilter {
+class TopBlackHatFilter: TwoPassFilter {
     
     private let _radius: Int
-    private let _op: MorphologyFilter.Operation
+    private var _src: InputFrameBuffer!
+    
+    private let _opt: MorphologyFilter.Operation
     init(radius: Int, operation: MorphologyFilter.Operation) {
         _radius = radius
-        _op = operation
+        _opt = operation
     }
     
     override func buildProgram() throws {
-        switch _op {
-        case .open:
+        switch _opt {
+        case .tophat:
             _program = try Program.create(fragmentSourcePath: "DilationFragmentShader")
-            _program2 = try Program.create(fragmentSourcePath: "ErosionFragmentShader")
+            _program2 = try Program.create(fragmentSourcePath: "TopHatFragmentShader")
             
-        case .close:
+        case .blackhat:
             _program = try Program.create(fragmentSourcePath: "ErosionFragmentShader")
-            _program2 = try Program.create(fragmentSourcePath: "DilationFragmentShader")
+            _program2 = try Program.create(fragmentSourcePath: "BlackHatFragmentShader")
             
         default:
             fatalError()
@@ -43,12 +45,27 @@ class OpenCloseFilter: TwoPassFilter {
     }
     
     override func setUniformAttributs2(context ctx: Context) {
-        super.setUniformAttributs2(context: ctx)
+        super.setUniformAttributs(context: ctx)
         
         let texelWidth = 1 / GLfloat(ctx.inputWidth)
         let texelHeight = 1 / GLfloat(ctx.inputHeight)
         _program2.setUniform(name: kXOffset, value: texelWidth)
         _program2.setUniform(name: kYOffset, value: texelHeight)
         _program2.setUniform(name: "radius", value: Float(_radius))
+        
+        _program2.setUniform(name: kSecondInputSampler, value: GLint(2))
+    }
+    
+    override func prepareSecondPass(context: Context) throws {
+        try super.prepareSecondPass(context: context)
+        
+        glActiveTexture(GLenum(GL_TEXTURE2))
+        _src.useAsInput()
+    }
+    
+    override func apply(context: Context) throws {
+        _src = context.inputFrameBuffer
+        try super.apply(context: context)
+        _src = nil
     }
 }

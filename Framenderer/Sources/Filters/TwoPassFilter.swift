@@ -12,7 +12,7 @@ import OpenGLES.ES3.glext
 
 open class TwoPassFilter: BaseFilter {
     var _program2: Program!
-    var _isProgram2Setup = false
+    private var _isProgram2Setup = false
     
     func bindAttributes2(context: Context) {
         let attr = [kVertexPositionAttribute, kTextureCoorAttribute]
@@ -30,10 +30,14 @@ open class TwoPassFilter: BaseFilter {
         }
     }
 
+    func prepareSecondPass(context: Context) throws {}
+    
     override public func apply(context ctx: Context) throws {
         try super.apply(context: ctx)
         
         do {
+            try prepareSecondPass(context: ctx)
+            
             glActiveTexture(GLenum(GL_TEXTURE1))
             
             // enable input/output toggle, in case disbaled by frame stream

@@ -71,6 +71,8 @@ open class BaseFilter: Filter {
     
     public func apply(context ctx: Context) throws {
         do {
+            glActiveTexture(GLenum(GL_TEXTURE0))
+            
             ctx.toggleInputOutputIfNeeded()
             
             if _program == nil {

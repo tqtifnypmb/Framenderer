@@ -60,7 +60,6 @@ open class ThreeInputFilter: DualInputFilter {
             return      // wait for next frame
         }
         
-        glActiveTexture(GLenum(GL_TEXTURE0))
         try super.applyToFrame(context: ctx, inputFrameBuffer: inputFrameBuffer, presentationTimeStamp: time) {[weak self] ctx2, input2 in
             self?._thirdInputFrameBuffer = nil
             try next(ctx2, input2)
