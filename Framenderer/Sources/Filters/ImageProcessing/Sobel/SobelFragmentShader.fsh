@@ -5,7 +5,7 @@ precision mediump float;
 in vec2 fTextCoor;
 
 uniform sampler2D firstInput;
-uniform float radius;
+uniform int radius;
 uniform highp float xOffset;
 uniform highp float yOffset;
 uniform mat3 xKernel;
@@ -17,14 +17,15 @@ void main() {
     float gx = 0.0;
     float gy = 0.0;
     
-    for (float row = -radius; row <= radius; row += 1.0) {
-        for (float col = -radius; col <= radius; col += 1.0) {
-            vec4 tmp = texture(firstInput, fTextCoor + vec2(row * xOffset, col * yOffset));
+    for (int row = -radius; row <= radius; row += 1) {
+        for (int col = -radius; col <= radius; col += 1) {
+            vec2 offset = vec2(float(row) * xOffset, float(col) * yOffset);
+            vec4 tmp = texture(firstInput, fTextCoor + offset);
             
             float intensity = tmp.r + tmp.g + tmp.b;
             
-            gx += intensity * xKernel[int(col + radius)][int(row + radius)];
-            gy += intensity * yKernel[int(col + radius)][int(row + radius)];
+            gx += intensity * xKernel[col + radius][row + radius];
+            gy += intensity * yKernel[col + radius][row + radius];
         }
     }
     

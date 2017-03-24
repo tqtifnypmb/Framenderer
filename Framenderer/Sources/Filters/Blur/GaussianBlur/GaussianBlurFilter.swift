@@ -51,7 +51,7 @@ public class GaussianBlurFilter: TwoPassFilter {
         let texelWidth = 1 / GLfloat(ctx.inputWidth)
         _program.setUniform(name: kXOffset, value: texelWidth)
         _program.setUniform(name: kYOffset, value: GLfloat(0))
-        _program.setUniform(name: "radius", value: Float(_radius))
+        _program.setUniform(name: "radius", value: _radius)
         _program.setUniform(name: "sigma", value: Float(_sigma))
     }
     
@@ -61,7 +61,7 @@ public class GaussianBlurFilter: TwoPassFilter {
         let texelHeight = 1 / GLfloat(ctx.inputHeight)
         _program2.setUniform(name: kXOffset, value: GLfloat(0))
         _program2.setUniform(name: kYOffset, value: texelHeight)
-        _program2.setUniform(name: "radius", value: Float(_radius))
+        _program2.setUniform(name: "radius", value: _radius)
         _program2.setUniform(name: "sigma", value: Float(_sigma))
     }
     

@@ -5,7 +5,7 @@ precision mediump float;
 in vec2 fTextCoor;
 
 uniform sampler2D firstInput;
-uniform float radius;
+uniform int radius;
 uniform highp float xOffset;
 uniform highp float yOffset;
 uniform float sigma;
@@ -22,19 +22,19 @@ void main() {
     
     float spaceCons1 = 2.0 * pow(sigma, 2.0);
     float spaceCons2 = 1.0 / sqrt(spaceCons1 * M_PI);
-    float mean = 1.0 / pow(2.0 * radius + 1.0, 2.0);
+    float mean = 1.0 / pow(2.0 * float(radius) + 1.0, 2.0);
     
     float weightSum = 0.0;
     
-    for (float row = 0.0; row <= 2.0 * radius; row += 1.0) {
-        for (float col = 0.0; col <= 2.0 * radius; col += 1.0) {
-            vec4 tmp = texture(firstInput, fTextCoor + vec2((row - radius) * xOffset, (col - radius) * yOffset));
+    for (int row = 0; row <= 2 * radius; row += 1) {
+        for (int col = 0; col <= 2 * radius; col += 1) {
+            vec4 tmp = texture(firstInput, fTextCoor + vec2(float(row - radius) * xOffset, float(col - radius) * yOffset));
             
             float w;
             if (method == 0) {      // mean
                 w = mean;
             } else {
-                vec2 spaceOffset = vec2(row - radius , col - radius);
+                vec2 spaceOffset = vec2(float(row - radius) , float(col - radius));
                 float spaceDistance = length(spaceOffset);
                 float spaceWeight = spaceCons2 * exp(-spaceDistance / spaceCons1);
                 w = spaceWeight;

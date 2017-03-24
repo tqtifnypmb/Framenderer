@@ -26,7 +26,7 @@ public class ErosionFilter: BaseFilter {
         let texelHeight = 1 / GLfloat(ctx.inputHeight)
         _program.setUniform(name: kXOffset, value: texelWidth)
         _program.setUniform(name: kYOffset, value: texelHeight)
-        _program.setUniform(name: "radius", value: Float(_radius))
+        _program.setUniform(name: "radius", value: _radius)
     }
     
     override func buildProgram() throws {

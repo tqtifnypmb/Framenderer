@@ -19,6 +19,10 @@ class TopBlackHatFilter: TwoPassFilter {
         _opt = operation
     }
     
+    override public var name: String {
+        return "TopBlackHatFilter"
+    }
+    
     override func buildProgram() throws {
         switch _opt {
         case .tophat:
@@ -41,7 +45,7 @@ class TopBlackHatFilter: TwoPassFilter {
         let texelHeight = 1 / GLfloat(ctx.inputHeight)
         _program.setUniform(name: kXOffset, value: texelWidth)
         _program.setUniform(name: kYOffset, value: texelHeight)
-        _program.setUniform(name: "radius", value: Float(_radius))
+        _program.setUniform(name: "radius", value: _radius)
     }
     
     override func setUniformAttributs2(context ctx: Context) {
@@ -51,7 +55,7 @@ class TopBlackHatFilter: TwoPassFilter {
         let texelHeight = 1 / GLfloat(ctx.inputHeight)
         _program2.setUniform(name: kXOffset, value: texelWidth)
         _program2.setUniform(name: kYOffset, value: texelHeight)
-        _program2.setUniform(name: "radius", value: Float(_radius))
+        _program2.setUniform(name: "radius", value: _radius)
         
         _program2.setUniform(name: kSecondInputSampler, value: GLint(2))
     }

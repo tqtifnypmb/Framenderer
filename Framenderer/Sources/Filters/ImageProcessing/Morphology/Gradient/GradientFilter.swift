@@ -17,6 +17,10 @@ class GradientFilter: TwoPassFilter {
         _radius = radius
     }
     
+    override public var name: String {
+        return "GradientFilter"
+    }
+    
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "DilationFragmentShader")
         _program2 = try Program.create(fragmentSourcePath: "GradientFragmentShader")
@@ -29,7 +33,7 @@ class GradientFilter: TwoPassFilter {
         let texelHeight = 1 / GLfloat(ctx.inputHeight)
         _program.setUniform(name: kXOffset, value: texelWidth)
         _program.setUniform(name: kYOffset, value: texelHeight)
-        _program.setUniform(name: "radius", value: Float(_radius))
+        _program.setUniform(name: "radius", value: _radius)
     }
     
     override func setUniformAttributs2(context ctx: Context) {
@@ -39,7 +43,7 @@ class GradientFilter: TwoPassFilter {
         let texelHeight = 1 / GLfloat(ctx.inputHeight)
         _program2.setUniform(name: kXOffset, value: texelWidth)
         _program2.setUniform(name: kYOffset, value: texelHeight)
-        _program2.setUniform(name: "radius", value: Float(_radius))
+        _program2.setUniform(name: "radius", value: _radius)
         
         _program2.setUniform(name: kSecondInputSampler, value: GLint(2))
     }

@@ -17,6 +17,10 @@ class OpenCloseFilter: TwoPassFilter {
         _op = operation
     }
     
+    override public var name: String {
+        return "OpenCloseFilter"
+    }
+    
     override func buildProgram() throws {
         switch _op {
         case .open:
@@ -39,7 +43,7 @@ class OpenCloseFilter: TwoPassFilter {
         let texelHeight = 1 / GLfloat(ctx.inputHeight)
         _program.setUniform(name: kXOffset, value: texelWidth)
         _program.setUniform(name: kYOffset, value: texelHeight)
-        _program.setUniform(name: "radius", value: Float(_radius))
+        _program.setUniform(name: "radius", value: _radius)
     }
     
     override func setUniformAttributs2(context ctx: Context) {
@@ -49,6 +53,6 @@ class OpenCloseFilter: TwoPassFilter {
         let texelHeight = 1 / GLfloat(ctx.inputHeight)
         _program2.setUniform(name: kXOffset, value: texelWidth)
         _program2.setUniform(name: kYOffset, value: texelHeight)
-        _program2.setUniform(name: "radius", value: Float(_radius))
+        _program2.setUniform(name: "radius", value: _radius)
     }
 }

@@ -49,7 +49,7 @@ public class SobelFilter: BaseFilter {
         let texelHeight = 1 / GLfloat(ctx.inputHeight)
         _program.setUniform(name: kXOffset, value: texelWidth)
         _program.setUniform(name: kYOffset, value: texelHeight)
-        _program.setUniform(name: "radius", value: Float(_radius))
+        _program.setUniform(name: "radius", value: _radius)
         
         if _radius == 1 {
             _program.setUniform(name: "xKernel", mat3x3: scharr_x)

@@ -48,7 +48,7 @@ public class BilateralBlurFilter: TwoPassFilter {
         _program.setUniform(name: kXOffset, value: texelWidth)
         _program.setUniform(name: kYOffset, value: GLfloat(0))
         
-        _program.setUniform(name: "radius", value: Float(_radius))
+        _program.setUniform(name: "radius", value: _radius)
         _program.setUniform(name: "colorSigma", value: Float(_sigmaColor))
         _program.setUniform(name: "spaceSigma", value: Float(_sigmaSpace))
     }
@@ -60,7 +60,7 @@ public class BilateralBlurFilter: TwoPassFilter {
         _program2.setUniform(name: kXOffset, value: GLfloat(0))
         _program2.setUniform(name: kYOffset, value: texelHeight)
         
-        _program2.setUniform(name: "radius", value: Float(_radius))
+        _program2.setUniform(name: "radius", value: _radius)
         _program2.setUniform(name: "colorSigma", value: Float(_sigmaColor))
         _program2.setUniform(name: "spaceSigma", value: Float(_sigmaSpace))
     }

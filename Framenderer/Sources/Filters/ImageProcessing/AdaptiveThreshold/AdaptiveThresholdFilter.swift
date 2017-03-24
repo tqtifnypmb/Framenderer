@@ -41,7 +41,7 @@ public class AdaptiveThresholdFilter: BaseFilter {
         _program.setUniform(name: kXOffset, value: texelWidth)
         _program.setUniform(name: kYOffset, value: texelHeight)
         
-        _program.setUniform(name: "radius", value: Float(_radius))
+        _program.setUniform(name: "radius", value: _radius)
         
         let sigma = 0.3 * Double(_radius - 1) + 0.8
         _program.setUniform(name: "sigma", value: Float(sigma))
