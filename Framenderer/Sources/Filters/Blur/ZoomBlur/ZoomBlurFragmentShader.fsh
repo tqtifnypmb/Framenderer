@@ -15,20 +15,20 @@ out vec4 color;
 void main() {
     
     vec2 dir = fTextCoor - center;
-    float distance = sqrt(pow(dir.x, 2.0) + pow(dir.y, 2.0));
+    float dist = length(dir);
     
-    if (distance == 0.0) {
+    if (dist == 0.0) {
         color = texture(firstInput, fTextCoor);
         return;
     }
     
-    float cosAlpha = dir.x / distance;
-    float sinAlpha = dir.y / distance;
+    float cosAlpha = dir.x / dist;
+    float sinAlpha = dir.y / dist;
     
     float xUnit = cosAlpha / width;
     float yUnit = sinAlpha / height;
     float unit = sqrt(pow(xUnit, 2.0) + pow(yUnit, 2.0));
-    float actualRadius = radius * unit;
+    float actualRadius = abs(radius * unit);
     
     vec4 acc = vec4(0);
     int j = 0;

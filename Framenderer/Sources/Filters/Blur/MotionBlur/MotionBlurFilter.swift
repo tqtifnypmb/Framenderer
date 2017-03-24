@@ -45,9 +45,18 @@ public class MotionBlurFilter: BaseFilter {
         let width = Double(ctx.inputWidth)
         let height = Double(ctx.inputWidth)
         
-        let xUnit = dx / width
-        let yUnit = dy / height
-        let unit = sqrt(pow(1 / width / dx, 2) + pow(1 / height / dy, 2))
+        let xUnit = abs(dx / width)
+        let yUnit = abs(dy / height)
+        
+        var unit: Double = 0
+        if dy != 0 && dx != 0 {
+            unit = abs(sqrt(pow(1 / width / dx, 2) + pow(1 / height / dy, 2)))
+        } else if dy == 0 {
+            unit = 1 / width / dx
+        } else if dx == 0 {
+            unit = 1 / width / dy
+        }
+
         let radius = unit * _radius
         _program.setUniform(name: "radius", value: GLfloat(radius))
         _program.setUniform(name: "offset", value: CGPoint(x: xUnit, y: yUnit))
