@@ -89,7 +89,11 @@ public class Context {
     }
     
     var outputFrameBuffer: OutputFrameBuffer? {
-        return self._output
+        return _output
+    }
+    
+    var inputFrameBuffer: InputFrameBuffer? {
+        return _input
     }
     
     var textCoor: [GLfloat] {
