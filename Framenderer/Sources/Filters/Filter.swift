@@ -44,3 +44,7 @@ public protocol Filter {
     
     func applyToAudio(context: Context, sampleBuffer: CMSampleBuffer, next: @escaping (_ context: Context, _ sampleBuffer: CMSampleBuffer) throws -> Void) throws
 }
+
+public protocol FilterGroup {
+    func expand() -> [Filter]
+}
