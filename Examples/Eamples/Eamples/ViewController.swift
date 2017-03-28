@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let origin = UIImage(named: "fruits")
+        let origin = UIImage(named: "messi5")
 //        let blend = UIImage(named: "lena")
 //        
 //        let context = CIContext()
@@ -35,10 +35,9 @@ class ViewController: UIViewController {
         originImageView.image = origin
         
         let canva = ImageCanvas(image: origin!.cgImage!)
-//        let zoom = ZoomBlurFilter(center: CGPoint(x: 0.5, y: 0.5), radius: 10)
-        
-        
-        canva.filters = [SobelFilter(radius: 1)]
+        let canny = CannyFilter(lowerThresh: 0.1, upperThresh: 1.0)
+        canva.filters = canny.expand()
+        canva.filters.append(PassthroughFilter())
         canva.processAsync {[weak self] result, error in
             if let error = error {
                 print(glGetError())

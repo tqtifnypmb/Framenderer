@@ -125,6 +125,11 @@
 		415390CB1E6814460009667D /* ScreenBlendFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344A71E51EF4700B3FDEF /* ScreenBlendFragmentShader.fsh */; };
 		415390CC1E6814460009667D /* SoftLightBlendFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344AA1E51EF4700B3FDEF /* SoftLightBlendFragmentShader.fsh */; };
 		415390CD1E6814460009667D /* SubtractBlendFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 412344AD1E51EF4700B3FDEF /* SubtractBlendFragmentShader.fsh */; };
+		4154A5911E8A4CF000BBBE82 /* CannyFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4154A5901E8A4CF000BBBE82 /* CannyFilter.swift */; };
+		4154A5961E8A52A500BBBE82 /* TaggedGradientFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4154A5951E8A52A500BBBE82 /* TaggedGradientFilter.swift */; };
+		4154A5981E8A542B00BBBE82 /* TaggedGradientFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 4154A5971E8A542B00BBBE82 /* TaggedGradientFragmentShader.fsh */; };
+		4154A59E1E8A553400BBBE82 /* NonMaxSuppressFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4154A59D1E8A553400BBBE82 /* NonMaxSuppressFilter.swift */; };
+		4154A5A01E8A555500BBBE82 /* NonMaxSuppressFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 4154A59F1E8A555500BBBE82 /* NonMaxSuppressFragmentShader.fsh */; };
 		416BECAE1E6E515200ABD732 /* CaptureStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416BECA81E6E515200ABD732 /* CaptureStream.swift */; };
 		416BECAF1E6E515200ABD732 /* FileStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416BECA91E6E515200ABD732 /* FileStream.swift */; };
 		416BECB01E6E515200ABD732 /* FrameWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416BECAA1E6E515200ABD732 /* FrameWriter.swift */; };
@@ -267,6 +272,11 @@
 		4149650D1E5FBED400CB7ADA /* PixelBufferPool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelBufferPool.swift; sourceTree = "<group>"; };
 		414A58941E7A366A00416858 /* I420ToBGRAFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = I420ToBGRAFilter.swift; sourceTree = "<group>"; };
 		414A58961E7A427C00416858 /* I420ToBGRAFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = I420ToBGRAFragmentShader.fsh; sourceTree = "<group>"; };
+		4154A5901E8A4CF000BBBE82 /* CannyFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannyFilter.swift; sourceTree = "<group>"; };
+		4154A5951E8A52A500BBBE82 /* TaggedGradientFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaggedGradientFilter.swift; sourceTree = "<group>"; };
+		4154A5971E8A542B00BBBE82 /* TaggedGradientFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = TaggedGradientFragmentShader.fsh; sourceTree = "<group>"; };
+		4154A59D1E8A553400BBBE82 /* NonMaxSuppressFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonMaxSuppressFilter.swift; sourceTree = "<group>"; };
+		4154A59F1E8A555500BBBE82 /* NonMaxSuppressFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = NonMaxSuppressFragmentShader.fsh; sourceTree = "<group>"; };
 		416BECA81E6E515200ABD732 /* CaptureStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureStream.swift; sourceTree = "<group>"; };
 		416BECA91E6E515200ABD732 /* FileStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileStream.swift; sourceTree = "<group>"; };
 		416BECAA1E6E515200ABD732 /* FrameWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameWriter.swift; sourceTree = "<group>"; };
@@ -851,6 +861,8 @@
 				412D073C1E83679A003E2A1D /* Erosion */,
 				412D07451E837B6C003E2A1D /* Morphology */,
 				4181FE9F1E84C4C000233858 /* Laplacian */,
+				41CCCA781E87A67C0034410B /* Histogram */,
+				4154A58F1E8A40CA00BBBE82 /* Canny */,
 			);
 			path = ImageProcessing;
 			sourceTree = "<group>";
@@ -882,6 +894,34 @@
 			path = I420ToBGRAFilter;
 			sourceTree = "<group>";
 		};
+		4154A58F1E8A40CA00BBBE82 /* Canny */ = {
+			isa = PBXGroup;
+			children = (
+				4154A59C1E8A553400BBBE82 /* NonMaxSuppressFilter */,
+				4154A5921E8A527B00BBBE82 /* TaggedGradientFilter */,
+				4154A5901E8A4CF000BBBE82 /* CannyFilter.swift */,
+			);
+			path = Canny;
+			sourceTree = "<group>";
+		};
+		4154A5921E8A527B00BBBE82 /* TaggedGradientFilter */ = {
+			isa = PBXGroup;
+			children = (
+				4154A5951E8A52A500BBBE82 /* TaggedGradientFilter.swift */,
+				4154A5971E8A542B00BBBE82 /* TaggedGradientFragmentShader.fsh */,
+			);
+			path = TaggedGradientFilter;
+			sourceTree = "<group>";
+		};
+		4154A59C1E8A553400BBBE82 /* NonMaxSuppressFilter */ = {
+			isa = PBXGroup;
+			children = (
+				4154A59D1E8A553400BBBE82 /* NonMaxSuppressFilter.swift */,
+				4154A59F1E8A555500BBBE82 /* NonMaxSuppressFragmentShader.fsh */,
+			);
+			path = NonMaxSuppressFilter;
+			sourceTree = "<group>";
+		};
 		416BECA71E6E515200ABD732 /* Stream */ = {
 			isa = PBXGroup;
 			children = (
@@ -904,6 +944,13 @@
 				4181FEA21E84EA3F00233858 /* LaplacianFragmentShader.fsh */,
 			);
 			path = Laplacian;
+			sourceTree = "<group>";
+		};
+		41CCCA781E87A67C0034410B /* Histogram */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Histogram;
 			sourceTree = "<group>";
 		};
 		41D096F61E7F7AB500686133 /* BilateralBlur */ = {
@@ -1014,6 +1061,7 @@
 				415390B11E6814460009667D /* PassthroughVertexShader.vsh in Resources */,
 				414108A51E80DE03006A0A6E /* ColorInvertFragmentShader.fsh in Resources */,
 				415390B21E6814460009667D /* PassthroughFragmentShader.fsh in Resources */,
+				4154A5981E8A542B00BBBE82 /* TaggedGradientFragmentShader.fsh in Resources */,
 				4141087D1E80DAE3006A0A6E /* BoxBlurFragmentShader.fsh in Resources */,
 				415390B31E6814460009667D /* RGBNBGRExchangeFragmentShader.fsh in Resources */,
 				41FC101D1E824A9200BB98DE /* SobelFragmentShader5x5.fsh in Resources */,
@@ -1052,6 +1100,7 @@
 				415390C81E6814460009667D /* MultiplyBlendFragmentShader.fsh in Resources */,
 				412D07611E839743003E2A1D /* BlackHatFragmentShader.fsh in Resources */,
 				415390C91E6814460009667D /* OverlayBlendFragmentShader.fsh in Resources */,
+				4154A5A01E8A555500BBBE82 /* NonMaxSuppressFragmentShader.fsh in Resources */,
 				414108BC1E80DE0E006A0A6E /* ThresholdFragmentShader.fsh in Resources */,
 				41D0972A1E7F93E800686133 /* RGBToGrayScaleFragmentShader.fsh in Resources */,
 				414108A31E80DE03006A0A6E /* ColorClampFragmentShader.fsh in Resources */,
@@ -1081,12 +1130,14 @@
 				414108AC1E80DE03006A0A6E /* HueAdjustFilter.swift in Sources */,
 				412344F41E51EF4700B3FDEF /* AdditionBlendFilter.swift in Sources */,
 				4181FEA11E84DDFC00233858 /* LaplacianFilter.swift in Sources */,
+				4154A5911E8A4CF000BBBE82 /* CannyFilter.swift in Sources */,
 				412345001E51EF4700B3FDEF /* DivideBlendFilter.swift in Sources */,
 				414108761E80D88E006A0A6E /* GaussianBlurFilter.swift in Sources */,
 				4123453A1E51EF4700B3FDEF /* SMSampleInputFrameBuffer.swift in Sources */,
 				412344EF1E51EF4700B3FDEF /* MotionBlurFilter.swift in Sources */,
 				416BECAE1E6E515200ABD732 /* CaptureStream.swift in Sources */,
 				4103B1561E65166800888EBF /* Utility.swift in Sources */,
+				4154A59E1E8A553400BBBE82 /* NonMaxSuppressFilter.swift in Sources */,
 				414108AA1E80DE03006A0A6E /* GammaAdjustFilter.swift in Sources */,
 				412344FC1E51EF4700B3FDEF /* DarkenBlendFilter.swift in Sources */,
 				412345201E51EF4700B3FDEF /* DualInputFilter.swift in Sources */,
@@ -1155,6 +1206,7 @@
 				412D075E1E8396CA003E2A1D /* TopBlackHatFilter.swift in Sources */,
 				4123453C1E51EF4700B3FDEF /* TextureOutputFrameBuffer.swift in Sources */,
 				412345351E51EF4700B3FDEF /* TwoPassFilter.swift in Sources */,
+				4154A5961E8A52A500BBBE82 /* TaggedGradientFilter.swift in Sources */,
 				412D07491E837CBA003E2A1D /* OpenCloseFilter.swift in Sources */,
 				414108A81E80DE03006A0A6E /* ExplosureAdjustFilter.swift in Sources */,
 			);

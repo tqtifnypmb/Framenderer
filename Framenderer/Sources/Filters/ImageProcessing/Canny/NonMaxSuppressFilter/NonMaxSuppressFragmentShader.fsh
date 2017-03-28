@@ -13,7 +13,6 @@ uniform float upper;
 out vec4 color;
 
 void main() {
-    int radius = 1;
     vec4 center = texture(firstInput, fTextCoor);
     float intensity = center.r;
     
@@ -27,6 +26,7 @@ void main() {
             step = vec2(xOffset, abs(xOffset * center.a));
         }
         
+        int radius = 1;
         for (int row = -radius; row <= radius; row += 1) {
             vec2 offset = step * float(row);
             vec4 tmp = texture(firstInput, fTextCoor + offset);
