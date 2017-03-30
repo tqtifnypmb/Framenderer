@@ -5,7 +5,7 @@ The Framenderer is a framework that lets you process image from various sources,
 It takes advantage the power of OpenGL v3.0 and the power of GPU, to make image processing more effecient.
 
 ### Architecture
-Framenderer's core concepts are Frame Stream and Filter. Frame Stream is a serial of frame(Image with timestamp) fly from source through a set of Filter.Filter is a [pure-function](https://en.wikipedia.org/wiki/Pure_function) object which transform the inputed frame to output.
+Framenderer's core concepts are Frame Stream and Filter. Frame Stream is a serial of frame(Image with timestamp) fly from source through a set of Filter, which is a [pure-function](https://en.wikipedia.org/wiki/Pure_function) object transforming the inputed frame to output.
 
 ##### Frame Stream
 Frame Stream is based on [Continuation](https://wiki.haskell.org/Continuation) notion, maybe not in a strict way though. This bring two advantages:
