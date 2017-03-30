@@ -34,7 +34,7 @@ void main() {
     }
     
     total = total / 2.0;
-    float brightness = sqrt(pow(gx / total, 2.0) + pow(gy / total, 2.0));
+    float brightness = length(vec2(gx / total, gy / total));
     vec3 rgb = clamp(vec3(brightness), vec3(0.0), vec3(1.0));
     color = vec4(rgb, 1.0);
 }
