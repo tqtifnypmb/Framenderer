@@ -49,7 +49,6 @@ public class SobelFilter: BaseFilter {
         let texelHeight = 1 / GLfloat(ctx.inputHeight)
         _program.setUniform(name: kXOffset, value: texelWidth)
         _program.setUniform(name: kYOffset, value: texelHeight)
-        _program.setUniform(name: "radius", value: _radius)
         
         if _radius == 1 {
             _program.setUniform(name: "xKernel", mat3x3: scharr_x)
@@ -62,7 +61,7 @@ public class SobelFilter: BaseFilter {
     
     override func buildProgram() throws {
         if _radius == 1 {
-            _program = try Program.create(fragmentSourcePath: "SobelFragmentShader")
+            _program = try Program.create(fragmentSourcePath: "3x3ConvolutionFragmentShader")
         } else {
             _program = try Program.create(fragmentSourcePath: "SobelFragmentShader5x5")
         }

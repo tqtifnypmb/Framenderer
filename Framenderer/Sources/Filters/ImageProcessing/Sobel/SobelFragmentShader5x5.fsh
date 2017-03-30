@@ -5,7 +5,6 @@ precision mediump float;
 in vec2 fTextCoor;
 
 uniform sampler2D firstInput;
-uniform int radius;
 uniform highp float xOffset;
 uniform highp float yOffset;
 uniform float[25] xKernel;
@@ -17,6 +16,7 @@ void main() {
     float gx = 0.0;
     float gy = 0.0;
     
+    int radius = 2;
     for (int row = -radius; row <= radius; row += 1) {
         for (int col = -radius; col <= radius; col += 1) {
             vec2 offset = vec2(float(row) * xOffset, float(col) * yOffset);

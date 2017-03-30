@@ -11,9 +11,9 @@ uniform highp float yOffset;
 out vec4 color;
 
 void main() {
-    mat3 kernel = mat3(vec3(0.5, 1.0, 0.5),
-                       vec3(1.0, -6.0, 1.0),
-                       vec3(0.5, 1.0, 0.5));
+    mat3 kernel = mat3(vec3(-1.0, -1.0, -1.0),
+                       vec3(-1.0,  8.0, -1.0),
+                       vec3(-1.0, -1.0, -1.0));
     vec4 center = texture(firstInput, fTextCoor);
     float acc = 0.0;
     int radius = 1;
@@ -26,6 +26,6 @@ void main() {
         }
     }
     
-    vec3 rgb = clamp(vec3(acc), vec3(0.0), vec3(1.0));
+    vec3 rgb = clamp(vec3(acc / 8.0), vec3(0.0), vec3(1.0));
     color = vec4(rgb, center.a);
 }
