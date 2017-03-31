@@ -17,8 +17,6 @@ void main() {
     float gy = 0.0;
     
     int radius = 1;
-    float total = 0.0;
-    
     for (int row = -radius; row <= radius; row += 1) {
         for (int col = -radius; col <= radius; col += 1) {
             vec2 offset = vec2(float(row) * xOffset, float(col) * yOffset);
@@ -29,12 +27,10 @@ void main() {
             float vertical = yKernel[col + radius][row + radius];
             gx += intensity * horizontal;
             gy += intensity * vertical;
-            total += abs(horizontal) + abs(vertical);
         }
     }
     
-    total = total / 2.0;
-    float brightness = length(vec2(gx / total, gy / total));
+    float brightness = length(vec2(gx, gy));
     vec3 rgb = clamp(vec3(brightness), vec3(0.0), vec3(1.0));
     color = vec4(rgb, 1.0);
 }

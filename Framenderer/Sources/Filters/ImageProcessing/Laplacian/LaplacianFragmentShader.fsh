@@ -26,6 +26,6 @@ void main() {
         }
     }
     
-    vec3 rgb = clamp(vec3(acc / 8.0), vec3(0.0), vec3(1.0));
+    vec3 rgb = clamp(vec3(acc), vec3(0.0), vec3(1.0));
     color = vec4(rgb, center.a);
 }

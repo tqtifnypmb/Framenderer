@@ -17,8 +17,6 @@ void main() {
     float gy = 0.0;
     int radius = 1;
     
-    vec4 center = texture(firstInput, fTextCoor);
-    
     for (int row = -radius; row <= radius; row += 1) {
         for (int col = -radius; col <= radius; col += 1) {
             vec2 offset = vec2(float(row) * xOffset, float(col) * yOffset);
@@ -31,7 +29,7 @@ void main() {
         }
     }
     
-    float brightness = sqrt(pow(gx / 32.0, 2.0) + pow(gy / 32.0, 2.0)) * center.a;
+    float brightness = length(vec2(gx, gy));
     vec3 rgb = clamp(vec3(brightness), vec3(0.0), vec3(1.0));
     
     float direction = 0.0;
