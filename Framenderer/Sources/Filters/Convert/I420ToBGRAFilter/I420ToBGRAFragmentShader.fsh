@@ -18,7 +18,12 @@ void main() {
     vec3 rgb;
 
     yuv.x = texture(firstInput, fTextCoor).r;
-    yuv.yz = texture(secondInput, fTextCoor).rg - vec2(0.5);   // Why @_@
+    
+    /* Need help here #_#:
+     *      1. how UV data layout
+     *      2. how to retrieve that data
+     */
+    yuv.yz = texture(secondInput, fTextCoor).rg;
 
     rgb = transform * yuv;
     color = vec4(clamp(vec3(0.0), vec3(1.0), rgb), 1.0);

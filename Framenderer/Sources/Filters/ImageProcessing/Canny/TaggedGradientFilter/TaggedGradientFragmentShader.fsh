@@ -24,7 +24,7 @@ void main() {
             vec2 offset = vec2(float(row) * xOffset, float(col) * yOffset);
             vec4 tmp = texture(firstInput, fTextCoor + offset);
             
-            float intensity = tmp.r + tmp.g + tmp.b;
+            float intensity = 0.2126 * tmp.r + 0.7152 * tmp.g + 0.0722 * tmp.b;
             
             gx += intensity * xKernel[col + radius][row + radius];
             gy += intensity * yKernel[col + radius][row + radius];

@@ -21,7 +21,7 @@ void main() {
         for (int col = -radius; col <= radius; col += 1) {
             vec4 tmp = texture(firstInput, fTextCoor + vec2(float(row) * xOffset, float(col) * yOffset));
             
-            float intensity = tmp.r + tmp.g + tmp.b;
+            float intensity = 0.2126 * tmp.r + 0.7152 * tmp.g + 0.0722 * tmp.b;
             acc += intensity * kernel[col + radius][row + radius];
         }
     }

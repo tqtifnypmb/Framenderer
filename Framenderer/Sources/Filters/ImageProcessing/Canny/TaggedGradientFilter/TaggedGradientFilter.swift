@@ -19,7 +19,7 @@ fileprivate let scharr_y: [GLfloat] = [-3, -10, -3,
 /*
  * This filter do two things:
  *      1. calculate intensity gradient as same as what sobel filter do
- *      2. premultipy color with alpha channel which is then used to store gradient direction
+ *      2. premultipied color with alpha channel which is then used to store gradient direction
  */
 class TaggedGradientFilter: BaseFilter {
     override init() {}
