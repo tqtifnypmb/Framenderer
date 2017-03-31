@@ -5,7 +5,6 @@ precision mediump float;
 in vec2 fTextCoor;
 
 uniform sampler2D firstInput;
-uniform highp float xOffset;
 uniform highp float yOffset;
 uniform float lower;
 uniform float upper;
@@ -19,12 +18,7 @@ void main() {
     if (intensity < lower || intensity > upper) {
         color = vec4(vec3(0.0), 1.0);
     } else {
-        vec2 step;
-        if (center.a == 2.0) {
-            step = vec2(0.0, yOffset);
-        } else {
-            step = vec2(xOffset, abs(xOffset * center.a));
-        }
+        vec2 step = vec2(yOffset / tan(center.a), yOffset);
         
         int radius = 1;
         for (int row = -radius; row <= radius; row += 1) {

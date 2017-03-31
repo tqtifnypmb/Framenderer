@@ -24,9 +24,7 @@ class NonMaxSuppressFilter: BaseFilter {
     override func setUniformAttributs(context ctx: Context) {
         super.setUniformAttributs(context: ctx)
         
-        let texelWidth = 1 / GLfloat(ctx.inputWidth)
         let texelHeight = 1 / GLfloat(ctx.inputHeight)
-        _program.setUniform(name: kXOffset, value: texelWidth)
         _program.setUniform(name: kYOffset, value: texelHeight)
         
         _program.setUniform(name: "lower", value: _lower)
