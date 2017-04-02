@@ -12,9 +12,11 @@ class NonMaxSuppressFilter: BaseFilter {
     
     private let _lower: Float
     private let _upper: Float
-    init(lower: Float, upper: Float) {
+    private let _keepAngle: Bool
+    init(lower: Float, upper: Float, keepAngleInfo: Bool) {
         _upper = upper
         _lower = lower
+        _keepAngle = keepAngleInfo
     }
     
     override var name: String {
@@ -34,6 +36,10 @@ class NonMaxSuppressFilter: BaseFilter {
     }
     
     override func buildProgram() throws {
-        _program = try Program.create(fragmentSourcePath: "NonMaxSuppressFragmentShader")
+        if _keepAngle {
+            _program = try Program.create(fragmentSourcePath: "NonMaxSuppressFragmentShader2")
+        } else {
+            _program = try Program.create(fragmentSourcePath: "NonMaxSuppressFragmentShader")
+        }
     }
 }

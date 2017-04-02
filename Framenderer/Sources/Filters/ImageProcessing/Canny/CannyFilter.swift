@@ -12,19 +12,20 @@ import Foundation
 
 public class CannyFilter: FilterGroup {
     
-    private let _lower: Float
-    private let _upper: Float
-    private let _radius: Int
+    private let _blur: Filter
+    private let _gradient: Filter
+    private let _suppression: Filter
     public init(lowerThresh: Float, upperThresh: Float, gaussianRadius: Int = 2) {
-        _lower = lowerThresh
-        _upper = upperThresh
-        _radius = gaussianRadius
+        if TARGET_IPHONE_SIMULATOR != 0 {       // FIXME
+            _blur = MedianBlurFilter()
+        } else {
+            _blur = GaussianBlurFilter(radius: gaussianRadius)
+        }
+        _gradient = TaggedGradientFilter()
+        _suppression = NonMaxSuppressFilter(lower: lowerThresh, upper: upperThresh, keepAngleInfo: false)
     }
     
     public func expand() -> [Filter] {
-        let gaussian = GaussianBlurFilter(radius: _radius)
-        let gradient = TaggedGradientFilter()
-        let nonMaxSuppress = NonMaxSuppressFilter(lower: _lower, upper: _upper)
-        return [gaussian, gradient, nonMaxSuppress]
+        return [_blur, _gradient, _suppression]
     }
 }
