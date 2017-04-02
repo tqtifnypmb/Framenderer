@@ -32,19 +32,12 @@ void main() {
     float brightness = length(vec2(gx, gy));
     vec3 rgb = clamp(vec3(brightness), vec3(0.0), vec3(1.0));
     
-    float direction = 0.0;
-    float tangent = gy / gx;
-    if (tangent >= 0.0 && tangent <= 0.4142135) {        // [0, 22.5], [157.5, 180]
-        direction = atan(0.0, 1.0);
-    } else if (tangent > 0.4142135 && tangent <= 2.4142135) {       // (22.5, 67.5]
-        direction = atan(1.0, 1.0);
-    } else if (tangent > 2.4142135 || (tangent < 0.0 && tangent >= -2.4142135)) {     // (67.5, 112.5]
-        direction = atan(1.0, 0.0);
-    } else if (tangent > -2.4142135 && tangent < -0.4142135) {      // (112.5, 157.5)
-        direction = atan(1.0, -1.0);
-    } else if (tangent <= -0.4142135) {
-        direction = atan(0.0, -1.0);
+    float angle;
+    if (gy == 0.0 && gx == 0.0) {
+        angle = 0.0;
+    } else {
+        angle = atan(gy, gx);
     }
     
-    color = vec4(rgb, direction);
+    color = vec4(rgb, angle);
 }
