@@ -53,6 +53,7 @@ public class SobelFilter: BaseFilter {
         if _radius == 1 {
             _program.setUniform(name: "xKernel", mat3x3: scharr_x)
             _program.setUniform(name: "yKernel", mat3x3: scharr_y)
+            _program.setUniform(name: "scale", value: 1.0 / 32.0)
         } else {
             _program.setUniform(name: "xKernel", kernel: sobel_5x5_x)
             _program.setUniform(name: "yKernel", kernel: sobel_5x5_y)

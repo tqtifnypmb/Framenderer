@@ -37,5 +37,6 @@ public class PrewittFilter: BaseFilter {
         
         _program.setUniform(name: "xKernel", mat3x3: xKernel)
         _program.setUniform(name: "yKernel", mat3x3: yKernel)
+        _program.setUniform(name: "scale", value: 1.0 / 6.0)
     }
 }

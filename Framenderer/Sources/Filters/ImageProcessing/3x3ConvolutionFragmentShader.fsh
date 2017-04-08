@@ -9,6 +9,7 @@ uniform highp float xOffset;
 uniform highp float yOffset;
 uniform mat3 xKernel;
 uniform mat3 yKernel;
+uniform float scale;
 
 out vec4 color;
 
@@ -30,7 +31,7 @@ void main() {
         }
     }
     
-    float brightness = length(vec2(gx, gy));        // FIXME: There should be a scale factor ??
+    float brightness = length(vec2(gx, gy) * scale);        // FIXME: There should be a scale factor ??
     vec3 rgb = clamp(vec3(brightness), vec3(0.0), vec3(1.0));
     color = vec4(rgb, 1.0);
 }
