@@ -39,8 +39,8 @@ public class MotionBlurFilter: BaseFilter {
     override func setUniformAttributs(context ctx: Context) {
         super.setUniformAttributs(context: ctx)
       
-        let dx = cos(_angle * M_PI / 180)
-        let dy = sin(_angle * M_PI / 180)
+        let dx = cos(_angle * Double.pi / 180)
+        let dy = sin(_angle * Double.pi / 180)
         
         let width = Double(ctx.inputWidth)
         let height = Double(ctx.inputWidth)

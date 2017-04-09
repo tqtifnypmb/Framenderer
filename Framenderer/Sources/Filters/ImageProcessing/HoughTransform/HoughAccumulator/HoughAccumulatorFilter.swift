@@ -8,6 +8,7 @@
 
 import Foundation
 
-class HoughAccumulatorFilter: BaseFilter {
-
+class HoughAccumulatorFilter: TwoPassFilter {
+    private var _src: InputFrameBuffer!
+    
 }
