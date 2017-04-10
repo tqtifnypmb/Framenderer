@@ -31,7 +31,7 @@ void main() {
         }
     }
     
-    float brightness = length(vec2(gx, gy) * scale);        // FIXME: There should be a scale factor ??
+    float brightness = length(vec2(gx, gy) * scale);
     vec3 rgb = clamp(vec3(brightness), vec3(0.0), vec3(1.0));
     color = vec4(rgb, 1.0);
 }

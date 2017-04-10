@@ -150,6 +150,10 @@
 		41D097281E7F939F00686133 /* RGBToGrayScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D097271E7F939F00686133 /* RGBToGrayScale.swift */; };
 		41D0972A1E7F93E800686133 /* RGBToGrayScaleFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41D097291E7F93E800686133 /* RGBToGrayScaleFragmentShader.fsh */; };
 		41F1E5281E5D81C700C836DA /* PassthroughFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F1E5271E5D81C700C836DA /* PassthroughFilter.swift */; };
+		41F93B041E99E2EB00061B07 /* FeiChenFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F93B031E99E2EB00061B07 /* FeiChenFilter.swift */; };
+		41FA77E61E90CB6900E3649D /* HoughTransformFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FA77E51E90CB6900E3649D /* HoughTransformFilter.swift */; };
+		41FA77E81E90D95C00E3649D /* NonMaxSuppressFragmentShader2.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41FA77E71E90D95C00E3649D /* NonMaxSuppressFragmentShader2.fsh */; };
+		41FA77EB1E90DC4200E3649D /* HoughAccumulatorFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FA77EA1E90DC4200E3649D /* HoughAccumulatorFilter.swift */; };
 		41FC10191E82193200BB98DE /* SobelFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FC10181E82193200BB98DE /* SobelFilter.swift */; };
 		41FC101D1E824A9200BB98DE /* SobelFragmentShader5x5.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41FC101C1E824A9200BB98DE /* SobelFragmentShader5x5.fsh */; };
 /* End PBXBuildFile section */
@@ -300,6 +304,10 @@
 		41D097271E7F939F00686133 /* RGBToGrayScale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGBToGrayScale.swift; sourceTree = "<group>"; };
 		41D097291E7F93E800686133 /* RGBToGrayScaleFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = RGBToGrayScaleFragmentShader.fsh; sourceTree = "<group>"; };
 		41F1E5271E5D81C700C836DA /* PassthroughFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughFilter.swift; sourceTree = "<group>"; };
+		41F93B031E99E2EB00061B07 /* FeiChenFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeiChenFilter.swift; sourceTree = "<group>"; };
+		41FA77E51E90CB6900E3649D /* HoughTransformFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoughTransformFilter.swift; sourceTree = "<group>"; };
+		41FA77E71E90D95C00E3649D /* NonMaxSuppressFragmentShader2.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = NonMaxSuppressFragmentShader2.fsh; sourceTree = "<group>"; };
+		41FA77EA1E90DC4200E3649D /* HoughAccumulatorFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoughAccumulatorFilter.swift; sourceTree = "<group>"; };
 		41FC10181E82193200BB98DE /* SobelFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SobelFilter.swift; sourceTree = "<group>"; };
 		41FC101C1E824A9200BB98DE /* SobelFragmentShader5x5.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SobelFragmentShader5x5.fsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -871,6 +879,8 @@
 				4154A58F1E8A40CA00BBBE82 /* Canny */,
 				41BFCAAF1E8CABF7006F29EF /* Prewitt */,
 				41BFCAB21E8CCA6D006F29EF /* RobertsCross */,
+				41F93B021E99E2DE00061B07 /* FeiChen */,
+				41FA77E41E90CABC00E3649D /* HoughTransform */,
 				41BFCAAB1E8CA307006F29EF /* 3x3ConvolutionFragmentShader.fsh */,
 			);
 			path = ImageProcessing;
@@ -927,6 +937,7 @@
 			children = (
 				4154A59D1E8A553400BBBE82 /* NonMaxSuppressFilter.swift */,
 				4154A59F1E8A555500BBBE82 /* NonMaxSuppressFragmentShader.fsh */,
+				41FA77E71E90D95C00E3649D /* NonMaxSuppressFragmentShader2.fsh */,
 			);
 			path = NonMaxSuppressFilter;
 			sourceTree = "<group>";
@@ -1004,6 +1015,31 @@
 				41F1E5271E5D81C700C836DA /* PassthroughFilter.swift */,
 			);
 			path = Test;
+			sourceTree = "<group>";
+		};
+		41F93B021E99E2DE00061B07 /* FeiChen */ = {
+			isa = PBXGroup;
+			children = (
+				41F93B031E99E2EB00061B07 /* FeiChenFilter.swift */,
+			);
+			path = FeiChen;
+			sourceTree = "<group>";
+		};
+		41FA77E41E90CABC00E3649D /* HoughTransform */ = {
+			isa = PBXGroup;
+			children = (
+				41FA77E91E90DC2A00E3649D /* HoughAccumulator */,
+				41FA77E51E90CB6900E3649D /* HoughTransformFilter.swift */,
+			);
+			path = HoughTransform;
+			sourceTree = "<group>";
+		};
+		41FA77E91E90DC2A00E3649D /* HoughAccumulator */ = {
+			isa = PBXGroup;
+			children = (
+				41FA77EA1E90DC4200E3649D /* HoughAccumulatorFilter.swift */,
+			);
+			path = HoughAccumulator;
 			sourceTree = "<group>";
 		};
 		41FC10171E82191200BB98DE /* Sobel */ = {
@@ -1133,6 +1169,7 @@
 				41D0972A1E7F93E800686133 /* RGBToGrayScaleFragmentShader.fsh in Resources */,
 				414108A31E80DE03006A0A6E /* ColorClampFragmentShader.fsh in Resources */,
 				412D07401E8368C5003E2A1D /* DilationFragmentShader.fsh in Resources */,
+				41FA77E81E90D95C00E3649D /* NonMaxSuppressFragmentShader2.fsh in Resources */,
 				412D07541E83941C003E2A1D /* GradientFragmentShader.fsh in Resources */,
 				415390CA1E6814460009667D /* SaturationBlendFragmentShader.fsh in Resources */,
 				415390CB1E6814460009667D /* ScreenBlendFragmentShader.fsh in Resources */,
@@ -1149,10 +1186,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41FA77EB1E90DC4200E3649D /* HoughAccumulatorFilter.swift in Sources */,
 				4123453F1E51EF4700B3FDEF /* ProgramObjectsCacher.swift in Sources */,
 				412345081E51EF4700B3FDEF /* LinearBlendFilter.swift in Sources */,
 				41012E0D1E58015500D39AA0 /* ComponentExchangeFilter.swift in Sources */,
 				412345061E51EF4700B3FDEF /* LightenBlendFilter.swift in Sources */,
+				41FA77E61E90CB6900E3649D /* HoughTransformFilter.swift in Sources */,
 				416BECB11E6E515200ABD732 /* StillImageCamera.swift in Sources */,
 				414108AC1E80DE03006A0A6E /* HueAdjustFilter.swift in Sources */,
 				412344F41E51EF4700B3FDEF /* AdditionBlendFilter.swift in Sources */,
@@ -1169,6 +1208,7 @@
 				414108AA1E80DE03006A0A6E /* GammaAdjustFilter.swift in Sources */,
 				412344FC1E51EF4700B3FDEF /* DarkenBlendFilter.swift in Sources */,
 				412345201E51EF4700B3FDEF /* DualInputFilter.swift in Sources */,
+				41F93B041E99E2EB00061B07 /* FeiChenFilter.swift in Sources */,
 				412344FA1E51EF4700B3FDEF /* ColorDodgeBlendFilter.swift in Sources */,
 				412345371E51EF4700B3FDEF /* ImageInputFrameBuffer.swift in Sources */,
 				412345431E51EF4700B3FDEF /* String+Helper.swift in Sources */,
