@@ -37,8 +37,8 @@ class ViewController: UIViewController {
         let canva = ImageCanvas(image: origin!.cgImage!)
         let canny = CannyFilter(lowerThresh: 0.0, upperThresh: 1.0)
         
-       // canva.filters = [LaplacianFilter()]
-        canva.filters = canny.expand()
+        canva.filters = [PassthroughFilter(), HistogramFilter()]
+       // canva.filters = canny.expand()
        // canva.filters.append(PassthroughFilter())
         canva.processAsync {[weak self] result, error in
             if let error = error {
