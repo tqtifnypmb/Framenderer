@@ -18,12 +18,13 @@ void main() {
     float gy = 0.0;
     
     int radius = 1;
+    vec3 W = vec3(0.2126, 0.7152, 0.0722);
     for (int row = -radius; row <= radius; row += 1) {
         for (int col = -radius; col <= radius; col += 1) {
             vec2 offset = vec2(float(row) * xOffset, float(col) * yOffset);
             vec4 tmp = texture(firstInput, fTextCoor + offset);
             
-            float intensity = 0.2126 * tmp.r + 0.7152 * tmp.g + 0.0722 * tmp.b;
+            float intensity = dot(tmp.rgb, W);
             float horizontal = xKernel[col + radius][row + radius];
             float vertical = yKernel[col + radius][row + radius];
             gx += intensity * horizontal;

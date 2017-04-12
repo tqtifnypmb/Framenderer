@@ -12,4 +12,5 @@ protocol OutputFrameBuffer {
     func useAsOutput() throws
     func convertToImage() -> CGImage?
     func convertToInput() -> InputFrameBuffer
+    func retrieveRawData() -> [GLubyte]
 }

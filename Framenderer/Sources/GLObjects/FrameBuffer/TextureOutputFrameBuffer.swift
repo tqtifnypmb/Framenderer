@@ -157,16 +157,7 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
             
             return cgImage
         } else {
-            var rawImageData = [GLubyte](repeating: 0, count: Int(_textureWidth * _textureHeight * 4))
-            rawImageData.withUnsafeMutableBytes { ptr in
-                glReadPixels(0,
-                             0,
-                             _textureWidth,
-                             _textureHeight,
-                             GLenum(GL_RGBA),
-                             GLenum(GL_UNSIGNED_BYTE),
-                             ptr.baseAddress)
-            }
+            let rawImageData = retrieveRawData()
             
             var imageDataProvider: CGDataProvider!
             rawImageData.withUnsafeBytes { bytes in
@@ -203,5 +194,21 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
             _frameBuffer = 0
         }
         return input
+    }
+    
+    func retrieveRawData() -> [GLubyte] {
+        glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
+        
+        var rawImageData = [GLubyte](repeating: 0, count: Int(_textureWidth * _textureHeight * 4))
+        rawImageData.withUnsafeMutableBytes { ptr in
+            glReadPixels(0,
+                         0,
+                         _textureWidth,
+                         _textureHeight,
+                         GLenum(GL_RGBA),
+                         GLenum(GL_UNSIGNED_BYTE),
+                         ptr.baseAddress)
+        }
+        return rawImageData
     }
 }

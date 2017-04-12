@@ -37,6 +37,7 @@ public enum DataError: Error {
     case pixelBuffer(errorDesc: String)
     case disorderFrame(errorDesc: String)
     case fileType(errorDesc: String)
+    case bufferData(errorDesc: String)
 }
 
 extension DataError: LocalizedError {
@@ -53,6 +54,9 @@ extension DataError: LocalizedError {
             
         case let .fileType(errorDesc):
             return "[File Type Error] description: \(errorDesc)"
+            
+        case let .bufferData(errorDesc):
+            return "[Buffer Error] description: \(errorDesc)"
         }
     }
 }

@@ -85,4 +85,8 @@ class EAGLOutputFrameBuffer: OutputFrameBuffer {
     func convertToInput() -> InputFrameBuffer {
         fatalError()
     }
+    
+    func retrieveRawData() -> [GLubyte] {
+        fatalError()
+    }
 }
