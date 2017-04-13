@@ -10,6 +10,8 @@ import Foundation
 
 public class MinimumComponentFilter: BaseFilter {
     
+    public override init() {}
+    
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "MinimumComponentFragment")
     }

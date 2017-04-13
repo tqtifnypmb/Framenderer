@@ -10,10 +10,20 @@ import Foundation
 import CoreMedia
 
 public class HistogramFilter: Filter {
+    public enum HistogramType {
+        case luminance
+        case red
+        case blue
+        case green
+    }
+    
     private var _rawData: [GLubyte]?
     private var _histogram: [GLubyte]?
     private var _program: Program!
-    public init() {}
+    private let _type: HistogramType
+    public init(type: HistogramType = .luminance) {
+        _type = type
+    }
     
     public var name: String {
         return "HistogramFilter"
@@ -24,11 +34,22 @@ public class HistogramFilter: Filter {
         _program.bind(attributes: attr)
     }
     
-    func setUniformAttributs(context: Context) {
-    }
+    func setUniformAttributs(context: Context) {}
     
     func buildProgram() throws {
-        _program = try Program.create(vertexSourcePath: "HistogramVertexShader", fragmentSourcePath: "HistogramFragmentShader")
+        switch _type {
+        case .luminance:
+            _program = try Program.create(vertexSourcePath: "HistogramVertexShader_gray", fragmentSourcePath: "HistogramFragmentShader")
+            
+        case .red:
+            _program = try Program.create(vertexSourcePath: "HistogramVertexShader_red", fragmentSourcePath: "HistogramFragmentShader")
+            
+        case .green:
+            _program = try Program.create(vertexSourcePath: "HistogramVertexShader_green", fragmentSourcePath: "HistogramFragmentShader")
+            
+        case .blue:
+            _program = try Program.create(vertexSourcePath: "HistogramVertexShader_blue", fragmentSourcePath: "HistogramFragmentShader")
+        }
     }
     
     deinit {
@@ -60,7 +81,7 @@ public class HistogramFilter: Filter {
         glEnableVertexAttribArray(program.location(ofAttribute: kVertexPositionAttribute))
         
         try ctx.activateOutput()
-        ctx.activateInput()
+        
         glClearColor(0.0, 0.0, 0.0, 1.0);
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT));
         
@@ -77,16 +98,14 @@ public class HistogramFilter: Filter {
     public func apply(context ctx: Context) throws {
         do {
             glActiveTexture(GLenum(GL_TEXTURE0))
-            
-//            let oldInput = ctx.inputFrameBuffer
+
             let oldOutput = ctx.outputFrameBuffer
             if let output = oldOutput {
                 _rawData = output.retrieveRawData()
             } else {
                 //TODO: read image data from input frame buffer
+                fatalError()
             }
-            
-            ctx.toggleInputOutputIfNeeded()
             
             if _program == nil {
                 try buildProgram()
@@ -103,9 +122,8 @@ public class HistogramFilter: Filter {
             try feedDataAndDraw(context: ctx, program: _program)
             
 //            _histogram = outputFrameBuffer.retrieveRawData()
-//            print(_histogram?.prefix(10))
-//            ctx.reset()
-//            ctx.setInput(input: oldInput!)
+//            print(_histogram?.prefix(100))
+
 //            if let output = oldOutput {
 //                ctx.setOutput(output: output)
 //            }
@@ -114,8 +132,10 @@ public class HistogramFilter: Filter {
         }
     }
     
-    public func applyToFrame(context: Context, inputFrameBuffer: InputFrameBuffer, presentationTimeStamp: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
-        
+    public func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, presentationTimeStamp: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
+        ctx.setAsCurrent()
+        try apply(context: ctx)
+        try next(ctx, inputFrameBuffer)
     }
     
     public func applyToAudio(context: Context, sampleBuffer: CMSampleBuffer, next: @escaping (Context, CMSampleBuffer) throws -> Void) throws {

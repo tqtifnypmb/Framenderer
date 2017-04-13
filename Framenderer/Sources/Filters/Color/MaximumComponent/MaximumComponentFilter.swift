@@ -9,6 +9,9 @@
 import Foundation
 
 public class MaximumComponentFilter: BaseFilter {
+    
+    public override init() {}
+    
     override func buildProgram() throws {
         _program = try Program.create(fragmentSourcePath: "MaximumComponentFragmentShader")
     }
