@@ -42,7 +42,7 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
             let bpr = CVPixelBufferGetBytesPerRow(cv)
             let width = bpr / 4
             let height = CVPixelBufferGetHeight(cv)
-            
+        
             CVPixelBufferUnlockBaseAddress(cv, .readOnly)
             
             _textureWidth = GLsizei(width)
@@ -65,6 +65,10 @@ class SMSampleInputFrameBuffer: InputFrameBuffer {
     
     func textCoorFlipVertically(flip: Bool) {
         _flipVertically = flip
+    }
+    
+    func retrieveRawData() -> [GLubyte] {
+        return []
     }
     
     var bitmapInfo: CGBitmapInfo {

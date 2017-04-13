@@ -14,6 +14,7 @@ import CoreVideo
 public protocol InputFrameBuffer {
     func useAsInput()
     func textCoorFlipVertically(flip: Bool)
+    //func retrieveRawData() -> [GLubyte]
     
     var width: GLsizei { get }
     var height: GLsizei { get }
@@ -26,4 +27,15 @@ enum Rotation {
     case ccw90
     case ccw180
     case ccw270
+}
+
+func readTextureRawData(texture: GLuint, size: Int) -> [GLubyte] {
+    glBindTexture(GLenum(GL_TEXTURE_2D), texture)
+    
+    var buffer = [GLubyte](repeating: 0, count: size)
+    buffer.withUnsafeMutableBytes { ptr in
+        //glGetTexImage
+    }
+    
+    return buffer
 }

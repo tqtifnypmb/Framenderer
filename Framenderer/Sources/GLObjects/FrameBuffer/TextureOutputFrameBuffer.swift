@@ -197,7 +197,8 @@ class TextureOutputFrameBuffer: OutputFrameBuffer {
     }
     
     func retrieveRawData() -> [GLubyte] {
-        glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
+        //glBindTexture(GLenum(GL_TEXTURE_2D), _texture)
+        glReadBuffer(GLenum(GL_COLOR_ATTACHMENT0))
         
         var rawImageData = [GLubyte](repeating: 0, count: Int(_textureWidth * _textureHeight * 4))
         rawImageData.withUnsafeMutableBytes { ptr in

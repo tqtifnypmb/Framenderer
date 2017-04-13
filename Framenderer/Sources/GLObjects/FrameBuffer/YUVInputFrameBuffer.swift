@@ -56,6 +56,10 @@ class YUVInputFrameBuffer: InputFrameBuffer {
         _flipVertically = flip
     }
     
+    func retrieveRawData() -> [GLubyte] {
+        return []
+    }
+    
     var width: GLsizei {
         precondition(_isY)
         return _width

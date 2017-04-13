@@ -143,7 +143,7 @@
 		4181FEA31E84EA3F00233858 /* LaplacianFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 4181FEA21E84EA3F00233858 /* LaplacianFragmentShader.fsh */; };
 		41848DAD1E7FDE4500CB7830 /* BilateralBlurFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41848DAC1E7FDE4500CB7830 /* BilateralBlurFilter.swift */; };
 		419D26561E9E0B1300E64F43 /* HistogramFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419D26551E9E0B1300E64F43 /* HistogramFilter.swift */; };
-		419D265C1E9E164800E64F43 /* HistogramVertexShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 419D265B1E9E164800E64F43 /* HistogramVertexShader.vsh */; };
+		419D265C1E9E164800E64F43 /* HistogramVertexShader_gray.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 419D265B1E9E164800E64F43 /* HistogramVertexShader_gray.vsh */; };
 		419D265E1E9E165500E64F43 /* HistogramFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 419D265D1E9E165500E64F43 /* HistogramFragmentShader.fsh */; };
 		41ADE9DF1E7B9963006FCF6D /* YUVInputFrameBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41ADE9DE1E7B9963006FCF6D /* YUVInputFrameBuffer.swift */; };
 		41BFCAAC1E8CA307006F29EF /* 3x3ConvolutionFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41BFCAAB1E8CA307006F29EF /* 3x3ConvolutionFragmentShader.fsh */; };
@@ -159,6 +159,9 @@
 		41FA77EB1E90DC4200E3649D /* HoughAccumulatorFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FA77EA1E90DC4200E3649D /* HoughAccumulatorFilter.swift */; };
 		41FC10191E82193200BB98DE /* SobelFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FC10181E82193200BB98DE /* SobelFilter.swift */; };
 		41FC101D1E824A9200BB98DE /* SobelFragmentShader5x5.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 41FC101C1E824A9200BB98DE /* SobelFragmentShader5x5.fsh */; };
+		41FD171D1E9F5C3E00CD573F /* HistogramVertexShader_red.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 41FD171C1E9F5C3E00CD573F /* HistogramVertexShader_red.vsh */; };
+		41FD171F1E9F5C6100CD573F /* HistogramVertexShader_green.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 41FD171E1E9F5C6100CD573F /* HistogramVertexShader_green.vsh */; };
+		41FD17211E9F5C6C00CD573F /* HistogramVertexShader_blue.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 41FD17201E9F5C6C00CD573F /* HistogramVertexShader_blue.vsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -300,7 +303,7 @@
 		4181FEA21E84EA3F00233858 /* LaplacianFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = LaplacianFragmentShader.fsh; sourceTree = "<group>"; };
 		41848DAC1E7FDE4500CB7830 /* BilateralBlurFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BilateralBlurFilter.swift; sourceTree = "<group>"; };
 		419D26551E9E0B1300E64F43 /* HistogramFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistogramFilter.swift; sourceTree = "<group>"; };
-		419D265B1E9E164800E64F43 /* HistogramVertexShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = HistogramVertexShader.vsh; sourceTree = "<group>"; };
+		419D265B1E9E164800E64F43 /* HistogramVertexShader_gray.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = HistogramVertexShader_gray.vsh; sourceTree = "<group>"; };
 		419D265D1E9E165500E64F43 /* HistogramFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = HistogramFragmentShader.fsh; sourceTree = "<group>"; };
 		41ADE9DE1E7B9963006FCF6D /* YUVInputFrameBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YUVInputFrameBuffer.swift; sourceTree = "<group>"; };
 		41BFCAAB1E8CA307006F29EF /* 3x3ConvolutionFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = 3x3ConvolutionFragmentShader.fsh; sourceTree = "<group>"; };
@@ -316,6 +319,9 @@
 		41FA77EA1E90DC4200E3649D /* HoughAccumulatorFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoughAccumulatorFilter.swift; sourceTree = "<group>"; };
 		41FC10181E82193200BB98DE /* SobelFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SobelFilter.swift; sourceTree = "<group>"; };
 		41FC101C1E824A9200BB98DE /* SobelFragmentShader5x5.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SobelFragmentShader5x5.fsh; sourceTree = "<group>"; };
+		41FD171C1E9F5C3E00CD573F /* HistogramVertexShader_red.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = HistogramVertexShader_red.vsh; sourceTree = "<group>"; };
+		41FD171E1E9F5C6100CD573F /* HistogramVertexShader_green.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = HistogramVertexShader_green.vsh; sourceTree = "<group>"; };
+		41FD17201E9F5C6C00CD573F /* HistogramVertexShader_blue.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = HistogramVertexShader_blue.vsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1002,7 +1008,10 @@
 			isa = PBXGroup;
 			children = (
 				419D26551E9E0B1300E64F43 /* HistogramFilter.swift */,
-				419D265B1E9E164800E64F43 /* HistogramVertexShader.vsh */,
+				419D265B1E9E164800E64F43 /* HistogramVertexShader_gray.vsh */,
+				41FD171C1E9F5C3E00CD573F /* HistogramVertexShader_red.vsh */,
+				41FD171E1E9F5C6100CD573F /* HistogramVertexShader_green.vsh */,
+				41FD17201E9F5C6C00CD573F /* HistogramVertexShader_blue.vsh */,
 				419D265D1E9E165500E64F43 /* HistogramFragmentShader.fsh */,
 			);
 			path = Histogram;
@@ -1138,11 +1147,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				415390B11E6814460009667D /* PassthroughVertexShader.vsh in Resources */,
+				41FD171F1E9F5C6100CD573F /* HistogramVertexShader_green.vsh in Resources */,
 				414108A51E80DE03006A0A6E /* ColorInvertFragmentShader.fsh in Resources */,
 				415390B21E6814460009667D /* PassthroughFragmentShader.fsh in Resources */,
 				4154A5981E8A542B00BBBE82 /* TaggedGradientFragmentShader.fsh in Resources */,
 				4141087D1E80DAE3006A0A6E /* BoxBlurFragmentShader.fsh in Resources */,
 				415390B31E6814460009667D /* RGBNBGRExchangeFragmentShader.fsh in Resources */,
+				41FD17211E9F5C6C00CD573F /* HistogramVertexShader_blue.vsh in Resources */,
 				41FC101D1E824A9200BB98DE /* SobelFragmentShader5x5.fsh in Resources */,
 				414108AB1E80DE03006A0A6E /* GammaAdjustFragmentShader.fsh in Resources */,
 				414A58971E7A427C00416858 /* I420ToBGRAFragmentShader.fsh in Resources */,
@@ -1170,7 +1181,8 @@
 				415390C21E6814460009667D /* LinearBlendFragmentShader.fsh in Resources */,
 				41BFCAAC1E8CA307006F29EF /* 3x3ConvolutionFragmentShader.fsh in Resources */,
 				414108A71E80DE03006A0A6E /* ColorBiasFragmentShader.fsh in Resources */,
-				419D265C1E9E164800E64F43 /* HistogramVertexShader.vsh in Resources */,
+				419D265C1E9E164800E64F43 /* HistogramVertexShader_gray.vsh in Resources */,
+				41FD171D1E9F5C3E00CD573F /* HistogramVertexShader_red.vsh in Resources */,
 				414108AF1E80DE03006A0A6E /* MaximumComponentFragmentShader.fsh in Resources */,
 				414108B11E80DE03006A0A6E /* MinimumComponentFragment.fsh in Resources */,
 				415390C31E6814460009667D /* LinearBurnBlendFragmentShader.fsh in Resources */,

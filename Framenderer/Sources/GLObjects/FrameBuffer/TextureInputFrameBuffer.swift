@@ -35,6 +35,10 @@ class TextureInputFrameBuffer: InputFrameBuffer {
         _flipVertically = flip
     }
     
+    func retrieveRawData() -> [GLubyte] {
+        return []
+    }
+    
     var width: GLsizei {
         return _textureWidth
     }
