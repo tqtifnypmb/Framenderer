@@ -18,7 +18,7 @@ void main() {
     float gy = 0.0;
     
     int radius = 1;
-    vec3 W = vec3(0.2126, 0.7152, 0.0722);
+    const vec3 W = vec3(0.2126, 0.7152, 0.0722);
     for (int row = -radius; row <= radius; row += 1) {
         for (int col = -radius; col <= radius; col += 1) {
             vec2 offset = vec2(float(row) * xOffset, float(col) * yOffset);

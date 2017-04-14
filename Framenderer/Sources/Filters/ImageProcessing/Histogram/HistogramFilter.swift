@@ -60,10 +60,10 @@ public class HistogramFilter: Filter {
     }
     
     func feedDataAndDraw(context ctx: Context, program: Program) throws {
-        guard let rawData = _rawData else {
+        guard let rawData = _rawData, !rawData.isEmpty else {
             throw DataError.bufferData(errorDesc: "Can't retrieve buffer data")
         }
-        
+
         var vbo: GLuint = 0
         glGenBuffers(1, &vbo)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), vbo)
@@ -95,16 +95,20 @@ public class HistogramFilter: Filter {
         glDeleteBuffers(1, &vbo)
     }
     
+    private func collectResult(output: OutputFrameBuffer) {
+        
+    }
+    
     public func apply(context ctx: Context) throws {
         do {
             glActiveTexture(GLenum(GL_TEXTURE0))
 
+            let oldInput = ctx.inputFrameBuffer
             let oldOutput = ctx.outputFrameBuffer
             if let output = oldOutput {
                 _rawData = output.retrieveRawData()
             } else {
-                //TODO: read image data from input frame buffer
-                fatalError()
+                _rawData = ctx.inputFrameBuffer?.retrieveRawData()
             }
             
             if _program == nil {
@@ -121,12 +125,14 @@ public class HistogramFilter: Filter {
             ctx.setOutput(output: outputFrameBuffer)
             try feedDataAndDraw(context: ctx, program: _program)
             
-//            _histogram = outputFrameBuffer.retrieveRawData()
-//            print(_histogram?.prefix(100))
+            collectResult(output: outputFrameBuffer)
 
-//            if let output = oldOutput {
-//                ctx.setOutput(output: output)
-//            }
+            // FIXME: Don't affect filters pipeline
+            ctx.reset()
+            ctx.setInput(input: oldInput!)
+            if let output = oldOutput {
+                ctx.setOutput(output: output)
+            }
         } catch {
             throw FilterError.filterError(name: self.name, error: error.localizedDescription)
         }
@@ -134,7 +140,31 @@ public class HistogramFilter: Filter {
     
     public func applyToFrame(context ctx: Context, inputFrameBuffer: InputFrameBuffer, presentationTimeStamp: CMTime, next: @escaping (Context, InputFrameBuffer) throws -> Void) throws {
         ctx.setAsCurrent()
-        try apply(context: ctx)
+        
+        glActiveTexture(GLenum(GL_TEXTURE0))
+        
+        if let output = ctx.outputFrameBuffer {
+            _rawData = output.retrieveRawData()
+        } else {
+            _rawData = ctx.inputFrameBuffer?.retrieveRawData()
+        }
+        
+        if _program == nil {
+            try buildProgram()
+            bindAttributes(context: ctx)
+            try _program.link()
+            ctx.setCurrent(program: _program)
+            setUniformAttributs(context: ctx)
+        } else {
+            ctx.setCurrent(program: _program)
+        }
+        
+        let outputFrameBuffer = try TextureOutputFrameBuffer(width: ctx.inputWidth, height: ctx.inputHeight, format: ctx.inputFormat)
+        ctx.setOutput(output: outputFrameBuffer)
+        try feedDataAndDraw(context: ctx, program: _program)
+        
+        collectResult(output: outputFrameBuffer)
+        
         try next(ctx, inputFrameBuffer)
     }
     

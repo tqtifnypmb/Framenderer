@@ -36,7 +36,7 @@ class TextureInputFrameBuffer: InputFrameBuffer {
     }
     
     func retrieveRawData() -> [GLubyte] {
-        return []
+        return readTextureRawData(texture: _texture, width: _textureWidth, height: _textureHeight)
     }
     
     var width: GLsizei {

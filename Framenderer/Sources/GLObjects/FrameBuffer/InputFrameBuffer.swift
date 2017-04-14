@@ -14,7 +14,7 @@ import CoreVideo
 public protocol InputFrameBuffer {
     func useAsInput()
     func textCoorFlipVertically(flip: Bool)
-    //func retrieveRawData() -> [GLubyte]
+    func retrieveRawData() -> [GLubyte]
     
     var width: GLsizei { get }
     var height: GLsizei { get }
@@ -29,13 +29,44 @@ enum Rotation {
     case ccw270
 }
 
-func readTextureRawData(texture: GLuint, size: Int) -> [GLubyte] {
-    glBindTexture(GLenum(GL_TEXTURE_2D), texture)
+// Since glGetTexImage is not supported by OpenGL ES, We bind the texture to a framebuffer
+// and read from that.
+func readTextureRawData(texture: GLuint, width: GLsizei, height: GLsizei) -> [GLubyte] {
+    var fbo: GLuint = 0
+    glGenFramebuffers(1, &fbo)
     
-    var buffer = [GLubyte](repeating: 0, count: size)
-    buffer.withUnsafeMutableBytes { ptr in
-        //glGetTexImage
+    defer {
+        glDeleteFramebuffers(1, &fbo)
     }
     
-    return buffer
+    glBindFramebuffer(GLenum(GL_FRAMEBUFFER), fbo)
+    
+    glBindTexture(GLenum(GL_TEXTURE_2D), texture)
+    
+    glFramebufferTexture2D(GLenum(GL_FRAMEBUFFER),
+                           GLenum(GL_COLOR_ATTACHMENT0),
+                           GLenum(GL_TEXTURE_2D),
+                           texture,
+                           0)
+    glBindTexture(GLenum(GL_TEXTURE_2D), 0)
+    
+    let status = glCheckFramebufferStatus(GLenum(GL_FRAMEBUFFER))
+    if status != GLenum(GL_FRAMEBUFFER_COMPLETE) {
+        return []
+    }
+    
+    glReadBuffer(GLenum(GL_COLOR_ATTACHMENT0))
+    
+    var rawImageData = [GLubyte](repeating: 0, count: Int(width * height * 4))
+    rawImageData.withUnsafeMutableBytes { ptr in
+        glReadPixels(0,
+                     0,
+                     width,
+                     height,
+                     GLenum(GL_RGBA),
+                     GLenum(GL_UNSIGNED_BYTE),
+                     ptr.baseAddress)
+    }
+    
+    return rawImageData
 }
